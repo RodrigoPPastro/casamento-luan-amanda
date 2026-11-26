@@ -17,6 +17,12 @@ const SENHA_ADMIN = 'troque-esta-senha';            // senha do Painel do Casal
 const EMAILS_AVISO = 'email-da-noiva@gmail.com,email-do-noivo@gmail.com'; // avisos de nova confirmação
 const PRAZO_RSVP = new Date('2026-12-20T23:59:59-03:00');
 
+// Opcional: para guardar tudo no Drive de outra pessoa (que compartilhou a pasta e a planilha como Editor).
+// Cole o ID que aparece no link: docs.google.com/spreadsheets/d/<ID>/edit  e  drive.google.com/drive/folders/<ID>
+// Deixe vazio ('') para usar a própria planilha onde este script foi criado.
+const PLANILHA_ID = '';
+const PASTA_ID = '';
+
 const ABAS = {
   Convidados: ['Codigo', 'Nome', 'Tipo', 'Responsavel', 'Telefone', 'Status', 'RespondidoEm', 'Observacao'],
   Mensagens:  ['ID', 'Data', 'Codigo', 'Nome', 'Texto', 'Aprovado'],
@@ -26,7 +32,7 @@ const ABAS = {
 
 /* ---------- instalação ---------- */
 function configurar() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = planilha();
   Object.keys(ABAS).forEach(nome => {
     let sh = ss.getSheetByName(nome);
     if (!sh) sh = ss.insertSheet(nome);
@@ -64,8 +70,12 @@ function saida(obj) {
 }
 
 /* ---------- utilidades da planilha ---------- */
+function planilha() {
+  return PLANILHA_ID ? SpreadsheetApp.openById(PLANILHA_ID) : SpreadsheetApp.getActiveSpreadsheet();
+}
+
 function aba(nome) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = planilha();
   let sh = ss.getSheetByName(nome);
   if (!sh) {
     sh = ss.insertSheet(nome);
@@ -80,7 +90,8 @@ function pastaFotos() {
   const props = PropertiesService.getScriptProperties();
   const id = props.getProperty('PASTA_FOTOS');
   if (id) { try { return DriveApp.getFolderById(id); } catch (e) {} }
-  const pasta = DriveApp.createFolder('Fotos dos convidados — Luan & Amanda');
+  const nome = 'Fotos dos convidados — Luan & Amanda';
+  const pasta = PASTA_ID ? DriveApp.getFolderById(PASTA_ID).createFolder(nome) : DriveApp.createFolder(nome);
   props.setProperty('PASTA_FOTOS', pasta.getId());
   return pasta;
 }
