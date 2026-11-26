@@ -11,7 +11,7 @@ Enquanto o passo 1 não for feito, o site roda em **modo demonstração**: tudo 
 3. Ajuste no começo do código:
    - `SENHA_ADMIN`: a senha do Painel do Casal. **Nunca coloque a senha real aqui no GitHub**, só no Apps Script.
    - `EMAILS_AVISO`: os e-mails dos dois, separados por vírgula, para receber aviso de cada confirmação.
-4. Salve. No topo, escolha a função **configurar** e clique **▶ Executar**. Autorize com a conta Google (se aparecer "app não verificado": Avançado → Acessar). Isso cria as abas Convidados, Mensagens, Fotos e Presentes, e uma pasta no Drive para as fotos dos convidados.
+4. Salve. (Opcional) Escolha a função **configurar** e clique **▶ Executar** para já criar as abas Convidados, Mensagens, Fotos e Presentes. Se pular, elas são criadas sozinhas no primeiro uso, junto com a pasta das fotos no Drive.
 5. **Implantar → Nova implantação** → engrenagem → **App da Web**. Executar como: **Eu**. Quem pode acessar: **Qualquer pessoa**. Clique em Implantar e **copie a URL** (termina em `/exec`).
 
 ## 2. Ligar o site à planilha

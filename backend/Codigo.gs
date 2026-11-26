@@ -7,7 +7,7 @@
  * 1. Crie uma Planilha Google nova  →  Extensões  →  Apps Script
  * 2. Apague o que estiver lá, cole este arquivo inteiro e salve
  * 3. Troque a SENHA_ADMIN abaixo
- * 4. Rode a função "configurar" uma vez (botão ▶ Executar) e autorize
+ * 4. (Opcional) Rode a função "configurar" para já criar as abas — elas também são criadas sozinhas no primeiro uso
  * 5. Implantar → Nova implantação → Tipo: App da Web
  *      Executar como: Eu  |  Quem pode acessar: Qualquer pessoa
  * 6. Copie a URL gerada e cole em API_URL no index.html do site
@@ -36,11 +36,7 @@ function configurar() {
       sh.setFrozenRows(1);
     }
   });
-  const props = PropertiesService.getScriptProperties();
-  if (!props.getProperty('PASTA_FOTOS')) {
-    const pasta = DriveApp.createFolder('Fotos dos convidados — Luan & Amanda');
-    props.setProperty('PASTA_FOTOS', pasta.getId());
-  }
+  pastaFotos();
   const padrao = ss.getSheetByName('Sheet1') || ss.getSheetByName('Página1');
   if (padrao && ss.getSheets().length > 1) ss.deleteSheet(padrao);
   return 'Pronto! Agora faça Implantar → Nova implantação → App da Web.';
@@ -68,7 +64,26 @@ function saida(obj) {
 }
 
 /* ---------- utilidades da planilha ---------- */
-function aba(nome) { return SpreadsheetApp.getActiveSpreadsheet().getSheetByName(nome); }
+function aba(nome) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sh = ss.getSheetByName(nome);
+  if (!sh) {
+    sh = ss.insertSheet(nome);
+    sh.appendRow(ABAS[nome]);
+    sh.getRange(1, 1, 1, ABAS[nome].length).setFontWeight('bold').setBackground('#dbe5f4');
+    sh.setFrozenRows(1);
+  }
+  return sh;
+}
+
+function pastaFotos() {
+  const props = PropertiesService.getScriptProperties();
+  const id = props.getProperty('PASTA_FOTOS');
+  if (id) { try { return DriveApp.getFolderById(id); } catch (e) {} }
+  const pasta = DriveApp.createFolder('Fotos dos convidados — Luan & Amanda');
+  props.setProperty('PASTA_FOTOS', pasta.getId());
+  return pasta;
+}
 
 function linhas(nome) {
   const sh = aba(nome);
@@ -187,7 +202,7 @@ const ACOES = {
     if (!m) throw new Error('Arquivo de imagem inválido.');
     const bytes = Utilities.base64Decode(m[3]);
     if (bytes.length > 8 * 1024 * 1024) throw new Error('Foto muito grande.');
-    const pasta = DriveApp.getFolderById(PropertiesService.getScriptProperties().getProperty('PASTA_FOTOS'));
+    const pasta = pastaFotos();
     const arq = pasta.createFile(Utilities.newBlob(bytes, m[1], g.Nome + ' ' + Date.now() + '.' + m[2]));
     arq.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
     aba('Fotos').appendRow([novoId(), new Date(), g.Codigo, g.Nome, arq.getId(), String(req.legenda || '').slice(0, 140), '']);
