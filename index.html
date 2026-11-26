@@ -6,8 +6,16 @@
 <title>Luan & Amanda · 09.01.2027</title>
 <meta name="description" content="Casamento de Luan & Amanda — 09 de janeiro de 2027, Rio de Janeiro. Confirme sua presença, veja os locais e deixe seu recado.">
 <meta property="og:title" content="Luan & Amanda · 09.01.2027">
-<meta property="og:description" content="Que o amor que nos uniu seja sempre conduzido pela fé daquele que nos ensinou a amar.">
-<meta property="og:image" content="https://rodrigoppastro.github.io/casamento-luan-amanda/img/capa.jpg">
+<meta property="og:description" content="Você é nosso convidado! 09/01/2027 às 14h, Guaratiba (RJ). Toque para ver os detalhes e confirmar sua presença.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Luan & Amanda">
+<meta property="og:image" content="https://rodrigoppastro.github.io/casamento-luan-amanda/img/convite-whatsapp.jpg">
+<meta property="og:url" content="https://rodrigoppastro.github.io/casamento-luan-amanda/">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Convite de casamento de Luan e Amanda, 09 de janeiro de 2027">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
@@ -427,6 +435,7 @@ const CONFIG = {
   CAPA_FOCO_COMPUTADOR: '50% 15%',
   CAPA_FOCO_CELULAR: '50% 0%',
   FOTO_HISTORIA: 'img/historia.jpg',
+  CONVITE_IMAGEM: 'img/convite-luan-amanda.jpg',  // cartão vertical para enviar como imagem ou postar no status
   CASAMENTO: '2027-01-09T14:00:00-03:00',
   PRAZO_RSVP: '2026-12-20T23:59:59-03:00',
   PIX: { chave: 'dra.amandacalixto@gmail.com', nome: 'Amanda Beatriz Calixto dos Santos', banco: 'Neon', cidade: 'RIO DE JANEIRO' },
@@ -779,7 +788,11 @@ function painel() {
     B.innerHTML = `<div class="ev"><div class="card"><h3>QR Code do site</h3><p class="muted small">Para imprimir no convite, na mesa ou no telão.</p><div class="qr">${qrSvg(siteUrl())}</div><div class="copy"><input readonly value="${esc(siteUrl())}"><button class="btn sm" id="cpS">Copiar</button></div></div>
       <div class="card"><h3>Convite digital pelo WhatsApp</h3><p class="muted small">Na aba Convidados, cada pessoa tem o botão "Convite", que abre o WhatsApp com a mensagem e o link individual. Para compartilhar o site em grupos:</p>
       <textarea rows="5" id="txtG">Com muita alegria convidamos você para o casamento de Luan & Amanda, dia 09/01/2027! Todas as informações estão no site: ${siteUrl()}</textarea>
-      <a class="btn" style="margin-top:12px" target="_blank" rel="noopener" id="waG" href="#">${ico('wa')} Compartilhar no WhatsApp</a></div></div>`;
+      <a class="btn" style="margin-top:12px" target="_blank" rel="noopener" id="waG" href="#">${ico('wa')} Compartilhar no WhatsApp</a>
+      <p class="muted small" style="margin:14px 0 0">Ao enviar qualquer link do site, o WhatsApp mostra automaticamente o cartão com a foto, os nomes e a data.</p></div>
+      <div class="card"><h3>Convite em imagem</h3><p class="muted small">Para mandar como foto no WhatsApp ou postar no status e no Instagram. O QR Code leva direto ao site.</p>
+      <img src="${esc(CONFIG.CONVITE_IMAGEM)}" alt="Convite de Luan e Amanda" style="width:100%;max-width:300px;border-radius:12px;border:1px solid var(--line);margin:8px auto;display:block">
+      <a class="btn out" style="margin-top:8px" href="${esc(CONFIG.CONVITE_IMAGEM)}" target="_blank" rel="noopener" download="img/convite-luan-amanda.jpg">Abrir / baixar imagem</a></div></div>`;
     $('#cpS').onclick = e => copiar(siteUrl(), e.currentTarget);
     const up = () => $('#waG').href = 'https://wa.me/?text=' + encodeURIComponent($('#txtG').value); $('#txtG').oninput = up; up();
   }
