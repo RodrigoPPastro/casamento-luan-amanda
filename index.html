@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Luan & Amanda · 09.01.2027</title>
+<meta name="description" content="Casamento de Luan & Amanda — 09 de janeiro de 2027, Rio de Janeiro. Confirme sua presença, veja os locais e deixe seu recado.">
+<meta property="og:title" content="Luan & Amanda · 09.01.2027">
+<meta property="og:description" content="Que o amor que nos uniu seja sempre conduzido pela fé daquele que nos ensinou a amar.">
+<meta property="og:image" content="https://rodrigoppastro.github.io/casamento-luan-amanda/img/capa.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/*
+VOICE: terno, clássico, romântico — muito ar, detalhes finos
+IDEA: um convite de papel azul-serenity com hortênsias nos cantos
+PICTURE: a foto do casal à beira d'água, céu claro recebendo os nomes
+COLOUR and TYPE: off-white, azul-marinho, azul serenity, prata · Great Vibes + Cormorant + Lora
+LAYOUT: capa → atalhos → história → cerimônia → RSVP → presentes → galeria → mural → locais → FAQ
+*/
+:root{color-scheme:light;--bg:#fbf9f5;--paper:#ffffff;--ink:#1f3354;--soft:#55657f;--navy:#264b82;--navy2:#1c3a68;--ser:#92a8d1;--ser2:#dfe7f4;--ser3:#eef3fa;--silver:#c9ced6;--line:#e3e7ee;--ok:#2f7d5b;--no:#a2483f;--shadow:0 10px 30px rgba(31,51,84,.10)}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{font-variant-numeric:lining-nums;margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Lora,Georgia,serif;overflow-x:clip}
+img{max-width:100%;display:block}
+a{color:var(--navy)}
+h1,h2,.script{font-family:"Great Vibes",cursive;font-weight:400;color:var(--navy);line-height:1.05;margin:0}
+h2{font-size:clamp(40px,6vw,56px);text-align:center}
+h3{font-family:"Cormorant Garamond",serif;font-weight:600;font-size:24px;margin:0 0 4px;color:var(--navy2)}
+.lead{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:21px;color:var(--soft);text-align:center;margin:8px auto 0;max-width:620px;text-wrap:balance}
+.band{padding:clamp(48px,7vw,96px) max(5vw,16px);position:relative;overflow-x:clip}
+.wrap{max-width:1140px;margin:0 auto;position:relative;z-index:1}
+.orn{display:flex;align-items:center;justify-content:center;gap:12px;color:var(--ser);margin:14px auto 30px;max-width:340px}
+.orn::before,.orn::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--ser))}
+.orn::after{transform:scaleX(-1)}
+.ico{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:10px 24px;border-radius:999px;border:1.5px solid var(--navy);background:var(--navy);color:#fff;font:600 16px Lora,serif;cursor:pointer;text-decoration:none;transition:background .2s,transform .2s}
+.btn:hover{background:var(--navy2)}.btn:active{transform:translateY(1px)}
+.btn.out{background:transparent;color:var(--navy)}.btn.out:hover{background:var(--ser3)}
+.btn.sm{min-height:40px;padding:6px 16px;font-size:14px}
+.btn:disabled{opacity:.55;cursor:wait}
+:focus-visible{outline:3px solid var(--ser);outline-offset:2px}
+input,textarea,select{font:16px Lora,serif;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;width:100%}
+input:focus,textarea:focus,select:focus{border-color:var(--ser);outline:none;box-shadow:0 0 0 3px var(--ser2)}
+label{font-size:14px;color:var(--soft);display:block;margin:0 0 6px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:clamp(20px,3vw,32px)}
+.muted{color:var(--soft)}.small{font-size:14px}
+.msg{padding:12px 16px;border-radius:12px;background:var(--ser3);color:var(--navy2);font-size:15px;margin-top:14px}
+.msg.err{background:#fbeeec;color:var(--no)}
+.msg.ok{background:#e9f5ee;color:var(--ok)}
+.hide{display:none!important}
+
+/* navegação */
+.nav{position:sticky;top:0;z-index:50;background:rgba(251,249,245,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .in{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:8px max(4vw,14px);min-height:60px}
+.mono{font-family:"Great Vibes",cursive;font-size:34px;color:var(--navy);text-decoration:none;line-height:1;white-space:nowrap}
+.links{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+.links a{font-size:14.5px;text-decoration:none;color:var(--ink);padding:8px 11px;border-radius:999px}
+.links a:hover{background:var(--ser2)}
+.menu{display:none;margin-left:auto;background:none;border:0;padding:10px;cursor:pointer;color:var(--navy)}
+@media(max-width:1100px){.menu{display:block}.links{display:none;position:absolute;top:100%;left:0;right:0;background:var(--bg);flex-direction:column;padding:8px 14px 16px;border-bottom:1px solid var(--line)}.links.open{display:flex}.links a{padding:12px}}
+
+/* capa */
+.hero{position:relative;height:calc(100vh - 61px);height:calc(100svh - 61px);min-height:560px;max-height:1000px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);background:linear-gradient(180deg,#f6f6f4,#fbf9f5);overflow:hidden}
+.hero .photo{position:relative;grid-column:2;grid-row:1}
+.hero .photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--foco,50% 15%)}
+.hero .photo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#f8f7f4 0%,rgba(248,247,244,.6) 14%,rgba(248,247,244,0) 34%),linear-gradient(0deg,rgba(251,249,245,.9),rgba(251,249,245,0) 18%)}
+.hero .txt{grid-column:1;grid-row:1;align-self:center;text-align:center;padding:3vh max(4vw,16px) 7vh;position:relative;z-index:2}
+.hero h1{font-size:clamp(54px,min(9.5vw,13vh),124px);text-wrap:balance}
+.hero h1 .amp{font-size:.7em;color:var(--ser)}
+.frase{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:clamp(18px,min(2.1vw,3vh),24px);color:var(--soft);max-width:440px;margin:6px auto 0;text-wrap:balance}
+.data{display:flex;align-items:center;justify-content:center;gap:12px;margin:2.4vh 0 2vh;font-family:"Cormorant Garamond",serif;font-weight:600;font-size:clamp(30px,4vw,42px);color:var(--navy);white-space:nowrap}
+.cd{display:inline-grid;grid-template-columns:repeat(4,minmax(0,1fr));background:var(--navy);color:#fff;border-radius:18px;padding:12px 6px;box-shadow:var(--shadow);min-width:min(340px,100%)}
+.cd div{text-align:center;padding:0 10px;border-left:1px solid rgba(255,255,255,.25)}.cd div:first-child{border:0}
+.cd b{display:block;font:600 30px/1.1 "Cormorant Garamond",serif;font-variant-numeric:tabular-nums}
+.cd span{font-size:13px;opacity:.85}
+.hero .cta{margin-top:2.4vh;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+@media(max-width:820px){.hero{display:block;height:calc(100vh - 66px);height:calc(100svh - 66px);min-height:540px;max-height:1100px}.hero .photo{position:absolute;inset:0}.hero .photo img{object-position:var(--foco-cel,50% 0)}.hero .photo::after{background:linear-gradient(180deg,rgba(248,248,246,.9) 0%,rgba(248,248,246,0) 24%),linear-gradient(0deg,#fbf9f5 0%,rgba(251,249,245,.94) 24%,rgba(251,249,245,0) 46%)}.hero .txt{padding:12px 12px 0}.hero .txt .orn{margin:2px auto}.hero .txt .frase,.hero .txt .data,.hero .txt .cd,.hero .txt .cta{display:none}.hero h1{font-size:clamp(50px,14vw,84px);white-space:nowrap}.hero-sub{display:block!important}.hero .fl{display:none}}
+.hero-sub{display:none;position:absolute;left:0;right:0;bottom:0;text-align:center;padding:0 14px 3vh;z-index:2}.hero-sub .frase{font-size:clamp(16px,4.3vw,20px);max-width:360px}.hero-sub .data{margin:1.2vh 0}.hero-sub .cd b{font-size:22px}.hero-sub .cd{padding:8px 4px}
+
+/* flores */
+.fl{position:absolute;pointer-events:none;z-index:1;width:clamp(150px,20vw,270px)}
+.fl svg{width:100%;height:auto;display:block}
+
+/* atalhos */
+.quick{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;max-width:1140px;margin:-36px auto 0;padding:0 max(4vw,16px);position:relative;z-index:3}
+.quick a{display:flex;gap:14px;align-items:center;padding:20px;border-radius:18px;background:linear-gradient(135deg,var(--navy),#3a64a3);color:#fff;text-decoration:none;box-shadow:var(--shadow);transition:transform .25s}
+.quick a:hover{transform:translateY(-3px)}
+.quick .ico{width:30px;height:30px}
+.quick b{font:600 19px "Cormorant Garamond",serif;display:block}
+.quick span{font-size:13.5px;opacity:.85}
+@media(max-width:900px){.quick{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:0}}
+@media(max-width:420px){.quick{grid-template-columns:1fr}}
+
+/* história */
+.story{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(28px,5vw,64px);align-items:center}
+.polaroid{background:#fff;padding:14px 14px 54px;box-shadow:var(--shadow);transform:rotate(2.5deg);max-width:420px;margin:0 auto;position:relative}
+.polaroid img{aspect-ratio:1;object-fit:cover;width:100%}
+.polaroid figcaption{position:absolute;bottom:12px;left:0;right:0;text-align:center;font:32px "Great Vibes",cursive;color:var(--navy)}
+.tl{list-style:none;margin:26px 0 0;padding:0;border-left:1.5px solid var(--ser);}
+.tl li{position:relative;padding:0 0 22px 26px}
+.tl li::before{content:"";position:absolute;left:-7px;top:6px;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--navy)}
+.tl b{font:600 20px "Cormorant Garamond",serif;color:var(--navy2);display:block}
+.quote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:21px;color:var(--navy2);border-top:1px solid var(--line);padding-top:18px;margin-top:4px}
+@media(max-width:820px){.story{grid-template-columns:1fr}.polaroid{grid-row:1;max-width:320px}}
+
+/* eventos */
+.ev{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.ev .card{display:flex;flex-direction:column;gap:6px}
+.ev .when{font:600 34px "Cormorant Garamond",serif;color:var(--navy);white-space:nowrap}
+.ev .head{display:flex;gap:14px;align-items:center;margin-bottom:6px}
+.ev .head .ico{width:42px;height:42px;color:var(--navy);stroke-width:1.3}
+.ev dl{margin:8px 0 14px;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:15px}
+.ev dt{color:var(--soft)}.ev dd{margin:0}
+.ev .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}
+.note{margin-top:24px;display:flex;gap:16px;align-items:center;background:var(--ser3);border:1px dashed var(--ser);border-radius:18px;padding:18px 22px}
+.note .ico{width:34px;height:34px;color:var(--navy)}
+@media(max-width:760px){.ev{grid-template-columns:1fr}}
+
+/* rsvp */
+.rsvp{max-width:640px;margin:0 auto}
+.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1 1 200px}
+.pess{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.pess b{font-weight:600}
+.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden;flex:none}
+.seg button{border:0;background:#fff;font:600 14px Lora,serif;padding:10px 16px;min-height:44px;cursor:pointer;color:var(--soft)}
+.seg button.on.y{background:var(--navy);color:#fff}.seg button.on.n{background:#efe3e1;color:var(--no)}
+.tag{display:inline-block;font-size:12.5px;padding:3px 10px;border-radius:999px;background:var(--ser2);color:var(--navy2);white-space:nowrap}
+.tag.c{background:#e3f2ea;color:var(--ok)}.tag.n{background:#f6e6e3;color:var(--no)}
+
+/* presentes */
+.gifts{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
+.gift{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:8px;box-shadow:0 4px 14px rgba(31,51,84,.05);transition:transform .2s,box-shadow .2s}
+.gift:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.gift .ico{width:34px;height:34px;color:var(--ser)}
+.gift h3{font-size:21px;line-height:1.2}
+.gift p{margin:0;font-size:14.5px;color:var(--soft);flex:1}
+.gift .val{font:600 24px "Cormorant Garamond",serif;color:var(--navy);white-space:nowrap}
+.gift .btn{align-self:flex-start}
+
+/* galeria */
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.gal button{padding:0;border:0;background:var(--ser2);border-radius:12px;overflow:hidden;cursor:zoom-in;aspect-ratio:1}
+.gal img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.gal button:hover img{transform:scale(1.04)}
+.upl{margin-top:26px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* mural */
+.wall{columns:3 260px;column-gap:16px;margin-top:8px}
+.wall .m{break-inside:avoid;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin:0 0 16px}
+.wall .m p{margin:0 0 10px;font-family:"Cormorant Garamond",serif;font-size:20px;line-height:1.4}
+.wall .m small{color:var(--soft)}
+.empty{text-align:center;color:var(--soft);padding:24px;border:1px dashed var(--silver);border-radius:16px}
+
+/* mapas */
+.maps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.map{border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--ser3);height:300px;position:relative}
+.map iframe{border:0;width:100%;height:100%}
+.map .fb{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:20px;background:repeating-linear-gradient(45deg,#eef3fa 0 14px,#e6edf7 14px 28px)}
+@media(max-width:760px){.maps{grid-template-columns:1fr}}
+
+/* faq */
+.faq{max-width:780px;margin:0 auto}
+.faq details{border-bottom:1px solid var(--line);padding:4px 0}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 4px;font:600 21px "Cormorant Garamond",serif;color:var(--navy2)}
+.faq summary::after{content:"+";font:400 26px Lora;color:var(--ser);transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{margin:0 4px 16px;color:var(--soft)}
+
+/* rodapé */
+footer{background:linear-gradient(135deg,var(--navy2),var(--navy));color:#fff;text-align:center;padding:48px 16px 40px}
+footer .script{color:#fff;font-size:clamp(32px,5vw,46px)}
+footer .tags{margin:12px 0 18px;opacity:.85}
+footer a{color:#fff}
+footer .soc{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+footer .soc a{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:8px 16px;text-decoration:none;font-size:14px}
+
+/* modal + lightbox + painel */
+.ov{position:fixed;inset:0;background:rgba(20,32,54,.55);z-index:100;display:grid;place-items:center;padding:16px;overflow-y:auto}
+.ov .box{background:var(--bg);border-radius:22px;max-width:520px;width:100%;padding:28px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.25);max-height:calc(100vh - 32px);overflow-y:auto}
+.x{position:absolute;top:10px;right:10px;width:44px;height:44px;border:0;background:none;font-size:28px;color:var(--soft);cursor:pointer;border-radius:50%}
+.x:hover{background:var(--ser2)}
+.qr{display:grid;place-items:center;background:#fff;border-radius:16px;padding:14px;margin:14px auto;width:fit-content;border:1px solid var(--line)}
+.qr svg{width:210px;height:210px}
+.copy{display:flex;gap:8px}.copy input{font-size:13px;font-family:ui-monospace,monospace}
+.lb{position:fixed;inset:0;background:rgba(10,18,32,.92);z-index:120;display:grid;place-items:center}
+.lb img{max-width:92vw;max-height:84vh;border-radius:8px}
+.lb .cap{color:#fff;text-align:center;margin-top:10px;font-size:15px}
+.lb .nv{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;border:0;background:rgba(255,255,255,.15);color:#fff;font-size:28px;cursor:pointer}
+.lb .pv{left:12px}.lb .nx{right:12px}.lb .x{color:#fff}
+.adm{position:fixed;inset:0;background:var(--bg);z-index:90;overflow-y:auto}
+.adm .top{position:sticky;top:0;background:var(--navy);color:#fff;display:flex;align-items:center;gap:12px;padding:10px max(3vw,14px);z-index:2;flex-wrap:wrap}
+.adm .top .mono{color:#fff;font-size:30px}
+.adm .tabs{display:flex;gap:4px;overflow-x:auto;flex:1}
+.adm .tabs button{background:none;border:0;color:#cfdaf0;font:600 15px Lora;padding:10px 14px;border-radius:999px;cursor:pointer;white-space:nowrap;min-height:44px}
+.adm .tabs button.on{background:rgba(255,255,255,.16);color:#fff}
+.adm .body{max-width:1180px;margin:0 auto;padding:24px max(3vw,14px) 60px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:22px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
+.stat b{display:block;font:600 36px/1 "Cormorant Garamond",serif;color:var(--navy)}
+.stat span{font-size:14px;color:var(--soft)}
+.bar{height:12px;border-radius:999px;background:var(--line);overflow:hidden;display:flex;margin:6px 0 20px}
+.bar i{display:block;height:100%}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden;font-size:14.5px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--ser3);font-weight:600;color:var(--navy2)}
+td.num{text-align:right;white-space:nowrap}
+.acts{display:flex;gap:6px;flex-wrap:wrap}
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:0 0 14px}
+.tools input,.tools select{width:auto;flex:1 1 180px}
+.mod{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.mod .card{padding:14px}.mod img{aspect-ratio:1;object-fit:cover;border-radius:10px;width:100%;margin-bottom:8px}
+.demo{background:#fff6dc;color:#6b5414;font-size:14px;text-align:center;padding:8px 14px}
+@media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.stack td{display:flow-root;border:0;padding:3px 10px;padding-inline-start:7.5em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7em;margin-inline-start:-7em;color:var(--soft)}.stack td:empty{display:none}}
+/* números sempre alinhados */
+.data,.cd b,.ev .when,.gift .val,.stat b{font-family:Lora,Georgia,serif!important}.data{font-size:clamp(26px,3.4vw,36px)}.cd b{font-size:26px}.ev .when{font-size:28px}.gift .val{font-size:20px}.stat b{font-size:30px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+<script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="ptl" viewBox="-8 -8 16 16" overflow="visible"><path d="M0 0C-3-2-4-6 0-7.5C4-6 3-2 0 0ZM0 0C2-3 6-4 7.5 0C6 4 2 3 0 0ZM0 0C3 2 4 6 0 7.5C-4 6-3 2 0 0ZM0 0C-2 3-6 4-7.5 0C-6-4-2-3 0 0Z"/><circle r="1.2" fill="#f4f7fc"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-9.2-9A5 5 0 0 1 12 6a5 5 0 0 1 9.2 5c-2.2 4.6-9.2 9-9.2 9z"/></symbol>
+    <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v8h14v-8M12 8v12M12 8S10.5 3.5 8 4.2 7.2 8 12 8zm0 0s1.5-4.5 4-3.8S16.8 8 12 8z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="17" rx="2"/><path d="M9 3h6v3H9zM8.5 13.5l2.5 2.5 4.5-5"/></symbol>
+    <symbol id="i-cam" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v10H9l-5 4z"/><path d="M8 10h.01M12 10h.01M16 10h.01"/></symbol>
+    <symbol id="i-rings" viewBox="0 0 24 24"><circle cx="9" cy="14" r="5.5"/><circle cx="15" cy="14" r="5.5"/><path d="M7.5 6.5 9 4l1.5 2.5"/></symbol>
+    <symbol id="i-toast" viewBox="0 0 24 24"><path d="M5 3h5l-.5 6a2.5 2.5 0 0 1-4 0zM14 3h5l.5 6a2.5 2.5 0 0 1-4 0zM7.5 11v8M16.5 11v8M5 21h5M14 21h5"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+    <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M3 7h18v3a2 2 0 0 0 0 4v3H3v-3a2 2 0 0 0 0-4z"/><path d="M14 7v10" stroke-dasharray="2 2"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+    <symbol id="i-wa" viewBox="0 0 24 24"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.8z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 0 1-2-2l.8-1-1-2z"/></symbol>
+  </defs>
+</svg>
+
+<div id="demoBar" class="demo hide">Modo demonstração: as respostas ficam só neste navegador. Para testar, confirme com o nome <b>Maria Silva</b> ou o código <b>DEMO01</b>. Senha do painel: <b>demo</b>.</div>
+
+<nav class="nav">
+  <div class="in">
+    <a class="mono" href="#inicio" aria-label="Início">L &amp; A</a>
+    <button class="menu" id="menuBtn" aria-label="Abrir menu" aria-expanded="false"><svg class="ico" style="width:28px;height:28px"><use href="#i-menu"/></svg></button>
+    <div class="links" id="links">
+      <a href="#historia">Nossa história</a>
+      <a href="#cerimonia">Cerimônia</a>
+      <a href="#confirmar">Confirmação</a>
+      <a href="#presentes">Presentes</a>
+      <a href="#galeria">Galeria</a>
+      <a href="#mural">Mensagens</a>
+      <a href="#local">Localização</a>
+      <a href="#faq">Dúvidas</a>
+      <a href="#painel" class="painel-link"><svg class="ico" style="width:16px;height:16px;vertical-align:-3px"><use href="#i-lock"/></svg> Painel</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="inicio">
+  <div class="photo"><img src="img/capa.jpg" alt="Luan e Amanda de mãos dadas caminhando na grama à beira d'água"></div>
+  <div class="fl" data-seed="7" style="left:-40px;bottom:-30px;transform:rotate(-8deg)"></div>
+  <div class="txt">
+    <h1>Luan <span class="amp">&amp;</span> Amanda</h1>
+    <div class="orn"><svg class="ico"><use href="#i-heart"/></svg></div>
+    <p class="frase">Que o amor que nos uniu seja sempre conduzido pela fé daquele que nos ensinou a amar.</p>
+    <div class="data"><svg class="ico" style="width:32px;height:32px"><use href="#i-cal"/></svg> 09 • 01 • 2027</div>
+    <div class="cd" data-cd></div>
+    <div class="cta"><a class="btn" href="#confirmar">Confirmar presença</a><a class="btn out" href="#cerimonia">Ver detalhes</a></div>
+  </div>
+<div class="hero-sub">
+  <p class="frase">Que o amor que nos uniu seja sempre conduzido pela fé daquele que nos ensinou a amar.</p>
+  <div class="data"><svg class="ico" style="width:28px;height:28px"><use href="#i-cal"/></svg> 09 • 01 • 2027</div>
+  <div class="cd" data-cd></div>
+</div>
+</header>
+
+<div class="quick">
+  <a href="#presentes"><svg class="ico"><use href="#i-gift"/></svg><div><b>Lista de presentes</b><span>Presenteie via Pix</span></div></a>
+  <a href="#confirmar"><svg class="ico"><use href="#i-check"/></svg><div><b>Confirme presença</b><span>Até 20 de dezembro</span></div></a>
+  <a href="#galeria"><svg class="ico"><use href="#i-cam"/></svg><div><b>Galeria de fotos</b><span>Envie suas fotos também</span></div></a>
+  <a href="#mural"><svg class="ico"><use href="#i-chat"/></svg><div><b>Mural de recados</b><span>Deixe um carinho</span></div></a>
+</div>
+
+<section class="band" id="historia">
+  <div class="fl" data-seed="21" style="right:-50px;top:10px;transform:scaleX(-1) rotate(-12deg)"></div>
+  <div class="wrap story">
+    <div>
+      <h2 style="text-align:left">Nossa história</h2>
+      <div class="orn" style="margin-left:0"><svg class="ico"><use href="#i-heart"/></svg></div>
+      <p>Tudo começou graças ao querido <b>Brian</b>, irmão do Luan e amigo da Amanda, que um dia resolveu apresentar os dois. Do primeiro encontro veio a amizade, da amizade veio o amor, e lá se vão nove anos de caminhada juntos.</p>
+      <ul class="tl">
+        <li><b>O começo</b>Apresentados pelo Brian, viramos amigos e, pouco depois, namorados.</li>
+        <li><b>Nove anos de namoro</b>Anos de cumplicidade, fé e muitos momentos ao lado de quem amamos.</li>
+        <li><b>O pedido</b>Na praia, na virada para 2025: assim que os fogos estouraram e o ano novo chegou, veio o pedido de casamento.</li>
+        <li><b>09 de janeiro de 2027</b>O nosso grande dia, e queremos você lá.</li>
+      </ul>
+      <p class="quote">Nossa história é marcada por cada pessoa convidada para o nosso grande dia. Cada um de vocês fez parte de um momento muito especial para nós, e ficamos muito felizes e honrados em ter vocês em mais uma memória conosco.</p>
+    </div>
+    <figure class="polaroid" style="margin:0 auto"><img src="img/historia.jpg" alt="Luan e Amanda sorrindo um para o outro"><figcaption>Luan &amp; Amanda</figcaption></figure>
+  </div>
+</section>
+
+<section class="band" id="cerimonia" style="background:var(--ser3)">
+  <div class="wrap">
+    <h2>Cerimônia e recepção</h2>
+    <div class="orn"><svg class="ico"><use href="#i-heart"/></svg></div>
+    <div class="ev">
+      <article class="card">
+        <div class="head"><svg class="ico"><use href="#i-rings"/></svg><div><h3>Cerimônia</h3><div class="when">09.01 · 14h</div></div></div>
+        <p style="margin:0"><b>Paróquia Nossa Senhora Aparecida</b> · Mato Alto</p>
+        <dl>
+          <dt>Endereço</dt><dd>Estr. do Mato Alto, 5027 · Guaratiba, Rio de Janeiro</dd>
+          <dt>Chegada</dt><dd>Às 13h30, 30 minutos antes</dd>
+          <dt>Estacionamento</dt><dd>Na frente da igreja</dd>
+          <dt>Acessibilidade</dt><dd>Rampa de acesso</dd>
+        </dl>
+        <div class="acts" data-maps="ig"></div>
+      </article>
+      <article class="card">
+        <div class="head"><svg class="ico"><use href="#i-toast"/></svg><div><h3>Recepção</h3><div class="when">15h às 22h</div></div></div>
+        <p style="margin:0"><b>Espaço Dois Irmãos</b> · Ilha de Guaratiba</p>
+        <dl>
+          <dt>Endereço</dt><dd>Av. Gaspar de Lemos, 883 · Guaratiba, Rio de Janeiro</dd>
+          <dt>Estacionamento</dt><dd>Na rua do sítio</dd>
+          <dt>Traje</dt><dd>Esporte fino</dd>
+        </dl>
+        <div class="acts" data-maps="fe"></div>
+      </article>
+    </div>
+    <div class="note"><svg class="ico"><use href="#i-ticket"/></svg><div><b>Raspadinha dos noivos</b><br><span class="muted">Na festa teremos a raspadinha dos noivos por R$ 15. Quem ganhar leva uma caixa de som!</span></div></div>
+  </div>
+</section>
+
+<section class="band" id="confirmar">
+  <div class="fl" data-seed="44" style="left:-60px;top:30px;transform:rotate(10deg)"></div>
+  <div class="wrap">
+    <h2>Confirme sua presença</h2>
+    <p class="lead">Pedimos que confirme até <b>20 de dezembro de 2026</b>. O convite é individual, e as crianças são confirmadas pelo responsável.</p>
+    <div class="orn"><svg class="ico"><use href="#i-heart"/></svg></div>
+    <div class="card rsvp" id="rsvp"></div>
+  </div>
+</section>
+
+<section class="band" id="presentes" style="background:var(--ser3)">
+  <div class="wrap">
+    <h2>Lista de presentes</h2>
+    <p class="lead">Sua presença já é o nosso maior presente! Mas, se quiser nos mimar, escolha uma das opções abaixo e envie o valor por Pix.</p>
+    <div class="orn"><svg class="ico"><use href="#i-gift"/></svg></div>
+    <div class="gifts" id="gifts"></div>
+  </div>
+</section>
+
+<section class="band" id="galeria">
+  <div class="wrap">
+    <h2>Galeria de fotos</h2>
+    <p class="lead">Nossos momentos, e os que vocês registrarem com a gente.</p>
+    <div class="orn"><svg class="ico"><use href="#i-cam"/></svg></div>
+    <div class="gal" id="gal"></div>
+    <div class="upl card">
+      <div><h3>Tem uma foto com a gente?</h3><span class="muted small">Envie pelo site. Ela aparece aqui depois que os noivos aprovarem.</span></div>
+      <div><input type="file" id="fotoIn" accept="image/*" multiple class="hide"><button class="btn" id="fotoBtn"><svg class="ico"><use href="#i-cam"/></svg> Enviar fotos</button></div>
+      <div id="fotoMsg" style="flex-basis:100%"></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="mural" style="background:var(--ser3)">
+  <div class="fl" data-seed="63" style="right:-40px;bottom:-20px;transform:scaleX(-1) rotate(4deg)"></div>
+  <div class="wrap">
+    <h2>Mural de recados</h2>
+    <p class="lead">Deixe uma mensagem para os noivos.</p>
+    <div class="orn"><svg class="ico"><use href="#i-chat"/></svg></div>
+    <form class="card" id="muralForm" style="max-width:680px;margin:0 auto 32px">
+      <label for="muralTxt">Seu recado</label>
+      <textarea id="muralTxt" rows="3" maxlength="600" placeholder="Escreva com carinho..."></textarea>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap"><span class="muted small" id="muralWho"></span><button class="btn" type="submit">Enviar recado</button></div>
+      <div id="muralMsg"></div>
+    </form>
+    <div class="wall" id="wall"></div>
+  </div>
+</section>
+
+<section class="band" id="local">
+  <div class="wrap">
+    <h2>Como chegar</h2>
+    <div class="orn"><svg class="ico"><use href="#i-pin"/></svg></div>
+    <div class="maps" id="maps"></div>
+  </div>
+</section>
+
+<section class="band" id="faq" style="background:var(--ser3)">
+  <div class="wrap">
+    <h2>Perguntas frequentes</h2>
+    <div class="orn"><svg class="ico"><use href="#i-heart"/></svg></div>
+    <div class="faq" id="faqList"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="script">Obrigado por fazer parte da nossa história!</div>
+  <div class="tags">#Luan&amp;Amanda · 09.01.2027 · Rio de Janeiro</div>
+  <div class="small">Dúvidas? Fale com a gente:</div>
+  <div class="soc">
+    <a href="https://wa.me/5521985741380" target="_blank" rel="noopener"><svg class="ico" style="width:18px;height:18px"><use href="#i-wa"/></svg> Amanda · (21) 98574-1380</a>
+    <a href="https://wa.me/5521996446673" target="_blank" rel="noopener"><svg class="ico" style="width:18px;height:18px"><use href="#i-wa"/></svg> Luan · (21) 99644-6673</a>
+  </div>
+</footer>
+
+<div id="modal" class="ov hide" role="dialog" aria-modal="true"><div class="box"><button class="x" data-close aria-label="Fechar">×</button><div id="modalBody"></div></div></div>
+<div id="lb" class="lb hide" role="dialog" aria-modal="true"><button class="x" data-lbclose aria-label="Fechar">×</button><button class="nv pv" data-lb="-1" aria-label="Anterior">‹</button><div><img id="lbImg" alt=""><div class="cap" id="lbCap"></div></div><button class="nv nx" data-lb="1" aria-label="Próxima">›</button></div>
+<div id="adm" class="adm hide"></div>
+
+<script src="js/qrcode.js"></script>
+<script>
+/* =================== CONFIGURAÇÃO — edite aqui =================== */
+const CONFIG = {
+  API_URL: '',                 // cole aqui a URL do App da Web do Google Apps Script (vazio = modo demonstração)
+  SITE_URL: 'https://rodrigoppastro.github.io/casamento-luan-amanda/',                // endereço do site (usado nos links de convite e no QR Code)
+  MAPA_EMBED: true,
+  // FOTO DA CAPA: troque o arquivo e, se precisar, ajuste o enquadramento ('horizontal vertical').
+  // '50% 0%' = mostra o topo da foto; '50% 50%' = o meio; '50% 100%' = a parte de baixo.
+  CAPA: 'img/capa.jpg',
+  CAPA_FOCO_COMPUTADOR: '50% 15%',
+  CAPA_FOCO_CELULAR: '50% 0%',
+  FOTO_HISTORIA: 'img/historia.jpg',
+  CASAMENTO: '2027-01-09T14:00:00-03:00',
+  PRAZO_RSVP: '2026-12-20T23:59:59-03:00',
+  PIX: { chave: 'dra.amandacalixto@gmail.com', nome: 'Amanda Beatriz Calixto dos Santos', banco: 'Neon', cidade: 'RIO DE JANEIRO' },
+  LOCAIS: {
+    ig: { nome: 'Paróquia Nossa Senhora Aparecida', end: 'Estr. do Mato Alto, 5027 - Guaratiba, Rio de Janeiro - RJ' },
+    fe: { nome: 'Espaço Dois Irmãos', end: 'Av. Gaspar de Lemos, 883 - Guaratiba, Rio de Janeiro - RJ' },
+  },
+  FOTOS_CASAL: [
+    { src: 'img/capa.jpg', legenda: 'Luan & Amanda' },
+    { src: 'img/historia.jpg', legenda: 'Nós dois' },
+  ],
+  // Lista de presentes: edite nomes, descrições e valores à vontade. valor: 0 = o convidado escolhe o valor.
+  PRESENTES: [
+    { nome: 'Fundo anti-miojo', desc: 'Para a gente não viver de miojo no primeiro mês de casados.', valor: 50, ico: 'gift' },
+    { nome: 'Primeiro churrasco dos recém-casados', desc: 'A carne, o carvão e a farofa da estreia como anfitriões.', valor: 120, ico: 'toast' },
+    { nome: 'Kit "quem lava a louça hoje?"', desc: 'Luvas, esponja e paz conjugal garantida.', valor: 40, ico: 'heart' },
+    { nome: 'Ar-condicionado no verão carioca', desc: 'Ajuda com a conta de luz de janeiro. Vocês sabem como é.', valor: 150, ico: 'heart' },
+    { nome: 'Edredom extra para o noivo', desc: 'Porque a noiva sempre rouba o cobertor.', valor: 90, ico: 'heart' },
+    { nome: 'Jantar romântico na lua de mel', desc: 'Uma noite especial só nós dois.', valor: 200, ico: 'toast' },
+    { nome: 'Passeio na lua de mel', desc: 'Um passeio inesquecível para começar a vida a dois.', valor: 250, ico: 'pin' },
+    { nome: 'Jogo de cama casal', desc: 'Lençóis novos para a casa nova.', valor: 220, ico: 'gift' },
+    { nome: 'Jogo de panelas', desc: 'Para o miojo virar comida de verdade.', valor: 350, ico: 'gift' },
+    { nome: 'Ajuda no primeiro aluguel', desc: 'Um empurrãozinho no começo da vida juntos.', valor: 300, ico: 'pin' },
+    { nome: 'Valor livre', desc: 'Escolha você quanto quer presentear.', valor: 0, ico: 'heart' },
+  ],
+  FAQ: [
+    ['Qual é o traje?', 'Esporte fino. Como a cerimônia será na igreja, não serão permitidas roupas curtas.'],
+    ['Há alguma cor que devo evitar?', 'Sim: branco (reservado à noiva) e azul serenity (cor das madrinhas).'],
+    ['Que horas devo chegar à igreja?', 'Às 13h30, com 30 minutos de antecedência. A cerimônia começa às 14h.'],
+    ['Posso levar acompanhante?', 'O convite é individual: somente as pessoas da lista. Pedimos a compreensão de todos.'],
+    ['Crianças podem ir?', 'Sim, as crianças são convidadas! A presença delas é confirmada pelo responsável.'],
+    ['Até quando posso confirmar? Posso mudar a resposta?', 'Confirme até 20 de dezembro de 2026. Até essa data você pode mudar a resposta quantas vezes precisar, pelo mesmo link.'],
+    ['Tem estacionamento?', 'Sim. Na igreja há estacionamento na frente; na festa, estacionamento na rua do sítio.'],
+    ['Há acessibilidade?', 'Sim, há rampa de acesso para pessoas com mobilidade reduzida.'],
+    ['Tem transporte público perto?', 'Sim, há opções de transporte público próximas aos locais.'],
+    ['Como funciona a raspadinha?', 'Na festa teremos a raspadinha dos noivos por R$ 15. O ganhador leva uma caixa de som!'],
+    ['Como dou um presente?', 'Na Lista de presentes, escolha uma opção e pague pelo Pix (QR Code ou copia e cola). Se quiser, deixe seu nome e um recado: só os noivos veem.'],
+    ['Com quem falo em caso de dúvida?', 'Amanda: (21) 98574-1380 · Luan: (21) 99644-6673, pelo WhatsApp.'],
+  ],
+};
+/* ================================================================= */
+
+{
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const brl = v => Number(v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+const dt = s => { try { return new Date(s).toLocaleDateString('pt-BR'); } catch { return ''; } };
+const ico = n => `<svg class="ico"><use href="#i-${n}"/></svg>`;
+const DEMO = !CONFIG.API_URL;
+{ const im = $('.hero .photo img'); im.src = CONFIG.CAPA; im.style.setProperty('--foco', CONFIG.CAPA_FOCO_COMPUTADOR); im.style.setProperty('--foco-cel', CONFIG.CAPA_FOCO_CELULAR); $('.polaroid img').src = CONFIG.FOTO_HISTORIA; }
+const store = { get(k, d) { try { const v = localStorage.getItem('la_' + k); return v ? JSON.parse(v) : d; } catch { return d; } }, set(k, v) { try { localStorage.setItem('la_' + k, JSON.stringify(v)); } catch {} } };
+
+/* ---------- flores (hortênsias desenhadas) ---------- */
+function rng(s) { return () => { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; }; }
+function buque(seed) {
+  const r = rng(seed * 9973 + 1), blues = ['#7f9dd0', '#9bb4de', '#b9cbea', '#6585c2', '#a7bde3', '#d3dff2', '#5677b6'];
+  let out = '';
+  for (let i = 0; i < 9; i++) {
+    const a = r() * 360, d = 55 + r() * 30, x = 110 + Math.cos(a * Math.PI / 180) * d, y = 110 + Math.sin(a * Math.PI / 180) * d;
+    out += `<path d="M0 0C14-12 40-10 56 0C40 10 14 12 0 0Z" fill="${['#88a58d', '#a2b9a3', '#6f8f78'][i % 3]}" transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${a.toFixed(0)}) scale(${(0.8 + r() * 0.6).toFixed(2)})" opacity=".85"/>`;
+  }
+  const cl = [[100, 100, 48], [150, 132, 32], [74, 152, 28]];
+  const fl = [];
+  for (const [cx, cy, R] of cl) for (let i = 0; i < R * 2.2; i++) {
+    const t = r() * Math.PI * 2, d = Math.sqrt(r()) * R;
+    fl.push([cx + Math.cos(t) * d, cy + Math.sin(t) * d * .9, 5.5 + r() * 3.5, blues[Math.floor(r() * blues.length)], r() * 90]);
+  }
+  fl.sort((a, b) => a[1] - b[1]);
+  for (const [x, y, s, c, rot] of fl) out += `<use href="#ptl" x="${(x - s).toFixed(1)}" y="${(y - s).toFixed(1)}" width="${(s * 2).toFixed(1)}" height="${(s * 2).toFixed(1)}" fill="${c}" transform="rotate(${rot.toFixed(0)} ${x.toFixed(1)} ${y.toFixed(1)})"/>`;
+  for (const [x, y] of [[48 + r() * 20, 92 + r() * 20], [168 + r() * 10, 90 + r() * 16]]) {
+    let p = '';
+    for (let k = 0; k < 5; k++) p += `<ellipse cx="0" cy="-11" rx="8" ry="12" transform="rotate(${k * 72})" fill="#fffdf8" stroke="#dde3ec" stroke-width=".8"/>`;
+    out += `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)})">${p}<circle r="4" fill="#e9dca8"/></g>`;
+  }
+  return `<svg viewBox="0 0 220 220" aria-hidden="true">${out}</svg>`;
+}
+$$('.fl').forEach(el => el.innerHTML = buque(+el.dataset.seed));
+
+/* ---------- menu ---------- */
+$('#menuBtn').onclick = () => { const o = $('#links').classList.toggle('open'); $('#menuBtn').setAttribute('aria-expanded', o); };
+$$('#links a').forEach(a => a.addEventListener('click', () => $('#links').classList.remove('open')));
+if (DEMO) $('#demoBar').classList.remove('hide');
+
+/* ---------- contagem regressiva ---------- */
+const alvo = new Date(CONFIG.CASAMENTO).getTime();
+function tick() {
+  let s = Math.max(0, Math.floor((alvo - Date.now()) / 1000));
+  const v = [Math.floor(s / 86400), Math.floor(s % 86400 / 3600), Math.floor(s % 3600 / 60), s % 60];
+  const html = s === 0 ? '<div style="grid-column:1/-1;padding:6px"><b>Hoje é o grande dia!</b></div>'
+    : ['Dias', 'Horas', 'Minutos', 'Segundos'].map((l, i) => `<div><b>${String(v[i]).padStart(2, '0')}</b><span>${l}</span></div>`).join('');
+  $$('[data-cd]').forEach(e => e.innerHTML = html);
+}
+tick(); setInterval(tick, 1000);
+
+/* ---------- API (Apps Script) ou demonstração local ---------- */
+async function api(action, payload = {}) {
+  if (DEMO) return demo(action, payload);
+  const r = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ action, ...payload }) });
+  const j = await r.json();
+  if (!j.ok) throw new Error(j.error || 'Erro');
+  return j.data;
+}
+function db() {
+  return store.get('db', {
+    convidados: [
+      { codigo: 'DEMO01', nome: 'Maria Silva', tipo: 'Adulto', responsavel: '', telefone: '21999990001', status: 'Pendente', obs: '' },
+      { codigo: 'DEMO02', nome: 'Pedro Silva', tipo: 'Criança', responsavel: 'DEMO01', telefone: '', status: 'Pendente', obs: '' },
+      { codigo: 'DEMO03', nome: 'João Souza', tipo: 'Adulto', responsavel: '', telefone: '21999990002', status: 'Confirmado', respondidoEm: new Date().toISOString(), obs: '' },
+      { codigo: 'DEMO04', nome: 'Carla Mendes', tipo: 'Adulto', responsavel: '', telefone: '21999990003', status: 'Não vai', respondidoEm: new Date().toISOString(), obs: 'Estarei viajando, mas torcendo muito!' },
+    ],
+    mensagens: [{ id: 'm1', data: new Date().toISOString(), nome: 'João Souza', texto: 'Que Deus abençoe essa união! Felicidades ao casal.', aprovado: true }],
+    fotos: [], presentes: [],
+  });
+}
+const N = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
+async function demo(a, p) {
+  await new Promise(r => setTimeout(r, 250));
+  const d = db(), save = () => store.set('db', d), pub = g => ({ codigo: g.codigo, nome: g.nome, tipo: g.tipo, status: g.status });
+  const find = q => d.convidados.find(g => (q.codigo && g.codigo === String(q.codigo).toUpperCase().trim()) || (q.nome && N(g.nome) === N(q.nome)));
+  const filho = (x, g) => x.responsavel && (x.responsavel === g.codigo || N(x.responsavel) === N(g.nome));
+  const adm = () => { if (p.senha !== 'demo') throw new Error('Senha incorreta'); };
+  switch (a) {
+    case 'buscarConvidado': { const g = find(p); if (!g) throw new Error('Não encontramos esse nome na lista. Digite o nome completo como está no convite, ou use o link que você recebeu.');
+      if (g.tipo === 'Criança') throw new Error(`A presença de ${g.nome} é confirmada pelo responsável.`);
+      return { convidado: pub(g), criancas: d.convidados.filter(x => filho(x, g)).map(pub), obs: g.obs, prazo: CONFIG.PRAZO_RSVP }; }
+    case 'confirmar': { const g = find(p); const ok = new Set([g.codigo, ...d.convidados.filter(x => filho(x, g)).map(x => x.codigo)]);
+      p.respostas.forEach(r => { const x = d.convidados.find(c => c.codigo === r.codigo); if (x && ok.has(x.codigo)) { x.status = r.status; x.respondidoEm = new Date().toISOString(); } });
+      g.obs = p.obs || ''; save(); return { ok: true }; }
+    case 'listarMensagens': return d.mensagens.filter(m => m.aprovado).map(m => ({ nome: m.nome, texto: m.texto, data: m.data })).reverse();
+    case 'enviarMensagem': { const g = find(p); if (!g) throw new Error('Só convidados podem deixar recados.'); d.mensagens.push({ id: 'm' + Date.now(), data: new Date().toISOString(), nome: g.nome, texto: p.texto, aprovado: false }); save(); return { ok: true }; }
+    case 'listarFotos': return d.fotos.filter(f => f.aprovado).map(f => ({ src: f.src, nome: f.nome, legenda: f.legenda })).reverse();
+    case 'enviarFoto': { const g = find(p); if (!g) throw new Error('Só convidados podem enviar fotos.'); d.fotos.push({ id: 'f' + Date.now(), data: new Date().toISOString(), nome: g.nome, src: p.imagem, legenda: p.legenda || '', aprovado: false });
+      try { save(); } catch { throw new Error('Sem espaço no modo demonstração.'); } return { ok: true }; }
+    case 'registrarPresente': d.presentes.push({ id: 'p' + Date.now(), data: new Date().toISOString(), nome: p.nome, presente: p.presente, valor: p.valor, mensagem: p.mensagem }); save(); return { ok: true };
+    case 'painel': adm(); return { convidados: d.convidados, mensagens: d.mensagens, fotos: d.fotos.map(f => ({ ...f, arquivo: '' })), presentes: d.presentes };
+    case 'moderar': { adm(); const k = p.tipo === 'foto' ? 'fotos' : 'mensagens'; const i = d[k].findIndex(x => x.id === p.id);
+      if (i >= 0) { if (p.acao === 'aprovar') d[k][i].aprovado = true; else d[k].splice(i, 1); } save(); return { ok: true }; }
+    case 'adicionarConvidado': { adm(); const L = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let c; do { c = Array.from({ length: 6 }, () => L[Math.floor(Math.random() * L.length)]).join(''); } while (d.convidados.some(x => x.codigo === c));
+      d.convidados.push({ codigo: c, nome: p.nome, tipo: p.tipo, responsavel: p.responsavel || '', telefone: p.telefone || '', status: 'Pendente', obs: '' }); save(); return { codigo: c }; }
+    case 'excluirConvidado': adm(); d.convidados = d.convidados.filter(x => x.codigo !== p.codigo); save(); return { ok: true };
+  }
+  throw new Error('Ação inválida');
+}
+const fotoUrl = f => f.src || ('https://lh3.googleusercontent.com/d/' + encodeURIComponent(f.id || f.arquivo) + '=w1400');
+const siteUrl = () => CONFIG.SITE_URL || (location.origin + location.pathname);
+const linkConvite = c => siteUrl() + '?c=' + encodeURIComponent(c);
+
+/* ---------- identidade do convidado (link ?c= ou busca por nome) ---------- */
+let eu = null;
+const codigoUrl = new URLSearchParams(location.search).get('c') || (location.hash.match(/^#c-([A-Za-z0-9]+)$/) || [])[1];
+function setEu(info) { eu = info; store.set('eu', { codigo: info.convidado.codigo }); quem(); }
+function quem() { $('#muralWho').textContent = eu ? 'Enviando como ' + eu.convidado.nome : 'Use o link do seu convite ou confirme sua presença para enviar.'; }
+quem();
+
+/* ---------- RSVP ---------- */
+const prazoPassou = () => Date.now() > new Date(CONFIG.PRAZO_RSVP).getTime();
+function rsvpBusca(erro = '') {
+  $('#rsvp').innerHTML = `<form id="buscaF"><label for="buscaIn">Digite seu nome completo (como está no convite) ou o código do convite</label>
+    <div class="row"><input id="buscaIn" autocomplete="name" required placeholder="Ex.: Maria da Silva"><button class="btn" style="flex:0 0 auto">Buscar convite</button></div>
+    ${erro ? `<div class="msg err">${esc(erro)}</div>` : ''}<p class="muted small" style="margin:14px 0 0">Se você recebeu um link pelo WhatsApp, ele já abre o seu convite direto.</p></form>`;
+  $('#buscaF').onsubmit = async e => { e.preventDefault(); const v = $('#buscaIn').value.trim(); const b = e.target.querySelector('button'); b.disabled = true;
+    try { const info = await api('buscarConvidado', /^[A-Za-z0-9]{6}$/.test(v) ? { codigo: v } : { nome: v }); setEu(info); rsvpForm(); }
+    catch (err) { rsvpBusca(err.message); } };
+}
+function rsvpForm(sucesso = false) {
+  const { convidado: g, criancas } = eu, pessoas = [g, ...criancas];
+  const resp = pessoas.every(p => p.status !== 'Pendente');
+  const fechado = prazoPassou();
+  const linha = p => `<div class="pess"><div><b>${esc(p.nome)}</b> ${p.tipo === 'Criança' ? '<span class="tag">criança</span>' : ''}</div>
+    <div class="seg" data-p="${esc(p.codigo)}"><button type="button" class="y ${p.status === 'Confirmado' ? 'on' : ''}" data-v="Confirmado" ${fechado ? 'disabled' : ''}>Vou</button><button type="button" class="n ${p.status === 'Não vai' ? 'on' : ''}" data-v="Não vai" ${fechado ? 'disabled' : ''}>Não vou</button></div></div>`;
+  $('#rsvp').innerHTML = `<h3>Olá, ${esc(g.nome.split(' ')[0])}!</h3>
+    <p class="muted" style="margin:0 0 6px">${resp ? 'Sua resposta está registrada. Se precisar, você pode alterar até 20/12.' : 'Marque abaixo quem vai estar com a gente:'}</p>
+    ${sucesso ? `<div class="msg ok">Resposta enviada! ${pessoas.some(p => p.status === 'Confirmado') ? 'Que alegria ter você com a gente!' : 'Sentiremos sua falta, obrigado por avisar.'}</div>` : ''}
+    <div>${pessoas.map(linha).join('')}</div>
+    <label for="obsIn" style="margin-top:16px">Recado ou restrição alimentar (opcional)</label><textarea id="obsIn" rows="2" maxlength="500" ${fechado ? 'disabled' : ''}>${esc(eu.obs || '')}</textarea>
+    ${fechado ? '<div class="msg">O prazo de confirmação terminou. Fale com os noivos pelo WhatsApp.</div>' : ''}
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;align-items:center">
+      ${fechado ? '' : `<button class="btn" id="rsvpOk">${resp ? 'Atualizar resposta' : 'Enviar resposta'}</button>`}
+      ${pessoas.some(p => p.status === 'Confirmado') ? `<a class="btn out" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Casamento Luan & Amanda')}&dates=20270109T170000Z/20270110T010000Z&location=${encodeURIComponent(CONFIG.LOCAIS.ig.end)}&details=${encodeURIComponent('Cerimônia 14h na Paróquia N. Sra. Aparecida. Recepção 15h no Espaço Dois Irmãos.')}">${ico('cal')} Salvar na agenda</a>` : ''}
+      <button class="btn out sm" id="rsvpOutro" type="button" style="margin-left:auto">Não sou ${esc(g.nome.split(' ')[0])}</button></div><div id="rsvpErr"></div>`;
+  $$('#rsvp .seg button').forEach(b => b.onclick = () => { const s = b.parentElement; s.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); });
+  $('#rsvpOutro').onclick = () => { eu = null; store.set('eu', null); quem(); rsvpBusca(); };
+  const ok = $('#rsvpOk'); if (!ok) return;
+  ok.onclick = async () => {
+    const respostas = $$('#rsvp .seg').map(s => ({ codigo: s.dataset.p, status: s.querySelector('.on')?.dataset.v }));
+    if (respostas.some(r => !r.status)) { $('#rsvpErr').innerHTML = '<div class="msg err">Marque "Vou" ou "Não vou" para cada pessoa.</div>'; return; }
+    ok.disabled = true; ok.textContent = 'Enviando...';
+    try { await api('confirmar', { codigo: g.codigo, respostas, obs: $('#obsIn').value });
+      respostas.forEach(r => pessoas.find(p => p.codigo === r.codigo).status = r.status); eu.obs = $('#obsIn').value; rsvpForm(true); }
+    catch (err) { ok.disabled = false; ok.textContent = 'Enviar resposta'; $('#rsvpErr').innerHTML = `<div class="msg err">${esc(err.message)}</div>`; }
+  };
+}
+async function rsvpInit() {
+  const salvo = store.get('eu', null), c = codigoUrl || salvo?.codigo;
+  if (!c) return rsvpBusca();
+  $('#rsvp').innerHTML = '<p class="muted">Carregando seu convite...</p>';
+  try { setEu(await api('buscarConvidado', { codigo: c })); rsvpForm(); } catch (e) { rsvpBusca(codigoUrl ? e.message : ''); }
+}
+rsvpInit();
+
+/* ---------- Pix (BR Code) + QR ---------- */
+function tlv(id, v) { return id + String(v.length).padStart(2, '0') + v; }
+function crc16(s) { let c = 0xFFFF; for (let i = 0; i < s.length; i++) { c ^= s.charCodeAt(i) << 8; for (let j = 0; j < 8; j++) c = c & 0x8000 ? (c << 1) ^ 0x1021 : c << 1; c &= 0xFFFF; } return c.toString(16).toUpperCase().padStart(4, '0'); }
+const semAc = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toUpperCase();
+function pixPayload(valor) {
+  let p = tlv('00', '01') + tlv('26', tlv('00', 'BR.GOV.BCB.PIX') + tlv('01', CONFIG.PIX.chave)) + tlv('52', '0000') + tlv('53', '986');
+  if (valor > 0) p += tlv('54', valor.toFixed(2));
+  p += tlv('58', 'BR') + tlv('59', semAc(CONFIG.PIX.nome).slice(0, 25)) + tlv('60', semAc(CONFIG.PIX.cidade).slice(0, 15)) + tlv('62', tlv('05', '***')) + '6304';
+  return p + crc16(p);
+}
+function qrSvg(text) { try { const q = qrcode(0, 'M'); q.addData(text); q.make(); return q.createSvgTag({ cellSize: 4, margin: 2, scalable: true }); } catch { return '<p class="muted small">QR indisponível</p>'; } }
+
+function abrir(html) { $('#modalBody').innerHTML = html; $('#modal').classList.remove('hide'); $('#modal .x').focus(); }
+function fechar() { $('#modal').classList.add('hide'); }
+$('#modal').addEventListener('click', e => { if (e.target.id === 'modal' || e.target.closest('[data-close]')) fechar(); });
+async function copiar(txt, btn) { try { await navigator.clipboard.writeText(txt); btn.textContent = 'Copiado!'; } catch { btn.previousElementSibling?.select?.(); btn.textContent = 'Selecione e copie'; } setTimeout(() => btn.textContent = 'Copiar', 2200); }
+
+$('#gifts').innerHTML = CONFIG.PRESENTES.map((p, i) => `<article class="gift">${ico(p.ico || 'gift')}<h3>${esc(p.nome)}</h3><p>${esc(p.desc)}</p>
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><span class="val">${p.valor ? brl(p.valor) : 'Você escolhe'}</span><button class="btn sm" data-g="${i}">Presentear</button></div></article>`).join('');
+$('#gifts').addEventListener('click', e => { const b = e.target.closest('[data-g]'); if (b) presente(CONFIG.PRESENTES[+b.dataset.g]); });
+function presente(p) {
+  abrir(`<h3 style="font-size:28px">${esc(p.nome)}</h3><p class="muted" style="margin:0">${esc(p.desc)}</p>
+    ${p.valor ? '' : `<label for="pv" style="margin-top:16px">Valor do presente (R$)</label><input id="pv" type="number" min="1" step="1" inputmode="decimal" placeholder="Ex.: 100">`}
+    <div id="pixArea"></div>
+    <label for="pn" style="margin-top:12px">Seu nome (opcional, só os noivos veem)</label><input id="pn" value="${esc(eu?.convidado.nome || '')}">
+    <label for="pm" style="margin-top:12px">Recado para os noivos (opcional)</label><textarea id="pm" rows="2" maxlength="600"></textarea>
+    <button class="btn" id="pixFeito" style="width:100%;margin-top:16px">${ico('heart')} Já fiz o Pix</button><div id="pixMsg"></div>`);
+  const render = () => { const v = p.valor || Number($('#pv').value) || 0; const code = pixPayload(v);
+    $('#pixArea').innerHTML = `<div class="qr">${qrSvg(code)}</div><div style="text-align:center;font:600 26px 'Cormorant Garamond',serif;color:var(--navy)">${v ? brl(v) : 'Digite o valor'}</div>
+      <label style="margin-top:10px">Pix copia e cola</label><div class="copy"><input readonly value="${esc(code)}" onclick="this.select()"><button class="btn sm" type="button" id="cpy">Copiar</button></div>
+      <p class="muted small" style="margin:8px 0 0">Ou use a chave (e-mail): <b>${esc(CONFIG.PIX.chave)}</b> · ${esc(CONFIG.PIX.nome)} · ${esc(CONFIG.PIX.banco)}</p>`;
+    $('#cpy').onclick = e => copiar(code, e.currentTarget); };
+  render(); if (!p.valor) $('#pv').oninput = render;
+  $('#pixFeito').onclick = async e => { const v = p.valor || Number($('#pv')?.value) || 0; e.currentTarget.disabled = true;
+    try { await api('registrarPresente', { codigo: eu?.convidado.codigo || '', nome: $('#pn').value, presente: p.nome, valor: v, mensagem: $('#pm').value });
+      $('#pixMsg').innerHTML = '<div class="msg ok">Muito obrigado pelo carinho! Os noivos foram avisados.</div>'; }
+    catch (err) { e.currentTarget.disabled = false; $('#pixMsg').innerHTML = `<div class="msg err">${esc(err.message)}</div>`; } };
+}
+
+/* ---------- galeria + lightbox ---------- */
+let fotos = [], idx = 0;
+async function galeria() {
+  let conv = []; try { conv = await api('listarFotos'); } catch {}
+  fotos = [...CONFIG.FOTOS_CASAL.map(f => ({ src: f.src, legenda: f.legenda })), ...conv.map(f => ({ src: fotoUrl(f), legenda: (f.legenda ? f.legenda + ' · ' : '') + 'por ' + f.nome }))];
+  $('#gal').innerHTML = fotos.map((f, i) => `<button data-i="${i}" aria-label="Ampliar foto"><img loading="lazy" src="${esc(f.src)}" alt="${esc(f.legenda)}"></button>`).join('');
+}
+$('#gal').addEventListener('click', e => { const b = e.target.closest('[data-i]'); if (b) lb(+b.dataset.i); });
+function lb(i) { idx = (i + fotos.length) % fotos.length; $('#lbImg').src = fotos[idx].src; $('#lbCap').textContent = fotos[idx].legenda || ''; $('#lb').classList.remove('hide'); }
+$('#lb').addEventListener('click', e => { const n = e.target.closest('[data-lb]'); if (n) return lb(idx + +n.dataset.lb); if (e.target.id === 'lb' || e.target.closest('[data-lbclose]')) $('#lb').classList.add('hide'); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { fechar(); $('#lb').classList.add('hide'); }
+  if (!$('#lb').classList.contains('hide')) { if (e.key === 'ArrowRight') lb(idx + 1); if (e.key === 'ArrowLeft') lb(idx - 1); } });
+galeria();
+
+function reduzir(file) { return new Promise((ok, no) => { const img = new Image(); img.onload = () => { const m = 1600, s = Math.min(1, m / Math.max(img.width, img.height)); const c = document.createElement('canvas'); c.width = Math.round(img.width * s); c.height = Math.round(img.height * s); c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(img.src); ok(c.toDataURL('image/jpeg', DEMO ? .6 : .82)); }; img.onerror = () => no(new Error('Não consegui abrir essa imagem.')); img.src = URL.createObjectURL(file); }); }
+$('#fotoBtn').onclick = () => { if (!eu) { $('#fotoMsg').innerHTML = '<div class="msg">Para enviar fotos, identifique-se primeiro na seção <a href="#confirmar">Confirmação</a> (ou abra o link do seu convite).</div>'; return; } $('#fotoIn').click(); };
+$('#fotoIn').onchange = async e => { const fs = [...e.target.files].slice(0, 10); if (!fs.length) return; let n = 0;
+  $('#fotoMsg').innerHTML = '<div class="msg">Enviando fotos...</div>';
+  for (const f of fs) { try { await api('enviarFoto', { codigo: eu.convidado.codigo, imagem: await reduzir(f), legenda: '' }); n++; } catch (err) { $('#fotoMsg').innerHTML = `<div class="msg err">${esc(err.message)}</div>`; } }
+  if (n) $('#fotoMsg').innerHTML = `<div class="msg ok">${n} foto${n > 1 ? 's enviadas' : ' enviada'}! Ela${n > 1 ? 's aparecem' : ' aparece'} aqui depois da aprovação dos noivos.</div>`;
+  e.target.value = ''; };
+
+/* ---------- mural ---------- */
+async function mural() {
+  let ms = []; try { ms = await api('listarMensagens'); } catch {}
+  $('#wall').innerHTML = ms.length ? ms.map(m => `<div class="m"><p>${esc(m.texto)}</p><small>${esc(m.nome)} · ${dt(m.data)}</small></div>`).join('') : '<div class="empty">Seja o primeiro a deixar um recado para os noivos.</div>';
+}
+$('#muralForm').onsubmit = async e => { e.preventDefault(); const t = $('#muralTxt').value.trim();
+  if (!eu) { $('#muralMsg').innerHTML = '<div class="msg">Para deixar um recado, identifique-se primeiro na seção <a href="#confirmar">Confirmação</a> (ou abra o link do seu convite).</div>'; return; }
+  if (t.length < 2) return; const b = e.target.querySelector('button'); b.disabled = true;
+  try { await api('enviarMensagem', { codigo: eu.convidado.codigo, texto: t }); $('#muralTxt').value = ''; $('#muralMsg').innerHTML = '<div class="msg ok">Recado recebido! Ele aparece no mural depois da aprovação dos noivos.</div>'; }
+  catch (err) { $('#muralMsg').innerHTML = `<div class="msg err">${esc(err.message)}</div>`; } b.disabled = false; };
+mural();
+
+/* ---------- mapas e botões ---------- */
+const gmaps = l => 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(l.nome + ', ' + l.end);
+const waze = l => 'https://waze.com/ul?navigate=yes&q=' + encodeURIComponent(l.end);
+$$('[data-maps]').forEach(el => { const l = CONFIG.LOCAIS[el.dataset.maps]; el.innerHTML = `<a class="btn sm" target="_blank" rel="noopener" href="${gmaps(l)}">${ico('pin')} Google Maps</a><a class="btn out sm" target="_blank" rel="noopener" href="${waze(l)}">Waze</a>`; });
+$('#maps').innerHTML = Object.entries(CONFIG.LOCAIS).map(([k, l]) => `<div><h3>${k === 'ig' ? 'Cerimônia' : 'Recepção'} · ${esc(l.nome)}</h3><p class="muted small" style="margin:0 0 10px">${esc(l.end)}</p>
+  <div class="map"><div class="fb"><div>${ico('pin')}<br><b>${esc(l.nome)}</b><br><a class="btn sm" style="margin-top:10px" target="_blank" rel="noopener" href="${gmaps(l)}">Abrir no Google Maps</a></div></div>
+  ${CONFIG.MAPA_EMBED ? `<iframe loading="lazy" title="Mapa ${esc(l.nome)}" style="position:relative" src="https://www.google.com/maps?q=${encodeURIComponent(l.end)}&output=embed"></iframe>` : ''}</div>
+  <div class="acts" style="margin-top:10px"><a class="btn sm" target="_blank" rel="noopener" href="${gmaps(l)}">Ver no Google Maps</a><a class="btn out sm" target="_blank" rel="noopener" href="${waze(l)}">Ir com Waze</a></div></div>`).join('');
+
+/* ---------- FAQ ---------- */
+$('#faqList').innerHTML = CONFIG.FAQ.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('');
+
+/* =================== PAINEL DO CASAL =================== */
+let senha = '', P = null, aba = 'resumo';
+function rota() { if (location.hash === '#painel') { $('#adm').classList.remove('hide'); document.body.style.overflow = 'hidden'; P ? painel() : login(); } else { $('#adm').classList.add('hide'); document.body.style.overflow = ''; } }
+window.addEventListener('hashchange', rota); rota();
+function topo(tabs = '') { return `<div class="top"><span class="mono">L &amp; A</span><div class="tabs">${tabs}</div><a class="btn out sm" style="color:#fff;border-color:rgba(255,255,255,.5)" href="#inicio">Voltar ao site</a></div>`; }
+function login(err = '') {
+  $('#adm').innerHTML = topo() + `<div class="body"><form class="card" id="admF" style="max-width:420px;margin:40px auto"><h3 style="font-size:28px">Painel do casal</h3><p class="muted small">Área exclusiva de Luan e Amanda.</p>
+    <label for="admS">Senha</label><input id="admS" type="password" autocomplete="current-password" required><button class="btn" style="width:100%;margin-top:14px">Entrar</button>${err ? `<div class="msg err">${esc(err)}</div>` : ''}</form></div>`;
+  $('#admS').focus();
+  $('#admF').onsubmit = async e => { e.preventDefault(); senha = $('#admS').value; e.target.querySelector('button').disabled = true;
+    try { P = await api('painel', { senha }); painel(); } catch (x) { login(x.message); } };
+}
+async function recarregar() { P = await api('painel', { senha }); painel(); }
+const stTag = s => `<span class="tag ${s === 'Confirmado' ? 'c' : s === 'Não vai' ? 'n' : ''}">${esc(s)}</span>`;
+const waLink = (tel, txt) => { const t = String(tel || '').replace(/\D/g, ''); return 'https://wa.me/' + (t ? (t.length <= 11 ? '55' + t : t) : '') + '?text=' + encodeURIComponent(txt); };
+const txtConvite = g => `Olá, ${g.nome.split(' ')[0]}! Com muita alegria convidamos você para o nosso casamento, dia 09/01/2027 às 14h. Todas as informações e a confirmação de presença estão no seu convite: ${linkConvite(g.codigo)}\nCom carinho, Luan & Amanda`;
+const txtLembrete = g => `Oi, ${g.nome.split(' ')[0]}! Passando para lembrar de confirmar sua presença no casamento de Luan & Amanda até 20/12. É rapidinho pelo link: ${linkConvite(g.codigo)}`;
+function painel() {
+  const tabs = [['resumo', 'Resumo'], ['conv', 'Convidados'], ['pres', 'Presentes'], ['msg', 'Recados'], ['fotos', 'Fotos'], ['div', 'Convite e QR Code']];
+  const pend = P.mensagens.filter(m => !m.aprovado).length + P.fotos.filter(f => !f.aprovado).length;
+  $('#adm').innerHTML = topo(tabs.map(([k, l]) => `<button class="${aba === k ? 'on' : ''}" data-tab="${k}">${l}${(k === 'msg' || k === 'fotos') && pend ? ' •' : ''}</button>`).join('')) + `<div class="body" id="admB"></div>`;
+  $$('[data-tab]').forEach(b => b.onclick = () => { aba = b.dataset.tab; painel(); });
+  const B = $('#admB'), C = P.convidados;
+  const n = s => C.filter(g => g.status === s).length, conf = C.filter(g => g.status === 'Confirmado');
+  if (aba === 'resumo') {
+    const tot = C.length || 1, pc = s => (n(s) / tot * 100).toFixed(1) + '%';
+    const soma = P.presentes.reduce((a, p) => a + Number(p.valor || 0), 0);
+    B.innerHTML = `<h3 style="font-size:30px">Resumo</h3>
+      <div class="stats"><div class="stat"><b>${C.length}</b><span>Convidados na lista</span></div><div class="stat"><b style="color:var(--ok)">${n('Confirmado')}</b><span>Confirmados (${conf.filter(g => g.tipo === 'Adulto').length} adultos · ${conf.filter(g => g.tipo === "Criança").length} criança(s))</span></div>
+      <div class="stat"><b style="color:var(--no)">${n('Não vai')}</b><span>Não vão</span></div><div class="stat"><b>${n('Pendente')}</b><span>Pendentes</span></div>
+      <div class="stat"><b>${brl(soma)}</b><span>Presentes informados (${P.presentes.length})</span></div><div class="stat"><b>${pend}</b><span>Recados/fotos aguardando aprovação</span></div></div>
+      <div class="bar" role="img" aria-label="Proporção de respostas"><i style="width:${pc('Confirmado')};background:var(--ok)"></i><i style="width:${pc('Não vai')};background:#d39a92"></i><i style="width:${pc('Pendente')};background:var(--silver)"></i></div>
+      <p class="muted small">Prazo de confirmação: 20/12/2026. ${DEMO ? '' : 'A lista completa fica na sua Planilha Google, que pode ser baixada em Excel (Arquivo → Fazer download → .xlsx).'}</p>
+      <h3 style="margin-top:20px">Respostas recentes</h3>${tabela(C.filter(g => g.respondidoEm).sort((a, b) => String(b.respondidoEm).localeCompare(String(a.respondidoEm))).slice(0, 8), false)}`;
+  }
+  if (aba === 'conv') {
+    B.innerHTML = `<div class="tools"><input id="fq" placeholder="Buscar nome"><select id="fs"><option value="">Todos</option><option>Confirmado</option><option>Não vai</option><option>Pendente</option></select>
+      <button class="btn sm out" id="csv">Exportar planilha (CSV)</button></div>
+      <details class="card" style="margin-bottom:16px;padding:16px"><summary style="cursor:pointer;font-weight:600">+ Adicionar convidado</summary>
+      <form id="addF" class="row" style="margin-top:12px"><input id="an" placeholder="Nome completo" required><select id="at"><option>Adulto</option><option>Criança</option></select><input id="ar" placeholder="Responsável (se criança): nome ou código"><input id="ap" placeholder="WhatsApp com DDD" inputmode="tel"><button class="btn" style="flex:0 0 auto">Adicionar</button></form></details>
+      <div id="tbl"></div><div id="csvOut"></div>`;
+    const draw = () => { const q = N($('#fq').value), s = $('#fs').value; $('#tbl').innerHTML = tabela(C.filter(g => (!q || N(g.nome).includes(q)) && (!s || g.status === s)), true); };
+    $('#fq').oninput = draw; $('#fs').onchange = draw; draw();
+    $('#addF').onsubmit = async e => { e.preventDefault(); await api('adicionarConvidado', { senha, nome: $('#an').value, tipo: $('#at').value, responsavel: $('#ar').value, telefone: $('#ap').value }); recarregar(); };
+    $('#csv').onclick = () => { const linhas = [['Codigo', 'Nome', 'Tipo', 'Responsavel', 'Telefone', 'Status', 'Respondido em', 'Observacao', 'Link do convite'], ...C.map(g => [g.codigo, g.nome, g.tipo, g.responsavel, g.telefone, g.status, g.respondidoEm ? dt(g.respondidoEm) : '', g.obs, linkConvite(g.codigo)])];
+      const csv = '﻿' + linhas.map(l => l.map(v => '"' + String(v ?? '').replace(/"/g, '""') + '"').join(';')).join('\r\n');
+      const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' })); a.download = 'convidados-luan-amanda.csv'; document.body.appendChild(a); a.click(); a.remove();
+      $('#csvOut').innerHTML = '<p class="muted small">Se o download não começar, use a Planilha Google (Arquivo → Fazer download → Excel).</p>'; };
+  }
+  if (aba === 'pres') {
+    const soma = P.presentes.reduce((a, p) => a + Number(p.valor || 0), 0);
+    B.innerHTML = `<h3 style="font-size:30px">Presentes informados · ${brl(soma)}</h3><p class="muted small">Registrados quando o convidado clica em "Já fiz o Pix". Confira no extrato do banco: o Pix direto não é confirmado automaticamente.</p>
+      ${P.presentes.length ? `<table class="stack"><thead><tr><th>Data</th><th>Quem</th><th>Presente</th><th>Valor</th><th>Recado</th></tr></thead><tbody>${P.presentes.slice().reverse().map(p => `<tr><td>${dt(p.data)}</td><td>${esc(p.nome || '(anônimo)')}</td><td>${esc(p.presente)}</td><td class="num">${brl(p.valor)}</td><td>${esc(p.mensagem)}</td></tr>`).join('')}</tbody></table>` : '<div class="empty">Nenhum presente informado ainda.</div>'}`;
+  }
+  if (aba === 'msg') {
+    const ms = P.mensagens.slice().sort((a, b) => a.aprovado - b.aprovado);
+    B.innerHTML = `<h3 style="font-size:30px">Recados do mural</h3>${ms.length ? `<div class="mod">${ms.map(m => `<div class="card"><p style="margin:0 0 8px">${esc(m.texto)}</p><small class="muted">${esc(m.nome)} · ${dt(m.data)}</small><div class="acts" style="margin-top:10px">${m.aprovado ? '<span class="tag c">publicado</span>' : `<button class="btn sm" data-mod="msg:aprovar:${esc(m.id)}">Aprovar</button>`}<button class="btn sm out" data-mod="msg:excluir:${esc(m.id)}">Excluir</button></div></div>`).join('')}</div>` : '<div class="empty">Nenhum recado ainda.</div>'}`;
+  }
+  if (aba === 'fotos') {
+    const fs = P.fotos.slice().sort((a, b) => a.aprovado - b.aprovado);
+    B.innerHTML = `<h3 style="font-size:30px">Fotos dos convidados</h3>${fs.length ? `<div class="mod">${fs.map(f => `<div class="card"><img src="${esc(fotoUrl(f))}" alt="Foto de ${esc(f.nome)}"><small class="muted">${esc(f.nome)} · ${dt(f.data)}</small><div class="acts" style="margin-top:10px">${f.aprovado ? '<span class="tag c">publicada</span>' : `<button class="btn sm" data-mod="foto:aprovar:${esc(f.id)}">Aprovar</button>`}<button class="btn sm out" data-mod="foto:excluir:${esc(f.id)}">Excluir</button></div></div>`).join('')}</div>` : '<div class="empty">Nenhuma foto enviada ainda.</div>'}`;
+  }
+  if (aba === 'div') {
+    B.innerHTML = `<div class="ev"><div class="card"><h3>QR Code do site</h3><p class="muted small">Para imprimir no convite, na mesa ou no telão.</p><div class="qr">${qrSvg(siteUrl())}</div><div class="copy"><input readonly value="${esc(siteUrl())}"><button class="btn sm" id="cpS">Copiar</button></div></div>
+      <div class="card"><h3>Convite digital pelo WhatsApp</h3><p class="muted small">Na aba Convidados, cada pessoa tem o botão "Convite", que abre o WhatsApp com a mensagem e o link individual. Para compartilhar o site em grupos:</p>
+      <textarea rows="5" id="txtG">Com muita alegria convidamos você para o casamento de Luan & Amanda, dia 09/01/2027! Todas as informações estão no site: ${siteUrl()}</textarea>
+      <a class="btn" style="margin-top:12px" target="_blank" rel="noopener" id="waG" href="#">${ico('wa')} Compartilhar no WhatsApp</a></div></div>`;
+    $('#cpS').onclick = e => copiar(siteUrl(), e.currentTarget);
+    const up = () => $('#waG').href = 'https://wa.me/?text=' + encodeURIComponent($('#txtG').value); $('#txtG').oninput = up; up();
+  }
+  B.onclick = async e => {
+    const m = e.target.closest('[data-mod]'); if (m) { const [t, a, id] = m.dataset.mod.split(':'); m.disabled = true; await api('moderar', { senha, tipo: t === 'foto' ? 'foto' : 'msg', acao: a, id }); return recarregar(); }
+    const c = e.target.closest('[data-cp]'); if (c) return copiar(linkConvite(c.dataset.cp), c);
+    const d = e.target.closest('[data-del]'); if (d) { if (d.dataset.ok) { await api('excluirConvidado', { senha, codigo: d.dataset.del }); return recarregar(); } d.dataset.ok = 1; d.textContent = 'Confirmar exclusão'; }
+  };
+}
+function tabela(lista, acoes) {
+  if (!lista.length) return '<div class="empty">Nenhum convidado aqui.</div>';
+  return `<table class="stack"><thead><tr><th>Nome</th><th>Tipo</th><th>Status</th><th>Respondido</th><th>Recado</th>${acoes ? '<th>Ações</th>' : ''}</tr></thead><tbody>${lista.map(g => `<tr>
+    <td><b>${esc(g.nome)}</b><br><small class="muted">${esc(g.codigo)}</small></td><td>${esc(g.tipo)}${g.responsavel ? `<br><small class="muted">resp.: ${esc(g.responsavel)}</small>` : ''}</td><td>${stTag(g.status)}</td><td>${g.respondidoEm ? dt(g.respondidoEm) : ''}</td><td>${esc(g.obs || '')}</td>
+    ${acoes ? `<td><div class="acts">${g.tipo === 'Criança' ? '' : `<a class="btn sm" target="_blank" rel="noopener" href="${waLink(g.telefone, txtConvite(g))}">Convite</a>${g.status === 'Pendente' ? `<a class="btn sm out" target="_blank" rel="noopener" href="${waLink(g.telefone, txtLembrete(g))}">Lembrete</a>` : ''}<button class="btn sm out" data-cp="${esc(g.codigo)}">Copiar link</button>`}<button class="btn sm out" data-del="${esc(g.codigo)}">Excluir</button></div></td>` : ''}</tr>`).join('')}</tbody></table>`;
+}
+}
+</script>
+</body>
+</html>
