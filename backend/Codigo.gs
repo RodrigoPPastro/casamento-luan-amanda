@@ -131,6 +131,20 @@ function filhoDe(x, g) {
   return !!r && (r.toUpperCase() === String(g.Codigo).toUpperCase() || norm(r) === norm(g.Nome));
 }
 
+/** Devolve o código de quem recebe o convite (sobe até o responsável principal). */
+function raizConvite(todos, ref) {
+  ref = String(ref || '').trim();
+  if (!ref) return '';
+  let p = todos.find(x => String(x.Codigo).toUpperCase() === ref.toUpperCase() || norm(x.Nome) === norm(ref));
+  for (let i = 0; p && p.Responsavel && i < 5; i++) {
+    const r = String(p.Responsavel).trim();
+    const q = todos.find(x => x !== p && (String(x.Codigo).toUpperCase() === r.toUpperCase() || norm(x.Nome) === norm(r)));
+    if (!q) break; p = q;
+  }
+  if (!p) throw new Error('Não encontrei "' + ref + '" na lista.');
+  return p.Codigo;
+}
+
 function exigeAdmin(req) {
   if (String(req.senha || '') !== SENHA_ADMIN) throw new Error('Senha incorreta');
 }
@@ -149,6 +163,16 @@ function achaConvidado(req) {
     if (achados.length === 1) g = achados[0];
   }
   return { g, todos };
+}
+
+function salvarFoto(imagem, codigo, nome, legenda, aprovado) {
+  const m = String(imagem || '').match(/^data:(image\/(jpeg|png|webp));base64,(.+)$/);
+  if (!m) throw new Error('Arquivo de imagem inválido.');
+  const bytes = Utilities.base64Decode(m[3]);
+  if (bytes.length > 8 * 1024 * 1024) throw new Error('Foto muito grande.');
+  const arq = pastaFotos().createFile(Utilities.newBlob(bytes, m[1], nome + ' ' + Date.now() + '.' + m[2]));
+  arq.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  aba('Fotos').appendRow([novoId(), new Date(), codigo, nome, arq.getId(), String(legenda || '').slice(0, 140), aprovado]);
 }
 
 /* ---------- ações públicas ---------- */
@@ -207,16 +231,16 @@ const ACOES = {
   },
 
   enviarFoto(req) {
-    const { g } = achaConvidado({ codigo: req.codigo });
-    if (!g) throw new Error('Só convidados podem enviar fotos. Use o link do seu convite.');
-    const m = String(req.imagem || '').match(/^data:(image\/(jpeg|png|webp));base64,(.+)$/);
-    if (!m) throw new Error('Arquivo de imagem inválido.');
-    const bytes = Utilities.base64Decode(m[3]);
-    if (bytes.length > 8 * 1024 * 1024) throw new Error('Foto muito grande.');
-    const pasta = pastaFotos();
-    const arq = pasta.createFile(Utilities.newBlob(bytes, m[1], g.Nome + ' ' + Date.now() + '.' + m[2]));
-    arq.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-    aba('Fotos').appendRow([novoId(), new Date(), g.Codigo, g.Nome, arq.getId(), String(req.legenda || '').slice(0, 140), '']);
+    const { g } = req.codigo ? achaConvidado({ codigo: req.codigo }) : { g: null };
+    const nome = g ? g.Nome : String(req.nome || '').trim().slice(0, 60);
+    if (nome.length < 2) throw new Error('Escreva seu nome.');
+    salvarFoto(req.imagem, g ? g.Codigo : '', nome, req.legenda, '');
+    return { ok: true };
+  },
+
+  adminEnviarFoto(req) {
+    exigeAdmin(req);
+    salvarFoto(req.imagem, '', 'Luan & Amanda', req.legenda, 'SIM');
     return { ok: true };
   },
 
@@ -258,16 +282,44 @@ const ACOES = {
     const nome = String(req.nome || '').trim();
     if (!nome) throw new Error('Informe o nome.');
     const todos = linhas('Convidados');
+    const resp = raizConvite(todos, req.responsavel);
+    if (req.tipo === 'Criança' && !resp) throw new Error('Criança precisa estar no convite de um adulto.');
     const codigo = novoCodigo(new Set(todos.map(x => x.Codigo)));
     aba('Convidados').appendRow([codigo, nome, req.tipo === 'Criança' ? 'Criança' : 'Adulto',
-      String(req.responsavel || ''), String(req.telefone || ''), 'Pendente', '', '']);
+      resp, String(req.telefone || ''), 'Pendente', '', '']);
     return { codigo };
+  },
+
+  editarConvidado(req) {
+    exigeAdmin(req);
+    const todos = linhas('Convidados');
+    const g = todos.find(x => x.Codigo === req.codigo);
+    if (!g) throw new Error('Convidado não encontrado.');
+    const nome = String(req.nome || '').trim();
+    if (!nome) throw new Error('Informe o nome.');
+    const temMembros = todos.some(x => x !== g && filhoDe(x, g));
+    let resp = temMembros ? '' : raizConvite(todos, req.responsavel);
+    if (resp === g.Codigo) resp = '';
+    if (req.tipo === 'Criança' && !resp) throw new Error('Criança precisa estar no convite de um adulto.');
+    const L = g._linha;
+    setCampo('Convidados', L, 'Nome', nome);
+    setCampo('Convidados', L, 'Tipo', req.tipo === 'Criança' ? 'Criança' : 'Adulto');
+    setCampo('Convidados', L, 'Responsavel', resp);
+    setCampo('Convidados', L, 'Telefone', String(req.telefone || ''));
+    if (req.status && req.status !== (g.Status || 'Pendente')) {
+      setCampo('Convidados', L, 'Status', req.status);
+      setCampo('Convidados', L, 'RespondidoEm', req.status === 'Pendente' ? '' : new Date());
+    }
+    return { ok: true };
   },
 
   excluirConvidado(req) {
     exigeAdmin(req);
-    const g = linhas('Convidados').find(x => x.Codigo === req.codigo);
-    if (g) aba('Convidados').deleteRow(g._linha);
+    const todos = linhas('Convidados');
+    const g = todos.find(x => x.Codigo === req.codigo);
+    if (!g) return { ok: true };
+    todos.filter(x => x !== g && filhoDe(x, g)).forEach(x => setCampo('Convidados', x._linha, 'Responsavel', ''));
+    aba('Convidados').deleteRow(g._linha);
     return { ok: true };
   },
 };

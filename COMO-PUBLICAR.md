@@ -18,14 +18,13 @@ Enquanto o passo 1 não for feito, o site roda em **modo demonstração**: tudo 
 No GitHub, abra `index.html` → ícone de lápis (Edit) → procure `API_URL: ''` e cole a URL entre as aspas → **Commit changes**.
 
 ## 3. Colocar a lista de convidados
-Na aba **Convidados** da planilha, uma pessoa por linha, a partir da linha 2:
-- **Nome**: nome completo, como no convite
-- **Tipo**: Adulto ou Criança
-- **Responsavel**: só para criança, com o nome completo do adulto responsável
-- **Telefone**: WhatsApp com DDD, ex.: 21985741380
+O jeito mais fácil é pelo **Painel do Casal → Convidados → Adicionar convidado**:
+- **Pessoa sozinha:** nome, WhatsApp e "Convite próprio".
+- **Família:** cadastre primeiro quem recebe o convite (com o WhatsApp). O campo de convite já fica em "Junto com: Fulano", então é só ir adicionando a esposa, o marido e os filhos, quantos forem. Quem recebe o convite confirma todos de uma vez, e a mensagem do WhatsApp já sai com os nomes ("convidamos você, Fernanda, Bia e Théo").
+- Errou um nome ou telefone? Botão **Editar**. Lá também dá pra mudar a pessoa de convite e marcar a presença de quem confirmou por telefone.
+- **Excluir** remove só aquela pessoa. Se for quem recebe o convite, o resto da família continua na lista, cada um com convite próprio.
 
-Deixe a coluna **Codigo** vazia. Depois, no Apps Script, rode a função **gerarCodigosFaltantes**: cada convidado ganha um código e um link próprio.
-Também dá para adicionar convidados um a um pelo Painel do Casal.
+Também dá pra colar uma lista grande direto na aba **Convidados** da planilha: Nome, Tipo (Adulto/Criança), Responsavel (nome completo de quem recebe o convite; vazio para quem recebe), Telefone. Depois rode **gerarCodigosFaltantes** no Apps Script.
 
 ## 4. Painel do Casal
 Endereço do site + `#painel` (ou o link "Painel" no menu), com a senha do passo 1. Lá vocês têm:
@@ -33,7 +32,8 @@ Endereço do site + `#painel` (ou o link "Painel" no menu), com a senha do passo
 - botões **Convite** e **Lembrete**, que abrem o WhatsApp com a mensagem e o link individual
 - a exportação da lista (CSV). A planilha também baixa em Excel: Arquivo → Fazer download → .xlsx
 - os presentes informados e o total
-- a aprovação de recados e fotos
+- a aprovação de recados e de fotos dos convidados (qualquer pessoa pode enviar pelo site, informando o nome, mas só aparece depois da aprovação)
+- o envio de fotos de vocês direto para a galeria (aba Fotos → Escolher fotos)
 - o QR Code do site
 
 ## 5. Trocar a foto da capa (ou da história)

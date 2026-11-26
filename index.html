@@ -200,9 +200,10 @@ footer .soc a{display:inline-flex;align-items:center;gap:8px;border:1px solid rg
 .adm .top{position:sticky;top:0;background:var(--navy);color:#fff;display:flex;align-items:center;gap:12px;padding:10px max(3vw,14px);z-index:2;flex-wrap:wrap}
 .adm .top .mono{color:#fff;font-size:30px}
 .adm .tabs{display:flex;gap:4px;overflow-x:auto;flex:1}
-.adm .tabs button{background:none;border:0;color:#cfdaf0;font:600 15px Lora;padding:10px 14px;border-radius:999px;cursor:pointer;white-space:nowrap;min-height:44px}
+.adm .tabs button{flex:none;background:none;border:0;color:#cfdaf0;font:600 15px Lora;padding:10px 14px;border-radius:999px;cursor:pointer;white-space:nowrap;min-height:44px}
 .adm .tabs button.on{background:rgba(255,255,255,.16);color:#fff}
 .adm .body{max-width:1180px;margin:0 auto;padding:24px max(3vw,14px) 60px}
+@media(max-width:700px){.adm .tabs{order:3;flex:1 1 100%}.adm .top .btn{margin-left:auto}}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:22px}
 .stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
 .stat b{display:block;font:600 36px/1 "Cormorant Garamond",serif;color:var(--navy)}
@@ -347,7 +348,7 @@ td.num{text-align:right;white-space:nowrap}
   <div class="fl" data-seed="44" style="left:-60px;top:30px;transform:rotate(10deg)"></div>
   <div class="wrap">
     <h2>Confirme sua presença</h2>
-    <p class="lead">Pedimos que confirme até <b>20 de dezembro de 2026</b>. O convite é individual, e as crianças são confirmadas pelo responsável.</p>
+    <p class="lead">Pedimos que confirme até <b>20 de dezembro de 2026</b>. Quem recebe o convite confirma de uma vez todas as pessoas incluídas nele.</p>
     <div class="orn"><svg class="ico"><use href="#i-heart"/></svg></div>
     <div class="card rsvp" id="rsvp"></div>
   </div>
@@ -369,8 +370,8 @@ td.num{text-align:right;white-space:nowrap}
     <div class="orn"><svg class="ico"><use href="#i-cam"/></svg></div>
     <div class="gal" id="gal"></div>
     <div class="upl card">
-      <div><h3>Tem uma foto com a gente?</h3><span class="muted small">Envie pelo site. Ela aparece aqui depois que os noivos aprovarem.</span></div>
-      <div><input type="file" id="fotoIn" accept="image/*" multiple class="hide"><button class="btn" id="fotoBtn"><svg class="ico"><use href="#i-cam"/></svg> Enviar fotos</button></div>
+      <div><h3>Tem uma foto com a gente?</h3><span class="muted small">Qualquer pessoa pode enviar. A foto aparece aqui depois que os noivos aprovarem.</span></div>
+      <div class="row" style="flex:1 1 360px;justify-content:flex-end;align-items:center"><input id="fotoNome" placeholder="Seu nome" autocomplete="name" style="flex:1 1 180px"><input type="file" id="fotoIn" accept="image/*" multiple class="hide"><button class="btn" id="fotoBtn" style="flex:0 0 auto"><svg class="ico"><use href="#i-cam"/></svg> Enviar fotos</button></div>
       <div id="fotoMsg" style="flex-basis:100%"></div>
     </div>
   </div>
@@ -465,8 +466,8 @@ const CONFIG = {
     ['Qual é o traje?', 'Esporte fino. Como a cerimônia será na igreja, não serão permitidas roupas curtas.'],
     ['Há alguma cor que devo evitar?', 'Sim: branco (reservado à noiva) e azul serenity (cor das madrinhas).'],
     ['Que horas devo chegar à igreja?', 'Às 13h30, com 30 minutos de antecedência. A cerimônia começa às 14h.'],
-    ['Posso levar acompanhante?', 'O convite é individual: somente as pessoas da lista. Pedimos a compreensão de todos.'],
-    ['Crianças podem ir?', 'Sim, as crianças são convidadas! A presença delas é confirmada pelo responsável.'],
+    ['Posso levar acompanhante?', 'Somente as pessoas que aparecem no seu convite ao confirmar a presença. Pedimos a compreensão de todos.'],
+    ['Crianças podem ir?', 'Sim, as crianças são convidadas! A presença delas é confirmada por quem recebeu o convite da família.'],
     ['Até quando posso confirmar? Posso mudar a resposta?', 'Confirme até 20 de dezembro de 2026. Até essa data você pode mudar a resposta quantas vezes precisar, pelo mesmo link.'],
     ['Tem estacionamento?', 'Sim. Na igreja há estacionamento na frente; na festa, estacionamento na rua do sítio.'],
     ['Há acessibilidade?', 'Sim, há rampa de acesso para pessoas com mobilidade reduzida.'],
@@ -540,11 +541,14 @@ async function api(action, payload = {}) {
   return j.data;
 }
 function db() {
-  return store.get('db', {
+  return store.get('db2', {
     convidados: [
       { codigo: 'DEMO01', nome: 'Maria Silva', tipo: 'Adulto', responsavel: '', telefone: '21999990001', status: 'Pendente', obs: '' },
       { codigo: 'DEMO02', nome: 'Pedro Silva', tipo: 'Criança', responsavel: 'DEMO01', telefone: '', status: 'Pendente', obs: '' },
       { codigo: 'DEMO03', nome: 'João Souza', tipo: 'Adulto', responsavel: '', telefone: '21999990002', status: 'Confirmado', respondidoEm: new Date().toISOString(), obs: '' },
+      { codigo: 'DEMO05', nome: 'Ana Souza', tipo: 'Adulto', responsavel: 'DEMO03', telefone: '', status: 'Confirmado', respondidoEm: new Date().toISOString(), obs: '' },
+      { codigo: 'DEMO06', nome: 'Lucas Souza', tipo: 'Criança', responsavel: 'DEMO03', telefone: '', status: 'Confirmado', respondidoEm: new Date().toISOString(), obs: '' },
+      { codigo: 'DEMO07', nome: 'Sofia Souza', tipo: 'Criança', responsavel: 'DEMO03', telefone: '', status: 'Pendente', obs: '' },
       { codigo: 'DEMO04', nome: 'Carla Mendes', tipo: 'Adulto', responsavel: '', telefone: '21999990003', status: 'Não vai', respondidoEm: new Date().toISOString(), obs: 'Estarei viajando, mas torcendo muito!' },
     ],
     mensagens: [{ id: 'm1', data: new Date().toISOString(), nome: 'João Souza', texto: 'Que Deus abençoe essa união! Felicidades ao casal.', aprovado: true }],
@@ -554,7 +558,7 @@ function db() {
 const N = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
 async function demo(a, p) {
   await new Promise(r => setTimeout(r, 250));
-  const d = db(), save = () => store.set('db', d), pub = g => ({ codigo: g.codigo, nome: g.nome, tipo: g.tipo, status: g.status });
+  const d = db(), save = () => store.set('db2', d), pub = g => ({ codigo: g.codigo, nome: g.nome, tipo: g.tipo, status: g.status });
   const find = q => d.convidados.find(g => (q.codigo && g.codigo === String(q.codigo).toUpperCase().trim()) || (q.nome && N(g.nome) === N(q.nome)));
   const filho = (x, g) => x.responsavel && (x.responsavel === g.codigo || N(x.responsavel) === N(g.nome));
   const adm = () => { if (p.senha !== 'demo') throw new Error('Senha incorreta'); };
@@ -568,7 +572,7 @@ async function demo(a, p) {
     case 'listarMensagens': return d.mensagens.filter(m => m.aprovado).map(m => ({ nome: m.nome, texto: m.texto, data: m.data })).reverse();
     case 'enviarMensagem': { const g = find(p); if (!g) throw new Error('Só convidados podem deixar recados.'); d.mensagens.push({ id: 'm' + Date.now(), data: new Date().toISOString(), nome: g.nome, texto: p.texto, aprovado: false }); save(); return { ok: true }; }
     case 'listarFotos': return d.fotos.filter(f => f.aprovado).map(f => ({ src: f.src, nome: f.nome, legenda: f.legenda })).reverse();
-    case 'enviarFoto': { const g = find(p); if (!g) throw new Error('Só convidados podem enviar fotos.'); d.fotos.push({ id: 'f' + Date.now(), data: new Date().toISOString(), nome: g.nome, src: p.imagem, legenda: p.legenda || '', aprovado: false });
+    case 'enviarFoto': case 'adminEnviarFoto': { const g = p.codigo && find(p), adm2 = a === 'adminEnviarFoto'; if (adm2) adm(); const nome = adm2 ? 'Luan & Amanda' : g ? g.nome : String(p.nome || '').trim(); if (!nome) throw new Error('Escreva seu nome.'); d.fotos.push({ id: 'f' + Date.now() + Math.random().toString(36).slice(2, 6), data: new Date().toISOString(), nome, src: p.imagem, legenda: p.legenda || '', aprovado: adm2 });
       try { save(); } catch { throw new Error('Sem espaço no modo demonstração.'); } return { ok: true }; }
     case 'registrarPresente': d.presentes.push({ id: 'p' + Date.now(), data: new Date().toISOString(), nome: p.nome, presente: p.presente, valor: p.valor, mensagem: p.mensagem }); save(); return { ok: true };
     case 'painel': adm(); return { convidados: d.convidados, mensagens: d.mensagens, fotos: d.fotos.map(f => ({ ...f, arquivo: '' })), presentes: d.presentes };
@@ -576,7 +580,9 @@ async function demo(a, p) {
       if (i >= 0) { if (p.acao === 'aprovar') d[k][i].aprovado = true; else d[k].splice(i, 1); } save(); return { ok: true }; }
     case 'adicionarConvidado': { adm(); const L = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let c; do { c = Array.from({ length: 6 }, () => L[Math.floor(Math.random() * L.length)]).join(''); } while (d.convidados.some(x => x.codigo === c));
       d.convidados.push({ codigo: c, nome: p.nome, tipo: p.tipo, responsavel: p.responsavel || '', telefone: p.telefone || '', status: 'Pendente', obs: '' }); save(); return { codigo: c }; }
-    case 'excluirConvidado': adm(); d.convidados = d.convidados.filter(x => x.codigo !== p.codigo); save(); return { ok: true };
+    case 'excluirConvidado': { adm(); const g = d.convidados.find(x => x.codigo === p.codigo); if (g) d.convidados.forEach(x => { if (filho(x, g)) x.responsavel = ''; }); d.convidados = d.convidados.filter(x => x.codigo !== p.codigo); save(); return { ok: true }; }
+    case 'editarConvidado': { adm(); const g = d.convidados.find(x => x.codigo === p.codigo); if (!g) throw new Error('Convidado não encontrado.');
+      Object.assign(g, { nome: p.nome, tipo: p.tipo, telefone: p.telefone, responsavel: p.responsavel || '' }); if (p.status && p.status !== g.status) { g.status = p.status; g.respondidoEm = new Date().toISOString(); } save(); return { ok: true }; }
   }
   throw new Error('Ação inválida');
 }
@@ -588,7 +594,7 @@ const linkConvite = c => siteUrl() + '?c=' + encodeURIComponent(c);
 let eu = null;
 const codigoUrl = new URLSearchParams(location.search).get('c') || (location.hash.match(/^#c-([A-Za-z0-9]+)$/) || [])[1];
 function setEu(info) { eu = info; store.set('eu', { codigo: info.convidado.codigo }); quem(); }
-function quem() { $('#muralWho').textContent = eu ? 'Enviando como ' + eu.convidado.nome : 'Use o link do seu convite ou confirme sua presença para enviar.'; }
+function quem() { if ($('#fotoNome')) { $('#fotoNome').classList.toggle('hide', !!eu); } $('#muralWho').textContent = eu ? 'Enviando como ' + eu.convidado.nome : 'Use o link do seu convite ou confirme sua presença para enviar.'; }
 quem();
 
 /* ---------- RSVP ---------- */
@@ -680,8 +686,8 @@ function presente(p) {
 let fotos = [], idx = 0;
 async function galeria() {
   let conv = []; try { conv = await api('listarFotos'); } catch {}
-  fotos = [...CONFIG.FOTOS_CASAL.map(f => ({ src: f.src, legenda: f.legenda })), ...conv.map(f => ({ src: fotoUrl(f), legenda: (f.legenda ? f.legenda + ' · ' : '') + 'por ' + f.nome }))];
-  $('#gal').innerHTML = fotos.map((f, i) => `<button data-i="${i}" aria-label="Ampliar foto"><img loading="lazy" src="${esc(f.src)}" alt="${esc(f.legenda)}"></button>`).join('');
+  fotos = [...CONFIG.FOTOS_CASAL.map(f => ({ src: f.src, legenda: f.legenda })), ...conv.map(f => ({ src: fotoUrl(f), legenda: [f.legenda, f.nome && f.nome !== 'Luan & Amanda' ? 'por ' + f.nome : ''].filter(Boolean).join(' · ') }))];
+  $('#gal').innerHTML = fotos.map((f, i) => `<button data-i="${i}" aria-label="Ampliar foto"><img loading="lazy" src="${esc(f.src)}" alt="${esc(f.legenda || 'Foto de Luan e Amanda')}"></button>`).join('');
 }
 $('#gal').addEventListener('click', e => { const b = e.target.closest('[data-i]'); if (b) lb(+b.dataset.i); });
 function lb(i) { idx = (i + fotos.length) % fotos.length; $('#lbImg').src = fotos[idx].src; $('#lbCap').textContent = fotos[idx].legenda || ''; $('#lb').classList.remove('hide'); }
@@ -691,10 +697,10 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') { fechar(); 
 galeria();
 
 function reduzir(file) { return new Promise((ok, no) => { const img = new Image(); img.onload = () => { const m = 1600, s = Math.min(1, m / Math.max(img.width, img.height)); const c = document.createElement('canvas'); c.width = Math.round(img.width * s); c.height = Math.round(img.height * s); c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(img.src); ok(c.toDataURL('image/jpeg', DEMO ? .6 : .82)); }; img.onerror = () => no(new Error('Não consegui abrir essa imagem.')); img.src = URL.createObjectURL(file); }); }
-$('#fotoBtn').onclick = () => { if (!eu) { $('#fotoMsg').innerHTML = '<div class="msg">Para enviar fotos, identifique-se primeiro na seção <a href="#confirmar">Confirmação</a> (ou abra o link do seu convite).</div>'; return; } $('#fotoIn').click(); };
+$('#fotoBtn').onclick = () => { if (!eu && $('#fotoNome').value.trim().length < 2) { $('#fotoMsg').innerHTML = '<div class="msg">Escreva seu nome antes de escolher as fotos.</div>'; $('#fotoNome').focus(); return; } $('#fotoMsg').innerHTML = ''; $('#fotoIn').click(); };
 $('#fotoIn').onchange = async e => { const fs = [...e.target.files].slice(0, 10); if (!fs.length) return; let n = 0;
   $('#fotoMsg').innerHTML = '<div class="msg">Enviando fotos...</div>';
-  for (const f of fs) { try { await api('enviarFoto', { codigo: eu.convidado.codigo, imagem: await reduzir(f), legenda: '' }); n++; } catch (err) { $('#fotoMsg').innerHTML = `<div class="msg err">${esc(err.message)}</div>`; } }
+  for (const f of fs) { try { await api('enviarFoto', { codigo: eu?.convidado.codigo || '', nome: eu ? '' : $('#fotoNome').value.trim(), imagem: await reduzir(f), legenda: '' }); n++; } catch (err) { $('#fotoMsg').innerHTML = `<div class="msg err">${esc(err.message)}</div>`; } }
   if (n) $('#fotoMsg').innerHTML = `<div class="msg ok">${n} foto${n > 1 ? 's enviadas' : ' enviada'}! Ela${n > 1 ? 's aparecem' : ' aparece'} aqui depois da aprovação dos noivos.</div>`;
   e.target.value = ''; };
 
@@ -737,8 +743,9 @@ function login(err = '') {
 async function recarregar() { P = await api('painel', { senha }); painel(); }
 const stTag = s => `<span class="tag ${s === 'Confirmado' ? 'c' : s === 'Não vai' ? 'n' : ''}">${esc(s)}</span>`;
 const waLink = (tel, txt) => { const t = String(tel || '').replace(/\D/g, ''); return 'https://wa.me/' + (t ? (t.length <= 11 ? '55' + t : t) : '') + '?text=' + encodeURIComponent(txt); };
-const txtConvite = g => `Olá, ${g.nome.split(' ')[0]}! Com muita alegria convidamos você para o nosso casamento, dia 09/01/2027 às 14h. Todas as informações e a confirmação de presença estão no seu convite: ${linkConvite(g.codigo)}\nCom carinho, Luan & Amanda`;
-const txtLembrete = g => `Oi, ${g.nome.split(' ')[0]}! Passando para lembrar de confirmar sua presença no casamento de Luan & Amanda até 20/12. É rapidinho pelo link: ${linkConvite(g.codigo)}`;
+const familia = g => { const ms = P ? membros(g).map(m => m.nome.split(' ')[0]) : []; return ms.length ? 'você, ' + (ms.length > 1 ? ms.slice(0, -1).join(', ') + ' e ' + ms.at(-1) : ms[0]) : 'você'; };
+const txtConvite = g => `Olá, ${g.nome.split(' ')[0]}! Com muita alegria convidamos ${familia(g)} para o nosso casamento, dia 09/01/2027 às 14h. Todas as informações e a confirmação de presença estão no seu convite: ${linkConvite(g.codigo)}\nCom carinho, Luan & Amanda`;
+const txtLembrete = g => `Oi, ${g.nome.split(' ')[0]}! Passando para lembrar de confirmar a presença ${familia(g) === 'você' ? 'sua' : 'de ' + familia(g)} no casamento de Luan & Amanda até 20/12. É rapidinho pelo link: ${linkConvite(g.codigo)}`;
 function painel() {
   const tabs = [['resumo', 'Resumo'], ['conv', 'Convidados'], ['pres', 'Presentes'], ['msg', 'Recados'], ['fotos', 'Fotos'], ['div', 'Convite e QR Code']];
   const pend = P.mensagens.filter(m => !m.aprovado).length + P.fotos.filter(f => !f.aprovado).length;
@@ -760,13 +767,23 @@ function painel() {
   if (aba === 'conv') {
     B.innerHTML = `<div class="tools"><input id="fq" placeholder="Buscar nome"><select id="fs"><option value="">Todos</option><option>Confirmado</option><option>Não vai</option><option>Pendente</option></select>
       <button class="btn sm out" id="csv">Exportar planilha (CSV)</button></div>
-      <details class="card" style="margin-bottom:16px;padding:16px"><summary style="cursor:pointer;font-weight:600">+ Adicionar convidado</summary>
-      <form id="addF" class="row" style="margin-top:12px"><input id="an" placeholder="Nome completo" required><select id="at"><option>Adulto</option><option>Criança</option></select><input id="ar" placeholder="Responsável (se criança): nome ou código"><input id="ap" placeholder="WhatsApp com DDD" inputmode="tel"><button class="btn" style="flex:0 0 auto">Adicionar</button></form></details>
+      <details class="card" style="margin-bottom:16px;padding:16px" open><summary style="cursor:pointer;font-weight:600">+ Adicionar convidado</summary>
+      <p class="muted small" style="margin:10px 0 0">Para uma família: cadastre primeiro quem recebe o convite (com o WhatsApp). Depois adicione a esposa, o marido e os filhos escolhendo <b>"Junto com"</b> essa pessoa. Ela confirma todos de uma vez.</p>
+      <form id="addF" class="row" style="margin-top:12px"><input id="an" placeholder="Nome completo" required><select id="at"><option>Adulto</option><option>Criança</option></select><input id="ap" placeholder="WhatsApp com DDD" inputmode="tel">
+      <select id="ar">${opcoesConvite('')}</select><button class="btn" style="flex:0 0 auto">Adicionar</button></form><div id="addMsg"></div></details>
       <div id="tbl"></div><div id="csvOut"></div>`;
-    const draw = () => { const q = N($('#fq').value), s = $('#fs').value; $('#tbl').innerHTML = tabela(C.filter(g => (!q || N(g.nome).includes(q)) && (!s || g.status === s)), true); };
+    const draw = () => { const q = N($('#fq').value), s = $('#fs').value; const ok = g => (!q || N(g.nome).includes(q)) && (!s || g.status === s);
+      $('#tbl').innerHTML = tabela(agrupado().filter(g => ok(g) || membros(g).some(ok) || (chefe(g) && ok(chefe(g)))), true); };
     $('#fq').oninput = draw; $('#fs').onchange = draw; draw();
-    $('#addF').onsubmit = async e => { e.preventDefault(); await api('adicionarConvidado', { senha, nome: $('#an').value, tipo: $('#at').value, responsavel: $('#ar').value, telefone: $('#ap').value }); recarregar(); };
-    $('#csv').onclick = () => { const linhas = [['Codigo', 'Nome', 'Tipo', 'Responsavel', 'Telefone', 'Status', 'Respondido em', 'Observacao', 'Link do convite'], ...C.map(g => [g.codigo, g.nome, g.tipo, g.responsavel, g.telefone, g.status, g.respondidoEm ? dt(g.respondidoEm) : '', g.obs, linkConvite(g.codigo)])];
+    $('#addF').onsubmit = async e => { e.preventDefault(); const tipo = $('#at').value, resp = $('#ar').value;
+      if (tipo === 'Criança' && !resp) { $('#addMsg').innerHTML = '<div class="msg err">Criança precisa estar "Junto com" um adulto.</div>'; return; }
+      const b = e.target.querySelector('button'); b.disabled = true;
+      try { const r = await api('adicionarConvidado', { senha, nome: $('#an').value.trim(), tipo, responsavel: resp, telefone: $('#ap').value });
+        const nome = $('#an').value.trim(); await recarregar(); aba = 'conv';
+        const alvo = resp || r.codigo; $('#ar').innerHTML = opcoesConvite(alvo); $('#addF').closest('details').open = true; $('#an').focus();
+        $('#addMsg').innerHTML = `<div class="msg ok">${esc(nome)} adicionado(a). ${resp ? '' : 'Para incluir a família, continue adicionando com "Junto com" já selecionado.'}</div>`; }
+      catch (x) { b.disabled = false; $('#addMsg').innerHTML = `<div class="msg err">${esc(x.message)}</div>`; } };
+    $('#csv').onclick = () => { const linhas = [['Codigo', 'Nome', 'Tipo', 'Convite de', 'Telefone', 'Status', 'Respondido em', 'Observacao', 'Link do convite'], ...agrupado().map(g => [g.codigo, g.nome, g.tipo, chefe(g)?.nome || '', g.telefone, g.status, g.respondidoEm ? dt(g.respondidoEm) : '', g.obs, chefe(g) && g.tipo === 'Criança' ? '' : linkConvite(g.codigo)])];
       const csv = '﻿' + linhas.map(l => l.map(v => '"' + String(v ?? '').replace(/"/g, '""') + '"').join(';')).join('\r\n');
       const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' })); a.download = 'convidados-luan-amanda.csv'; document.body.appendChild(a); a.click(); a.remove();
       $('#csvOut').innerHTML = '<p class="muted small">Se o download não começar, use a Planilha Google (Arquivo → Fazer download → Excel).</p>'; };
@@ -782,7 +799,14 @@ function painel() {
   }
   if (aba === 'fotos') {
     const fs = P.fotos.slice().sort((a, b) => a.aprovado - b.aprovado);
-    B.innerHTML = `<h3 style="font-size:30px">Fotos dos convidados</h3>${fs.length ? `<div class="mod">${fs.map(f => `<div class="card"><img src="${esc(fotoUrl(f))}" alt="Foto de ${esc(f.nome)}"><small class="muted">${esc(f.nome)} · ${dt(f.data)}</small><div class="acts" style="margin-top:10px">${f.aprovado ? '<span class="tag c">publicada</span>' : `<button class="btn sm" data-mod="foto:aprovar:${esc(f.id)}">Aprovar</button>`}<button class="btn sm out" data-mod="foto:excluir:${esc(f.id)}">Excluir</button></div></div>`).join('')}</div>` : '<div class="empty">Nenhuma foto enviada ainda.</div>'}`;
+    B.innerHTML = `<div class="card" style="margin-bottom:20px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap"><div><h3>Adicionar fotos à galeria</h3><span class="muted small">As fotos que vocês enviarem por aqui entram direto na galeria do site.</span></div>
+      <div><input type="file" id="admFotoIn" accept="image/*" multiple class="hide"><button class="btn" id="admFotoBtn">${ico('cam')} Escolher fotos</button></div><div id="admFotoMsg" style="flex-basis:100%"></div></div>
+      <h3 style="font-size:30px">Fotos da galeria</h3><p class="muted small" style="margin:0 0 12px">As enviadas pelos convidados ficam aguardando até vocês aprovarem.</p>${fs.length ? `<div class="mod">${fs.map(f => `<div class="card"><img src="${esc(fotoUrl(f))}" alt="Foto de ${esc(f.nome)}"><small class="muted">${esc(f.nome)} · ${dt(f.data)}</small><div class="acts" style="margin-top:10px">${f.aprovado ? '<span class="tag c">publicada</span>' : `<button class="btn sm" data-mod="foto:aprovar:${esc(f.id)}">Aprovar</button>`}<button class="btn sm out" data-mod="foto:excluir:${esc(f.id)}">Excluir</button></div></div>`).join('')}</div>` : '<div class="empty">Nenhuma foto enviada ainda.</div>'}`;
+    $('#admFotoBtn').onclick = () => $('#admFotoIn').click();
+    $('#admFotoIn').onchange = async e => { const fs2 = [...e.target.files].slice(0, 20); let n = 0;
+      for (const f of fs2) { $('#admFotoMsg').innerHTML = `<div class="msg">Enviando ${n + 1} de ${fs2.length}...</div>`;
+        try { await api('adminEnviarFoto', { senha, imagem: await reduzir(f), legenda: '' }); n++; } catch (x) { $('#admFotoMsg').innerHTML = `<div class="msg err">${esc(x.message)}</div>`; return; } }
+      await recarregar(); galeria(); };
   }
   if (aba === 'div') {
     B.innerHTML = `<div class="ev"><div class="card"><h3>QR Code do site</h3><p class="muted small">Para imprimir no convite, na mesa ou no telão.</p><div class="qr">${qrSvg(siteUrl())}</div><div class="copy"><input readonly value="${esc(siteUrl())}"><button class="btn sm" id="cpS">Copiar</button></div></div>
@@ -799,14 +823,38 @@ function painel() {
   B.onclick = async e => {
     const m = e.target.closest('[data-mod]'); if (m) { const [t, a, id] = m.dataset.mod.split(':'); m.disabled = true; await api('moderar', { senha, tipo: t === 'foto' ? 'foto' : 'msg', acao: a, id }); return recarregar(); }
     const c = e.target.closest('[data-cp]'); if (c) return copiar(linkConvite(c.dataset.cp), c);
-    const d = e.target.closest('[data-del]'); if (d) { if (d.dataset.ok) { await api('excluirConvidado', { senha, codigo: d.dataset.del }); return recarregar(); } d.dataset.ok = 1; d.textContent = 'Confirmar exclusão'; }
+    const ed = e.target.closest('[data-ed]'); if (ed) return editar(P.convidados.find(g => g.codigo === ed.dataset.ed));
+    const d = e.target.closest('[data-del]'); if (d) { if (d.dataset.ok) { d.disabled = true; await api('excluirConvidado', { senha, codigo: d.dataset.del }); return recarregar(); }
+      const g = P.convidados.find(x => x.codigo === d.dataset.del), n = membros(g).length; d.dataset.ok = 1; d.textContent = n ? `Confirmar (${n} da família viram convite próprio)` : 'Confirmar exclusão'; }
   };
+}
+function chefe(g) { if (!g || !g.responsavel) return null; const r = String(g.responsavel).trim(); return P.convidados.find(x => x !== g && (x.codigo === r.toUpperCase() || N(x.nome) === N(r))) || null; }
+function membros(g) { return P.convidados.filter(x => chefe(x) === g); }
+function agrupado() { const principais = P.convidados.filter(g => !chefe(g)).sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR')); return principais.flatMap(g => [g, ...membros(g)]); }
+function opcoesConvite(sel, sem) { return `<option value="">Convite próprio (recebe o link)</option>` + P.convidados.filter(g => !chefe(g) && g.tipo !== 'Criança' && g.codigo !== sem).sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR')).map(g => `<option value="${esc(g.codigo)}" ${g.codigo === sel ? 'selected' : ''}>Junto com: ${esc(g.nome)}</option>`).join(''); }
+function editar(g) {
+  const ch = chefe(g), temMembros = membros(g).length > 0;
+  abrir(`<h3 style="font-size:28px">Editar convidado</h3><form id="edF">
+    <label for="en" style="margin-top:12px">Nome completo</label><input id="en" value="${esc(g.nome)}" required>
+    <div class="row" style="margin-top:12px"><div><label for="et">Tipo</label><select id="et"><option ${g.tipo !== 'Criança' ? 'selected' : ''}>Adulto</option><option ${g.tipo === 'Criança' ? 'selected' : ''}>Criança</option></select></div>
+    <div><label for="ep">WhatsApp</label><input id="ep" inputmode="tel" value="${esc(g.telefone || '')}"></div></div>
+    <label for="er" style="margin-top:12px">Convite</label><select id="er" ${temMembros ? 'disabled' : ''}>${opcoesConvite(ch?.codigo || '', g.codigo)}</select>
+    ${temMembros ? `<p class="muted small" style="margin:6px 0 0">Esta pessoa é a responsável pelo convite de ${membros(g).map(m => esc(m.nome.split(' ')[0])).join(', ')}.</p>` : ''}
+    <label for="es" style="margin-top:12px">Status <span class="muted">(ex.: confirmou por telefone)</span></label><select id="es">${['Pendente', 'Confirmado', 'Não vai'].map(x => `<option ${g.status === x ? 'selected' : ''}>${x}</option>`).join('')}</select>
+    <button class="btn" style="width:100%;margin-top:18px">Salvar alterações</button><div id="edMsg"></div></form>`);
+  $('#edF').onsubmit = async e => { e.preventDefault(); const tipo = $('#et').value, resp = temMembros ? '' : $('#er').value;
+    if (tipo === 'Criança' && !resp) { $('#edMsg').innerHTML = '<div class="msg err">Criança precisa estar no convite de um adulto.</div>'; return; }
+    e.target.querySelector('button').disabled = true;
+    try { await api('editarConvidado', { senha, codigo: g.codigo, nome: $('#en').value.trim(), tipo, telefone: $('#ep').value, responsavel: resp, status: $('#es').value }); fechar(); recarregar(); }
+    catch (x) { e.target.querySelector('button').disabled = false; $('#edMsg').innerHTML = `<div class="msg err">${esc(x.message)}</div>`; } };
 }
 function tabela(lista, acoes) {
   if (!lista.length) return '<div class="empty">Nenhum convidado aqui.</div>';
-  return `<table class="stack"><thead><tr><th>Nome</th><th>Tipo</th><th>Status</th><th>Respondido</th><th>Recado</th>${acoes ? '<th>Ações</th>' : ''}</tr></thead><tbody>${lista.map(g => `<tr>
-    <td><b>${esc(g.nome)}</b><br><small class="muted">${esc(g.codigo)}</small></td><td>${esc(g.tipo)}${g.responsavel ? `<br><small class="muted">resp.: ${esc(g.responsavel)}</small>` : ''}</td><td>${stTag(g.status)}</td><td>${g.respondidoEm ? dt(g.respondidoEm) : ''}</td><td>${esc(g.obs || '')}</td>
-    ${acoes ? `<td><div class="acts">${g.tipo === 'Criança' ? '' : `<a class="btn sm" target="_blank" rel="noopener" href="${waLink(g.telefone, txtConvite(g))}">Convite</a>${g.status === 'Pendente' ? `<a class="btn sm out" target="_blank" rel="noopener" href="${waLink(g.telefone, txtLembrete(g))}">Lembrete</a>` : ''}<button class="btn sm out" data-cp="${esc(g.codigo)}">Copiar link</button>`}<button class="btn sm out" data-del="${esc(g.codigo)}">Excluir</button></div></td>` : ''}</tr>`).join('')}</tbody></table>`;
+  return `<table class="stack"><thead><tr><th>Nome</th><th>Tipo</th><th>Status</th><th>Respondido</th><th>Recado</th>${acoes ? '<th>Ações</th>' : ''}</tr></thead><tbody>${lista.map(g => { const ch = chefe(g), ms = membros(g);
+    return `<tr${ch && acoes ? ' style="background:#f7f9fd"' : ''}>
+    <td>${ch && acoes ? '<span class="muted" style="margin-right:6px">↳</span>' : ''}<b>${esc(g.nome)}</b><br><small class="muted">${ch ? 'no convite de ' + esc(ch.nome.split(' ')[0]) : ms.length ? 'convite de ' + (ms.length + 1) + ' pessoas' : esc(g.codigo)}</small></td>
+    <td>${esc(g.tipo)}</td><td>${stTag(g.status)}</td><td>${g.respondidoEm ? dt(g.respondidoEm) : ''}</td><td>${esc(g.obs || '')}</td>
+    ${acoes ? `<td><div class="acts">${!ch && g.tipo !== 'Criança' ? `<a class="btn sm" target="_blank" rel="noopener" href="${waLink(g.telefone, txtConvite(g))}">Convite</a>${[g, ...ms].some(x => x.status === 'Pendente') ? `<a class="btn sm out" target="_blank" rel="noopener" href="${waLink(g.telefone, txtLembrete(g))}">Lembrete</a>` : ''}<button class="btn sm out" data-cp="${esc(g.codigo)}">Copiar link</button>` : ''}<button class="btn sm out" data-ed="${esc(g.codigo)}">Editar</button><button class="btn sm out" data-del="${esc(g.codigo)}">Excluir</button></div></td>` : ''}</tr>`; }).join('')}</tbody></table>`;
 }
 }
 </script>
