@@ -29,7 +29,7 @@ LAYOUT: capa → atalhos → história → cerimônia → RSVP → presentes →
 */
 :root{color-scheme:light;--bg:#fbf9f5;--paper:#ffffff;--ink:#1f3354;--soft:#55657f;--navy:#264b82;--navy2:#1c3a68;--ser:#92a8d1;--ser2:#dfe7f4;--ser3:#eef3fa;--silver:#c9ced6;--line:#e3e7ee;--ok:#2f7d5b;--no:#a2483f;--shadow:0 10px 30px rgba(31,51,84,.10)}
 *{box-sizing:border-box;min-width:0}
-html{scroll-behavior:smooth;scroll-padding-top:72px}
+html{scroll-behavior:smooth;scroll-padding-top:60px}
 body{font-variant-numeric:lining-nums;margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Lora,Georgia,serif;overflow-x:clip}
 img{max-width:100%;display:block}
 a{color:var(--navy)}
@@ -37,9 +37,9 @@ h1,h2,.script{font-family:"Great Vibes",cursive;font-weight:400;color:var(--navy
 h2{font-size:clamp(40px,6vw,56px);text-align:center}
 h3{font-family:"Cormorant Garamond",serif;font-weight:600;font-size:24px;margin:0 0 4px;color:var(--navy2)}
 .lead{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:21px;color:var(--soft);text-align:center;margin:8px auto 0;max-width:620px;text-wrap:balance}
-.band{padding:clamp(48px,7vw,96px) max(5vw,16px);position:relative;overflow-x:clip}
+.band{padding:clamp(28px,3.5vw,48px) max(5vw,16px) clamp(40px,5vw,64px);position:relative;overflow-x:clip}
 .wrap{max-width:1140px;margin:0 auto;position:relative;z-index:1}
-.orn{display:flex;align-items:center;justify-content:center;gap:12px;color:var(--ser);margin:14px auto 30px;max-width:340px}
+.orn{display:flex;align-items:center;justify-content:center;gap:12px;color:var(--ser);margin:10px auto 22px;max-width:340px}
 .orn::before,.orn::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--ser))}
 .orn::after{transform:scaleX(-1)}
 .ico{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
@@ -165,7 +165,7 @@ label{font-size:14px;color:var(--soft);display:block;margin:0 0 6px}
 /* galeria */
 .gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
 .gal button{padding:0;border:0;background:var(--ser2);border-radius:12px;overflow:hidden;cursor:zoom-in;aspect-ratio:1}
-.gal img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.gal img{width:100%;height:100%;object-fit:cover;object-position:50% 18%;transition:transform .4s}
 .gal button:hover img{transform:scale(1.04)}
 .upl{margin-top:26px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
@@ -178,7 +178,7 @@ label{font-size:14px;color:var(--soft);display:block;margin:0 0 6px}
 
 /* mapas */
 .maps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
-.map{border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--ser3);height:300px;position:relative}
+.map{border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--ser3);height:clamp(220px,32vh,300px);position:relative}
 .map iframe{border:0;width:100%;height:100%}
 .map .fb{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:20px;background:repeating-linear-gradient(45deg,#eef3fa 0 14px,#e6edf7 14px 28px)}
 @media(max-width:760px){.maps{grid-template-columns:1fr}}
