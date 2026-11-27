@@ -177,6 +177,35 @@ label{font-size:14px;color:var(--soft);display:block;margin:0 0 6px}
 .upl{margin-top:26px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
 /* mural */
+
+.slides .sl{position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease;pointer-events:none}
+.slides .sl.on{opacity:1;pointer-events:auto}
+.slides .sl img{width:100%;height:100%;object-fit:cover;aspect-ratio:auto}
+.dots{position:absolute;left:0;right:0;bottom:12px;display:flex;justify-content:center;gap:7px;z-index:3}
+.dots button{width:8px;height:8px;border-radius:50%;border:0;padding:0;background:rgba(255,255,255,.55);cursor:pointer;transition:all .3s}
+.dots button.on{background:#fff;width:22px;border-radius:5px}
+.gslide{position:relative;height:min(70vh,620px);min-height:380px;border-radius:18px;overflow:hidden;background:var(--navy2);box-shadow:var(--shadow);touch-action:pan-y}
+.gslide .gl{position:absolute;inset:0;opacity:0;transition:opacity 1s ease;cursor:zoom-in}
+.gslide .gl.on{opacity:1}
+.gslide .gl i{position:absolute;inset:-40px;background-size:cover;background-position:center;filter:blur(26px) brightness(.7)}
+.gslide .gl img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.gslide .nv{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:46px;height:46px;border-radius:50%;border:0;background:rgba(255,255,255,.85);color:var(--navy);font-size:26px;line-height:1;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.2)}
+.gslide .pv{left:12px}.gslide .nx{right:12px}
+.gslide .gcap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:30px 16px 12px;background:linear-gradient(transparent,rgba(0,0,0,.55));color:#fff;font-size:14px;display:flex;justify-content:space-between;gap:10px;pointer-events:none}
+.galbar{text-align:center;margin:16px 0 8px}
+@media(max-width:600px){.gslide{height:62vh;min-height:340px}.gslide .nv{width:40px;height:40px;font-size:22px}}
+.album{position:fixed;inset:0;background:var(--bg);z-index:100;overflow-y:auto}
+.album .atop{position:sticky;top:0;z-index:2;background:var(--navy);color:#fff;display:flex;align-items:center;gap:10px;padding:10px 14px;flex-wrap:wrap}
+.album .atop b{font:600 24px "Cormorant Garamond",serif;margin-right:auto}
+.album .atabs{display:flex;gap:4px;order:3;flex:1 1 100%;overflow-x:auto}
+.album .atabs button{flex:none;background:none;border:0;color:#cfdaf0;font:600 14.5px Lora;padding:8px 14px;border-radius:999px;cursor:pointer;min-height:40px}
+.album .atabs button.on{background:rgba(255,255,255,.16);color:#fff}
+.album .x{background:none;border:0;color:#fff;font-size:34px;line-height:1;cursor:pointer;width:44px;height:44px}
+.album .gal{padding:14px;max-width:1200px;margin:0 auto}
+.wall .m.hid{display:none}
+.wallbar{text-align:center;margin-top:6px}
+.opts label.op{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:12px;margin:0 0 8px;cursor:pointer;font-weight:400}
+.opts label.op input{margin-top:5px;width:18px;height:18px;min-height:0;flex:none;padding:0}.opts label.op span{flex:1;text-align:left}.opts label.op small{display:block;color:var(--soft)}
 .wall{columns:3 260px;column-gap:16px;margin-top:8px}
 .wall .m{break-inside:avoid;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin:0 0 16px}
 .wall .m p{margin:0 0 10px;font-family:"Cormorant Garamond",serif;font-size:20px;line-height:1.4}
@@ -336,8 +365,8 @@ td.num{text-align:right;white-space:nowrap}
       </ul>
       <p class="quote">Nossa história é marcada por cada pessoa convidada para o nosso grande dia. Cada um de vocês fez parte de um momento muito especial para nós, e ficamos muito felizes e honrados em ter vocês em mais uma memória conosco.</p>
     </div>
-    <figure class="polaroid ph vid" style="margin:0 auto"><div class="vbox"><video id="stdVideo" src="video/save-the-date.mp4" poster="video/save-the-date.jpg" playsinline preload="none"></video>
-      <button type="button" class="vplay" id="stdPlay" aria-label="Assistir ao Save the Date"><svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button></div><figcaption>Save the Date</figcaption></figure>
+    <figure class="polaroid ph vid" style="margin:0 auto"><div class="vbox slides" id="slides"><div class="sl on"><video id="stdVideo" src="video/save-the-date.mp4" poster="video/save-the-date.jpg" playsinline preload="none"></video>
+      <button type="button" class="vplay" id="stdPlay" aria-label="Assistir ao Save the Date"><svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button></div><div class="dots" id="dots"></div></div><figcaption id="slCap">Save the Date</figcaption></figure>
   </div>
 </section>
 
@@ -397,7 +426,7 @@ td.num{text-align:right;white-space:nowrap}
     <h2>Galeria de fotos</h2>
     <p class="lead">Nossos momentos, e os que vocês registrarem com a gente.</p>
     <div class="orn"><svg class="ico"><use href="#i-cam"/></svg></div>
-    <div class="gal" id="gal"></div>
+    <div id="gal"></div>
     <div class="upl card">
       <div><h3>Tem uma foto com a gente?</h3><span class="muted small">Qualquer pessoa pode enviar. A foto aparece aqui depois que os noivos aprovarem.</span></div>
       <div class="row" style="flex:1 1 360px;justify-content:flex-end;align-items:center"><input id="fotoNome" placeholder="Seu nome" autocomplete="name" style="flex:1 1 180px"><input type="file" id="fotoIn" accept="image/*" multiple class="hide"><button class="btn" id="fotoBtn" style="flex:0 0 auto"><svg class="ico"><use href="#i-cam"/></svg> Enviar fotos</button></div>
@@ -418,7 +447,7 @@ td.num{text-align:right;white-space:nowrap}
       <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap"><span class="muted small" id="muralWho"></span><button class="btn" type="submit">Enviar recado</button></div>
       <div id="muralMsg"></div>
     </form>
-    <div class="wall" id="wall"></div>
+    <div class="wall" id="wall"></div><div class="wallbar" id="wallBar"></div>
   </div>
 </section>
 
@@ -450,6 +479,7 @@ td.num{text-align:right;white-space:nowrap}
 </footer>
 
 <div id="modal" class="ov hide" role="dialog" aria-modal="true"><div class="box"><button class="x" data-close aria-label="Fechar">×</button><div id="modalBody"></div></div></div>
+<div id="album" class="album hide" role="dialog" aria-modal="true"><div class="atop"><b>Álbum de fotos</b><button class="x" data-albclose aria-label="Fechar">×</button><div class="atabs" id="atabs"></div></div><div class="gal" id="albGal"></div></div>
 <div id="lb" class="lb hide" role="dialog" aria-modal="true"><button class="x" data-lbclose aria-label="Fechar">×</button><button class="nv pv" data-lb="-1" aria-label="Anterior">‹</button><div><img id="lbImg" alt=""><div class="cap" id="lbCap"></div></div><button class="nv nx" data-lb="1" aria-label="Próxima">›</button></div>
 <div id="adm" class="adm hide"></div>
 
@@ -590,11 +620,12 @@ function db() {
     ],
     mensagens: [{ id: 'm1', data: new Date().toISOString(), nome: 'João Souza', texto: 'Que Deus abençoe essa união! Felicidades ao casal.', aprovado: true }],
     fotos: [], presentes: [], lista: [],
-    config: { gravataAtiva: true, gravataNomes: true, gravataValor: 20, gravataPedacos: 30 },
+    config: { gravataAtiva: true, gravataNomes: true, gravataValor: 20, gravataPedacos: 30, galeriaModo: 'auto', historiaSlide: true },
     gravata: [{ id: 'g1', data: new Date().toISOString(), nome: 'João Souza', valor: 60, mensagem: '', confirmado: true }, { id: 'g2', data: new Date().toISOString(), nome: 'Carla Mendes', valor: 20, mensagem: 'Corta curtinho!', confirmado: true }, { id: 'g3', data: new Date().toISOString(), nome: 'Maria Silva', valor: 40, mensagem: '', confirmado: false }],
   });
 }
 const N = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
+const siteDemo = d => ({ galeriaModo: d.config.galeriaModo || 'auto', historiaSlide: d.config.historiaSlide !== false });
 async function demo(a, p) {
   await new Promise(r => setTimeout(r, 250));
   const d = db(), save = () => store.set('db3', d), pub = g => ({ codigo: g.codigo, nome: g.nome, tipo: g.tipo, status: g.status });
@@ -614,8 +645,9 @@ async function demo(a, p) {
     case 'enviarFoto': case 'adminEnviarFoto': { const g = p.codigo && find(p), adm2 = a === 'adminEnviarFoto'; if (adm2) adm(); const nome = adm2 ? 'Luan & Amanda' : g ? g.nome : String(p.nome || '').trim(); if (!nome) throw new Error('Escreva seu nome.'); d.fotos.push({ id: 'f' + Date.now() + Math.random().toString(36).slice(2, 6), data: new Date().toISOString(), nome, src: p.imagem, legenda: p.legenda || '', aprovado: adm2 });
       try { save(); } catch { throw new Error('Sem espaço no modo demonstração.'); } return { ok: true }; }
     case 'dadosPublicos': { const c = d.config, conf = d.gravata.filter(x => x.confirmado), total = conf.reduce((a, x) => a + x.valor, 0);
-      return { presentes: d.lista, gravata: { ativa: c.gravataAtiva, valor: c.gravataValor, pedacos: c.gravataPedacos, total, cortados: Math.min(c.gravataPedacos, Math.floor(total / c.gravataValor + 1e-9)), mostrarNomes: c.gravataNomes, nomes: c.gravataNomes ? conf.map(x => x.nome).filter(Boolean).reverse() : undefined } }; }
+      return { site: siteDemo(d), presentes: d.lista, gravata: { ativa: c.gravataAtiva, valor: c.gravataValor, pedacos: c.gravataPedacos, total, cortados: Math.min(c.gravataPedacos, Math.floor(total / c.gravataValor + 1e-9)), mostrarNomes: c.gravataNomes, nomes: c.gravataNomes ? conf.map(x => x.nome).filter(Boolean).reverse() : undefined } }; }
     case 'registrarGravata': d.gravata.push({ id: 'g' + Date.now(), data: new Date().toISOString(), nome: p.nome, valor: Number(p.valor) || 0, mensagem: p.mensagem, confirmado: false }); save(); return { ok: true };
+    case 'salvarSite': adm(); d.config.galeriaModo = ['grade', 'slide'].includes(p.galeriaModo) ? p.galeriaModo : 'auto'; d.config.historiaSlide = !!p.historiaSlide; save(); return siteDemo(d);
     case 'salvarGravata': adm(); Object.assign(d.config, { gravataAtiva: !!p.ativa, gravataNomes: !!p.nomes, gravataValor: Math.max(1, Number(p.valor) || 20), gravataPedacos: Math.min(100, Math.max(5, Number(p.pedacos) || 30)) }); save(); return d.config;
     case 'salvarPresente': { adm(); const it = p.item; if (!String(it.nome || '').trim()) throw new Error('Informe o nome do presente.'); let x = d.lista.find(y => y.id === it.id);
       if (!x) { x = { id: 'l' + Date.now(), ico: 'gift', foto: '' }; d.lista.push(x); }
@@ -624,7 +656,7 @@ async function demo(a, p) {
     case 'excluirItemLista': adm(); d.lista = d.lista.filter(x => x.id !== p.id); save(); return { ok: true };
     case 'importarPresentes': adm(); if (d.lista.length) throw new Error('A lista já foi criada.'); d.lista = p.itens.map((x, i) => ({ id: 'l' + i + Date.now(), nome: x.nome, desc: x.desc, valor: x.valor, ico: x.ico || 'gift', foto: '' })); save(); return { ok: true };
     case 'registrarPresente': d.presentes.push({ id: 'p' + Date.now(), data: new Date().toISOString(), nome: p.nome, presente: p.presente, valor: p.valor, mensagem: p.mensagem }); save(); return { ok: true };
-    case 'painel': adm(); return { convidados: d.convidados, mensagens: d.mensagens, fotos: d.fotos.map(f => ({ ...f, arquivo: '' })), presentes: d.presentes, lista: d.lista, gravata: d.gravata, gravataConfig: { ativa: d.config.gravataAtiva, nomes: d.config.gravataNomes, valor: d.config.gravataValor, pedacos: d.config.gravataPedacos } };
+    case 'painel': adm(); return { convidados: d.convidados, mensagens: d.mensagens, fotos: d.fotos.map(f => ({ ...f, arquivo: '' })), presentes: d.presentes, lista: d.lista, gravata: d.gravata, siteConfig: siteDemo(d), gravataConfig: { ativa: d.config.gravataAtiva, nomes: d.config.gravataNomes, valor: d.config.gravataValor, pedacos: d.config.gravataPedacos } };
     case 'moderar': { adm(); const k = { foto: 'fotos', presente: 'presentes', gravata: 'gravata' }[p.tipo] || 'mensagens'; const i = d[k].findIndex(x => x.id === p.id);
       if (i >= 0) { if (p.acao === 'aprovar') { d[k][i].aprovado = true; d[k][i].confirmado = true; } else d[k].splice(i, 1); } save(); return { ok: true }; }
     case 'adicionarConvidado': { adm(); const L = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let c; do { c = Array.from({ length: 6 }, () => L[Math.floor(Math.random() * L.length)]).join(''); } while (d.convidados.some(x => x.codigo === c));
@@ -711,7 +743,7 @@ async function copiarBtn(txt, btn, rotulo) { try { await navigator.clipboard.wri
 async function copiar(txt, btn) { try { await navigator.clipboard.writeText(txt); btn.textContent = 'Copiado!'; } catch { btn.previousElementSibling?.select?.(); btn.textContent = 'Selecione e copie'; } setTimeout(() => btn.textContent = 'Copiar', 2200); }
 
 const imgUrl = f => !f ? '' : String(f).startsWith('data:') ? f : 'https://lh3.googleusercontent.com/d/' + encodeURIComponent(f) + '=w800';
-let LISTA = CONFIG.PRESENTES, GRAV = null;
+let LISTA = CONFIG.PRESENTES, GRAV = null, SITE = { galeriaModo: 'auto', historiaSlide: true };
 function renderGifts() {
   $('#gifts').innerHTML = LISTA.map((p, i) => `<article class="gift">${p.foto ? `<div class="gimg"><img loading="lazy" src="${esc(imgUrl(p.foto))}" alt="${esc(p.nome)}"></div>` : ico(p.ico || 'gift')}<h3>${esc(p.nome)}</h3><p>${esc(p.desc)}</p>
   <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><span class="val">${p.valor ? brl(p.valor) : 'Você escolhe'}</span><button class="btn sm" data-g="${i}">Presentear</button></div></article>`).join('');
@@ -778,24 +810,88 @@ function renderGravata() {
     obrigado: 'Obrigado! Seu pedaço será cortado assim que os noivos confirmarem o Pix. ✂' });
 }
 async function carregarPublico() {
-  try { const d = await api('dadosPublicos'); if (d.presentes?.length) { LISTA = d.presentes; renderGifts(); } GRAV = d.gravata; renderGravata(); } catch {}
+  try { const d = await api('dadosPublicos'); if (d.presentes?.length) { LISTA = d.presentes; renderGifts(); } GRAV = d.gravata; renderGravata(); if (d.site) { SITE = d.site; renderGaleria(); slides(); } } catch {}
 }
 carregarPublico();
 { let ultima = Date.now();
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && Date.now() - ultima > 60000 && $('#adm').classList.contains('hide')) { ultima = Date.now(); mural(); galeria(); carregarPublico(); if (eu) rsvpInit(); } }); }
 
 /* ---------- galeria + lightbox ---------- */
-let fotos = [], idx = 0;
+const NOIVOS = 'Luan & Amanda';
+let fotos = [], idx = 0, todas = [], casal = [], convF = [], albAba = 'todas';
 async function galeria() {
-  let conv = []; try { conv = await api('listarFotos'); } catch {}
-  fotos = [...CONFIG.FOTOS_CASAL.map(f => ({ src: f.src, mini: f.src, legenda: f.legenda })), ...conv.map(f => ({ src: fotoUrl(f, 1600), mini: fotoUrl(f, 500), legenda: [f.legenda, f.nome && f.nome !== 'Luan & Amanda' ? 'por ' + f.nome : ''].filter(Boolean).join(' · ') }))];
-  $('#gal').innerHTML = fotos.map((f, i) => `<button data-i="${i}" aria-label="Ampliar foto"><img loading="lazy" src="${esc(f.mini || f.src)}" alt="${esc(f.legenda || 'Foto de Luan e Amanda')}"></button>`).join('');
+  let l = []; try { l = await api('listarFotos'); } catch {}
+  const mapF = f => ({ src: fotoUrl(f, 1600), mini: fotoUrl(f, 500), nome: f.nome, legenda: [f.legenda, f.nome && f.nome !== NOIVOS ? 'por ' + f.nome : ''].filter(Boolean).join(' · ') });
+  const cfg = CONFIG.FOTOS_CASAL.map(f => ({ src: f.src, mini: f.src, nome: NOIVOS, legenda: f.legenda }));
+  todas = [...cfg, ...l.map(mapF)];
+  casal = todas.filter(f => f.nome === NOIVOS); convF = todas.filter(f => f.nome !== NOIVOS);
+  renderGaleria(); slides();
 }
-$('#gal').addEventListener('click', e => { const b = e.target.closest('[data-i]'); if (b) lb(+b.dataset.i); });
-function lb(i) { idx = (i + fotos.length) % fotos.length; $('#lbImg').src = fotos[idx].src; $('#lbCap').textContent = fotos[idx].legenda || ''; $('#lb').classList.remove('hide'); }
+/* modo da galeria: grade (tudo aberto), slide (passando sozinho) ou auto (grade até 12 fotos, depois slide) */
+let gsAt = 0, gsTimer = null, gsParado = false, gsVis = false;
+function renderGaleria() {
+  const modo = SITE.galeriaModo === 'grade' || SITE.galeriaModo === 'slide' ? SITE.galeriaModo : (todas.length > 12 ? 'slide' : 'grade');
+  clearInterval(gsTimer);
+  if (!todas.length) { $('#gal').innerHTML = '<div class="empty">As fotos vão aparecer aqui.</div>'; return; }
+  if (modo === 'grade') {
+    $('#gal').innerHTML = `<div class="gal">${todas.map((f, i) => `<button data-i="${i}" aria-label="Ampliar foto"><img loading="lazy" src="${esc(f.mini || f.src)}" alt="${esc(f.legenda || 'Foto de Luan e Amanda')}"></button>`).join('')}</div>`;
+    return;
+  }
+  $('#gal').innerHTML = `<div class="gslide" id="gs"><div class="gl on"><i></i><img alt=""></div><div class="gl"><i></i><img alt=""></div>
+    <button class="nv pv" data-gs="-1" aria-label="Foto anterior">‹</button><button class="nv nx" data-gs="1" aria-label="Próxima foto">›</button><div class="gcap"><span id="gsNome"></span><span id="gsCnt"></span></div></div>
+    <div class="galbar"><button class="btn out" data-album>Ver todas as fotos (${todas.length})</button></div>`;
+  gsAt = -1; gsIr(0);
+  gsTimer = setInterval(() => { if (gsVis && !gsParado && document.visibilityState === 'visible') gsIr(gsAt + 1); }, 4500);
+  const box = $('#gs'); let x0 = null;
+  box.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+  box.addEventListener('touchend', e => { if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) { gsIr(gsAt + (dx < 0 ? 1 : -1)); gsParado = true; } x0 = null; });
+}
+function gsIr(i) {
+  const n = todas.length, k = (i + n) % n; if (k === gsAt) return; gsAt = k;
+  const ls = $$('#gs .gl'), novo = ls.find(x => !x.classList.contains('on')) || ls[0], velho = ls.find(x => x !== novo), f = todas[k];
+  const im = novo.querySelector('img'), mostrar = () => { novo.querySelector('i').style.backgroundImage = `url("${f.mini || f.src}")`; novo.classList.add('on'); velho?.classList.remove('on'); };
+  im.onload = mostrar; im.onerror = mostrar; im.alt = f.legenda || 'Foto'; im.src = f.mini || f.src;
+  $('#gsNome').textContent = f.nome && f.nome !== NOIVOS ? 'por ' + f.nome : (f.legenda || ''); $('#gsCnt').textContent = (k + 1) + ' / ' + n;
+  const prox = todas[(k + 1) % n]; if (prox) new Image().src = prox.mini || prox.src;
+}
+if ('IntersectionObserver' in window) new IntersectionObserver(es => es.forEach(e => { gsVis = e.isIntersecting; })).observe($('#galeria')); else gsVis = true;
+$('#gal').addEventListener('click', e => {
+  if (e.target.closest('[data-album]')) return album('todas');
+  const g = e.target.closest('[data-gs]'); if (g) { gsIr(gsAt + +g.dataset.gs); gsParado = true; return; }
+  if (e.target.closest('#gs .gl')) { fotos = todas; return lb(gsAt); }
+  const b = e.target.closest('[data-i]'); if (b) { fotos = todas; lb(+b.dataset.i); } });
+function album(t) { albAba = t; fotos = t === 'conv' ? convF : t === 'casal' ? casal : todas;
+  $('#atabs').innerHTML = [['todas', 'Todas', todas], ['conv', 'Dos convidados', convF], ['casal', 'Dos noivos', casal]].map(([k, l, a]) => `<button data-t="${k}" class="${t === k ? 'on' : ''}">${l} (${a.length})</button>`).join('');
+  $('#albGal').innerHTML = fotos.map((f, i) => `<button data-i="${i}" aria-label="Ampliar foto"><img loading="lazy" src="${esc(f.mini || f.src)}" alt="${esc(f.legenda || 'Foto')}"></button>`).join('') || '<div class="empty">Nenhuma foto ainda.</div>';
+  $('#album').classList.remove('hide'); $('#album').scrollTop = 0; document.body.style.overflow = 'hidden'; }
+function fecharAlbum() { $('#album').classList.add('hide'); document.body.style.overflow = ''; }
+$('#album').addEventListener('click', e => { const t = e.target.closest('[data-t]'); if (t) return album(t.dataset.t);
+  if (e.target.closest('[data-albclose]')) return fecharAlbum();
+  const b = e.target.closest('[data-i]'); if (b) { fotos = albAba === 'conv' ? convF : albAba === 'casal' ? casal : todas; lb(+b.dataset.i); } });
+function lb(i) { idx = (i + fotos.length) % fotos.length; $('#lbImg').src = fotos[idx].src; $('#lbCap').textContent = fotos[idx].legenda || ''; $('#lb').classList.remove('hide'); gsParado = true; }
 $('#lb').addEventListener('click', e => { const n = e.target.closest('[data-lb]'); if (n) return lb(idx + +n.dataset.lb); if (e.target.id === 'lb' || e.target.closest('[data-lbclose]')) $('#lb').classList.add('hide'); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { fechar(); $('#lb').classList.add('hide'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { fechar(); if (!$('#lb').classList.contains('hide')) $('#lb').classList.add('hide'); else if (!$('#album').classList.contains('hide')) fecharAlbum(); }
   if (!$('#lb').classList.contains('hide')) { if (e.key === 'ArrowRight') lb(idx + 1); if (e.key === 'ArrowLeft') lb(idx - 1); } });
+
+/* ---------- slide da Nossa história (vídeo + fotos dos noivos) ---------- */
+let slAt = 0, slTimer = null, slParado = false;
+function slides() {
+  const box = $('#slides'); if (!box) return; box.querySelectorAll('.sl.f').forEach(x => x.remove()); clearInterval(slTimer);
+  const lista = SITE.historiaSlide ? casal.slice(0, 8) : [];
+  lista.forEach(f => box.insertAdjacentHTML('beforeend', `<div class="sl f"><img loading="lazy" src="${esc(f.mini || f.src)}" alt="Luan e Amanda"></div>`));
+  const n = lista.length + 1;
+  $('#dots').innerHTML = n > 1 ? Array.from({ length: n }, (_, i) => `<button data-s="${i}" aria-label="Slide ${i + 1}"></button>`).join('') : '';
+  irSlide(0); if (n > 1) slTimer = setInterval(() => { if (!slParado && document.visibilityState === 'visible') irSlide(slAt + 1); }, 5000);
+}
+function irSlide(i) { const sl = $$('#slides .sl'); if (!sl.length) return; slAt = (i + sl.length) % sl.length;
+  sl.forEach((x, k) => x.classList.toggle('on', k === slAt)); $$('#dots button').forEach((x, k) => x.classList.toggle('on', k === slAt));
+  $('#slCap').textContent = slAt === 0 ? 'Save the Date' : 'Luan & Amanda';
+  const v = $('#stdVideo'); if (slAt !== 0 && v && !v.paused) v.pause(); }
+$('#dots').addEventListener('click', e => { const b = e.target.closest('[data-s]'); if (b) { irSlide(+b.dataset.s); slParado = true; } });
+{ let x0 = null; const box = $('#slides');
+  box.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+  box.addEventListener('touchend', e => { if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) { irSlide(slAt + (dx < 0 ? 1 : -1)); slParado = true; } x0 = null; }); }
+$('#stdVideo')?.addEventListener('play', () => { slParado = true; });
 galeria();
 
 function reduzir(file, max) { return new Promise((ok, no) => { const img = new Image(); img.onload = () => { const m = max || 1600, s = Math.min(1, m / Math.max(img.width, img.height)); const c = document.createElement('canvas'); c.width = Math.round(img.width * s); c.height = Math.round(img.height * s); c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(img.src); ok(c.toDataURL('image/jpeg', DEMO ? .6 : .82)); }; img.onerror = () => no(new Error('Não consegui abrir essa imagem.')); img.src = URL.createObjectURL(file); }); }
@@ -809,8 +905,13 @@ $('#fotoIn').onchange = async e => { const fs = [...e.target.files].slice(0, 10)
 /* ---------- mural ---------- */
 async function mural() {
   let ms = []; try { ms = await api('listarMensagens'); } catch {}
-  $('#wall').innerHTML = ms.length ? ms.map(m => `<div class="m"><p>${esc(m.texto)}</p><small>${esc(m.nome)} · ${dt(m.data)}</small></div>`).join('') : '<div class="empty">Seja o primeiro a deixar um recado para os noivos.</div>';
+  $('#wall').innerHTML = ms.length ? ms.map((m, i) => `<div class="m${i >= 6 && !$('#wall').classList.contains('aberto') ? ' hid' : ''}"><p>${esc(m.texto)}</p><small>${esc(m.nome)} · ${dt(m.data)}</small></div>`).join('') : '<div class="empty">Seja o primeiro a deixar um recado para os noivos.</div>';
+  const ab = $('#wall').classList.contains('aberto');
+  $('#wallBar').innerHTML = ms.length > 6 ? `<button class="btn out" id="wallMais">${ab ? 'Mostrar menos' : 'Ver todos os recados (' + ms.length + ')'}</button>` : '';
 }
+$('#wallBar').addEventListener('click', e => { if (!e.target.closest('#wallMais')) return; const ab = $('#wall').classList.toggle('aberto');
+  $$('#wall .m').forEach((m, i) => { if (i >= 6) m.classList.toggle('hid', !ab); }); e.target.closest('#wallMais').textContent = ab ? 'Mostrar menos' : 'Ver todos os recados (' + $$('#wall .m').length + ')';
+  if (!ab) $('#mural').scrollIntoView({ behavior: 'smooth' }); });
 $('#muralForm').onsubmit = async e => { e.preventDefault(); const t = $('#muralTxt').value.trim();
   if (!eu) { $('#muralMsg').innerHTML = '<div class="msg">Para deixar um recado, identifique-se primeiro na seção <a href="#confirmar">Confirmação</a> (ou abra o link do seu convite).</div>'; return; }
   if (t.length < 2) return; const b = e.target.querySelector('button'); b.disabled = true;
@@ -952,9 +1053,19 @@ function painel() {
   }
   if (aba === 'fotos') {
     const fs = P.fotos.slice().sort((a, b) => a.aprovado - b.aprovado);
-    B.innerHTML = `<div class="card" style="margin-bottom:20px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap"><div><h3>Adicionar fotos à galeria</h3><span class="muted small">As fotos que vocês enviarem por aqui entram direto na galeria do site.</span></div>
+    const sc = P.siteConfig || { galeriaModo: 'auto', historiaSlide: true }, rd = (v, t, d) => `<label class="op"><input type="radio" name="gm" value="${v}" ${sc.galeriaModo === v ? 'checked' : ''}><span><b>${t}</b><small>${d}</small></span></label>`;
+    B.innerHTML = `<form class="card opts" id="siteF" style="margin-bottom:20px"><h3>Como mostrar as fotos no site</h3>
+      ${rd('auto', 'Automático (recomendado)', 'Mostra todas abertas enquanto são poucas (até 12) e passa a mostrar em slide quando aumentam.')}
+      ${rd('grade', 'Todas abertas', 'Todas as fotos lado a lado, como um mural.')}
+      ${rd('slide', 'Slide', 'Uma foto grande por vez, passando sozinha, com o botão "Ver todas as fotos".')}
+      <label class="sw" style="margin-top:6px"><input type="checkbox" id="hsS" ${sc.historiaSlide ? 'checked' : ''}> Passar as fotos de vocês no porta-retrato da "Nossa história"</label>
+      <button class="btn" style="margin-top:12px">Salvar</button><div id="siteMsg"></div></form>
+      <div class="card" style="margin-bottom:20px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap"><div><h3>Adicionar fotos à galeria</h3><span class="muted small">As fotos que vocês enviarem por aqui entram direto na galeria do site.</span></div>
       <div><input type="file" id="admFotoIn" accept="image/*" multiple class="hide"><button class="btn" id="admFotoBtn">${ico('cam')} Escolher fotos</button></div><div id="admFotoMsg" style="flex-basis:100%"></div></div>
       <h3 style="font-size:30px">Fotos da galeria</h3><p class="muted small" style="margin:0 0 12px">As enviadas pelos convidados ficam aguardando até vocês aprovarem.</p>${fs.length ? `<div class="mod">${fs.map(f => `<div class="card"><img loading="lazy" src="${esc(f.src || fotoUrl({ arquivo: f.arquivo }, 500))}" alt="Foto de ${esc(f.nome)}"><small class="muted">${esc(f.nome)} · ${dt(f.data)}</small><div class="acts" style="margin-top:10px">${f.aprovado ? '<span class="tag c">publicada</span>' : `<button class="btn sm" data-mod="foto:aprovar:${esc(f.id)}">Aprovar</button>`}<button class="btn sm out" data-mod="foto:excluir:${esc(f.id)}">Excluir</button></div></div>`).join('')}</div>` : '<div class="empty">Nenhuma foto enviada ainda.</div>'}`;
+    $('#siteF').onsubmit = async e => { e.preventDefault(); const b = e.target.querySelector('button'); b.disabled = true;
+      try { SITE = await api('salvarSite', { senha, galeriaModo: (e.target.querySelector('[name=gm]:checked') || {}).value, historiaSlide: $('#hsS').checked }); P.siteConfig = SITE; renderGaleria(); slides(); $('#siteMsg').innerHTML = '<div class="msg ok">Salvo! O site já mostra as fotos desse jeito.</div>'; }
+      catch (x) { $('#siteMsg').innerHTML = `<div class="msg err">${esc(x.message)}</div>`; } b.disabled = false; };
     $('#admFotoBtn').onclick = () => $('#admFotoIn').click();
     $('#admFotoIn').onchange = async e => { const fs2 = [...e.target.files].slice(0, 20); let n = 0;
       for (const f of fs2) { $('#admFotoMsg').innerHTML = `<div class="msg">Enviando ${n + 1} de ${fs2.length}...</div>`;
