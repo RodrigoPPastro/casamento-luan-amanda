@@ -2,7 +2,7 @@
 
 Site de casamento completo, responsivo e sem custo de hospedagem, com confirmação de presença, lista de presentes via Pix, galeria, mural de recados e painel administrativo para os noivos.
 
-**Site no ar:** https://rodrigoppastro.github.io/casamento-luan-amanda/
+**Site no ar:** https://luaneamanda.sistemaconectatech.com.br/
 
 ![Capa do site](img/capa.jpg)
 

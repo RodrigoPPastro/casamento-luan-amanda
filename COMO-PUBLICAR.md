@@ -1,6 +1,6 @@
 # Site Luan & Amanda: configuração e manutenção
 
-O site fica no GitHub Pages: **https://rodrigoppastro.github.io/casamento-luan-amanda/**
+O site fica no GitHub Pages: **https://luaneamanda.sistemaconectatech.com.br/**
 Qualquer arquivo alterado aqui no repositório entra no ar sozinho em 1 ou 2 minutos.
 
 Enquanto o passo 1 não for feito, o site roda em **modo demonstração**: tudo aparece, mas as respostas ficam só no navegador de quem testou.
