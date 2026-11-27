@@ -193,6 +193,11 @@ label{font-size:14px;color:var(--soft);display:block;margin:0 0 6px}
 .gslide .pv{left:12px}.gslide .nx{right:12px}
 .gslide .gcap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:30px 16px 12px;background:linear-gradient(transparent,rgba(0,0,0,.55));color:#fff;font-size:14px;display:flex;justify-content:space-between;gap:10px;pointer-events:none}
 .galbar{text-align:center;margin:16px 0 8px}
+.gzoom{position:absolute;top:12px;right:12px;z-index:2;display:flex;align-items:center;gap:6px;height:38px;padding:0 10px;border:0;border-radius:999px;background:rgba(255,255,255,.9);color:var(--navy);font:600 13px Lora;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.2)}
+.gzoom svg{width:18px;height:18px;flex:none}
+.gzoom span{max-width:180px;overflow:hidden;white-space:nowrap;transition:max-width .6s ease,opacity .4s}
+.gzoom.min span{max-width:0;opacity:0}
+.galdica{text-align:center;color:var(--soft);font-size:14px;margin:-6px 0 14px}
 .gthumbs{display:flex;gap:8px;overflow-x:auto;padding:12px 4px 6px;margin:0 auto;max-width:760px;scrollbar-width:thin;scroll-behavior:smooth}
 .gthumbs button{flex:0 0 auto;width:64px;height:64px;padding:0;border:2px solid transparent;border-radius:10px;overflow:hidden;cursor:pointer;opacity:.55;transition:opacity .25s,border-color .25s;background:var(--ser2)}
 .gthumbs button.on{opacity:1;border-color:var(--navy)}
@@ -833,16 +838,19 @@ async function galeria() {
   renderGaleria(); slides();
 }
 /* modo da galeria: grade (tudo aberto), slide (passando sozinho) ou auto (grade até 12 fotos, depois slide) */
-let gsAt = 0, gsTimer = null, gsParado = false, gsVis = false;
+let gsAt = 0, gsTimer = null, gsParado = false, gsVis = false, gzT = null, gzFeito = false;
+const TOQUE = matchMedia('(hover: none)').matches;
+const gzMin = () => { gzFeito = true; $('.gzoom')?.classList.add('min'); };
 function renderGaleria() {
   const modo = SITE.galeriaModo === 'grade' || SITE.galeriaModo === 'slide' ? SITE.galeriaModo : (todas.length > 12 ? 'slide' : 'grade');
   clearInterval(gsTimer);
   if (!todas.length) { $('#gal').innerHTML = '<div class="empty">As fotos vão aparecer aqui.</div>'; return; }
   if (modo === 'grade') {
-    $('#gal').innerHTML = `<div class="gal">${todas.map((f, i) => `<button data-i="${i}" aria-label="Ampliar foto"><img loading="lazy" src="${esc(f.mini || f.src)}" alt="${esc(f.legenda || 'Foto de Luan e Amanda')}"></button>`).join('')}</div>`;
+    $('#gal').innerHTML = `<p class="galdica">${TOQUE ? 'Toque' : 'Clique'} numa foto para ampliar</p><div class="gal">${todas.map((f, i) => `<button data-i="${i}" aria-label="Ampliar foto"><img loading="lazy" src="${esc(f.mini || f.src)}" alt="${esc(f.legenda || 'Foto de Luan e Amanda')}"></button>`).join('')}</div>`;
     return;
   }
   $('#gal').innerHTML = `<div class="gslide" id="gs"><div class="gl on"><i></i><img alt=""></div><div class="gl"><i></i><img alt=""></div>
+    <button class="gzoom" data-gzoom aria-label="Ampliar foto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg><span>${TOQUE ? 'Toque' : 'Clique'} para ampliar</span></button>
     <button class="nv pv" data-gs="-1" aria-label="Foto anterior">‹</button><button class="nv nx" data-gs="1" aria-label="Próxima foto">›</button><div class="gcap"><span id="gsNome"></span><span id="gsCnt"></span></div></div>
     <div class="gthumbs" id="gth">${todas.map((f, i) => `<button data-th="${i}" aria-label="Foto ${i + 1}"><img loading="lazy" src="${esc(f.mini || f.src)}" alt=""></button>`).join('')}</div>
     <div class="galbar"><button class="btn out" data-album>Ver todas as fotos (${todas.length})</button></div>`;
@@ -850,7 +858,8 @@ function renderGaleria() {
   gsTimer = setInterval(() => { if (gsVis && !gsParado && document.visibilityState === 'visible') gsIr(gsAt + 1); }, 4500);
   const box = $('#gs'); let x0 = null;
   box.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
-  box.addEventListener('touchend', e => { if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) { gsIr(gsAt + (dx < 0 ? 1 : -1)); gsParado = true; } x0 = null; });
+  box.addEventListener('touchend', e => { if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) { gzMin(); gsIr(gsAt + (dx < 0 ? 1 : -1)); gsParado = true; } x0 = null; });
+  if (gzFeito) gzMin();
 }
 function gsIr(i) {
   const n = todas.length, k = (i + n) % n; if (k === gsAt) return; gsAt = k;
@@ -861,10 +870,11 @@ function gsIr(i) {
   const prox = todas[(k + 1) % n]; if (prox) new Image().src = prox.mini || prox.src;
   const th = $('#gth'); if (th) { $$('#gth button').forEach((b, j) => b.classList.toggle('on', j === k)); const b = th.children[k]; if (b) th.scrollTo({ left: b.offsetLeft - th.clientWidth / 2 + b.clientWidth / 2 }); }
 }
-if ('IntersectionObserver' in window) new IntersectionObserver(es => es.forEach(e => { gsVis = e.isIntersecting; })).observe($('#galeria')); else gsVis = true;
+if ('IntersectionObserver' in window) new IntersectionObserver(es => es.forEach(e => { gsVis = e.isIntersecting; if (gsVis && !gzT) gzT = setTimeout(gzMin, 4500); })).observe($('#galeria')); else { gsVis = true; gzT = setTimeout(gzMin, 6000); }
 $('#gal').addEventListener('click', e => {
   if (e.target.closest('[data-album]')) return album('todas');
-  const g = e.target.closest('[data-gs]'); if (g) { gsIr(gsAt + +g.dataset.gs); gsParado = true; return; }
+  if (e.target.closest('[data-gzoom]')) { fotos = todas; return lb(gsAt); }
+  const g = e.target.closest('[data-gs]'); if (g) { gzMin(); gsIr(gsAt + +g.dataset.gs); gsParado = true; return; }
   const t = e.target.closest('[data-th]'); if (t) { gsIr(+t.dataset.th); gsParado = true; return; }
   if (e.target.closest('#gs .gl')) { fotos = todas; return lb(gsAt); }
   const b = e.target.closest('[data-i]'); if (b) { fotos = todas; lb(+b.dataset.i); } });
