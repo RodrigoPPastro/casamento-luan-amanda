@@ -663,14 +663,14 @@ function rsvpForm(sucesso = false) {
     ok.disabled = true; ok.textContent = 'Enviando...';
     try { await api('confirmar', { codigo: g.codigo, respostas, obs: $('#obsIn').value });
       respostas.forEach(r => pessoas.find(p => p.codigo === r.codigo).status = r.status); eu.obs = $('#obsIn').value; rsvpForm(true); }
-    catch (err) { ok.disabled = false; ok.textContent = 'Enviar resposta'; $('#rsvpErr').innerHTML = `<div class="msg err">${esc(err.message)}</div>`; }
+    catch (err) { if (/não encontrado/i.test(err.message)) { eu = null; store.set('eu', null); quem(); return rsvpBusca('Este convite não está mais na lista. Fale com os noivos.'); } ok.disabled = false; ok.textContent = 'Enviar resposta'; $('#rsvpErr').innerHTML = `<div class="msg err">${esc(err.message)}</div>`; }
   };
 }
 async function rsvpInit() {
   const salvo = store.get('eu', null), c = codigoUrl || salvo?.codigo;
   if (!c) return rsvpBusca();
   $('#rsvp').innerHTML = '<p class="muted">Carregando seu convite...</p>';
-  try { setEu(await api('buscarConvidado', { codigo: c })); rsvpForm(); } catch (e) { rsvpBusca(codigoUrl ? e.message : ''); }
+  try { setEu(await api('buscarConvidado', { codigo: c })); rsvpForm(); } catch (e) { eu = null; store.set('eu', null); quem(); rsvpBusca(codigoUrl ? e.message : ''); }
 }
 rsvpInit();
 
@@ -763,7 +763,7 @@ async function carregarPublico() {
 }
 carregarPublico();
 { let ultima = Date.now();
-  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && Date.now() - ultima > 60000 && $('#adm').classList.contains('hide')) { ultima = Date.now(); mural(); galeria(); carregarPublico(); } }); }
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && Date.now() - ultima > 60000 && $('#adm').classList.contains('hide')) { ultima = Date.now(); mural(); galeria(); carregarPublico(); if (eu) rsvpInit(); } }); }
 
 /* ---------- galeria + lightbox ---------- */
 let fotos = [], idx = 0;
