@@ -427,7 +427,7 @@ td.num{text-align:right;white-space:nowrap}
 <script>
 /* =================== CONFIGURAÇÃO — edite aqui =================== */
 const CONFIG = {
-  API_URL: '',                 // cole aqui a URL do App da Web do Google Apps Script (vazio = modo demonstração)
+  API_URL: 'https://script.google.com/macros/s/AKfycbzfjfPVSfyt2Lko7NXeTVmURfGdly8XlXa3yV2vXgzjOxD2AHBJycrbCDiYpNKr7C0G/exec',                 // cole aqui a URL do App da Web do Google Apps Script (vazio = modo demonstração)
   SITE_URL: 'https://rodrigoppastro.github.io/casamento-luan-amanda/', // endereço do site (usado nos links de convite e no QR Code)
   MAPA_EMBED: true,
   // FOTO DA CAPA: troque o arquivo e, se precisar, ajuste o enquadramento ('horizontal vertical').
@@ -576,7 +576,7 @@ async function demo(a, p) {
       try { save(); } catch { throw new Error('Sem espaço no modo demonstração.'); } return { ok: true }; }
     case 'registrarPresente': d.presentes.push({ id: 'p' + Date.now(), data: new Date().toISOString(), nome: p.nome, presente: p.presente, valor: p.valor, mensagem: p.mensagem }); save(); return { ok: true };
     case 'painel': adm(); return { convidados: d.convidados, mensagens: d.mensagens, fotos: d.fotos.map(f => ({ ...f, arquivo: '' })), presentes: d.presentes };
-    case 'moderar': { adm(); const k = p.tipo === 'foto' ? 'fotos' : 'mensagens'; const i = d[k].findIndex(x => x.id === p.id);
+    case 'moderar': { adm(); const k = p.tipo === 'foto' ? 'fotos' : p.tipo === 'presente' ? 'presentes' : 'mensagens'; const i = d[k].findIndex(x => x.id === p.id);
       if (i >= 0) { if (p.acao === 'aprovar') d[k][i].aprovado = true; else d[k].splice(i, 1); } save(); return { ok: true }; }
     case 'adicionarConvidado': { adm(); const L = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let c; do { c = Array.from({ length: 6 }, () => L[Math.floor(Math.random() * L.length)]).join(''); } while (d.convidados.some(x => x.codigo === c));
       d.convidados.push({ codigo: c, nome: p.nome, tipo: p.tipo, responsavel: p.responsavel || '', telefone: p.telefone || '', status: 'Pendente', obs: '' }); save(); return { codigo: c }; }
@@ -791,7 +791,7 @@ function painel() {
   if (aba === 'pres') {
     const soma = P.presentes.reduce((a, p) => a + Number(p.valor || 0), 0);
     B.innerHTML = `<h3 style="font-size:30px">Presentes informados · ${brl(soma)}</h3><p class="muted small">Registrados quando o convidado clica em "Já fiz o Pix". Confira no extrato do banco: o Pix direto não é confirmado automaticamente.</p>
-      ${P.presentes.length ? `<table class="stack"><thead><tr><th>Data</th><th>Quem</th><th>Presente</th><th>Valor</th><th>Recado</th></tr></thead><tbody>${P.presentes.slice().reverse().map(p => `<tr><td>${dt(p.data)}</td><td>${esc(p.nome || '(anônimo)')}</td><td>${esc(p.presente)}</td><td class="num">${brl(p.valor)}</td><td>${esc(p.mensagem)}</td></tr>`).join('')}</tbody></table>` : '<div class="empty">Nenhum presente informado ainda.</div>'}`;
+      ${P.presentes.length ? `<table class="stack"><thead><tr><th>Data</th><th>Quem</th><th>Presente</th><th>Valor</th><th>Recado</th><th></th></tr></thead><tbody>${P.presentes.slice().reverse().map(p => `<tr><td>${dt(p.data)}</td><td>${esc(p.nome || '(anônimo)')}</td><td>${esc(p.presente)}</td><td class="num">${brl(p.valor)}</td><td>${esc(p.mensagem)}</td><td><button class="btn sm out" data-mod="pres:excluir:${esc(p.id)}">Excluir</button></td></tr>`).join('')}</tbody></table>` : '<div class="empty">Nenhum presente informado ainda.</div>'}`;
   }
   if (aba === 'msg') {
     const ms = P.mensagens.slice().sort((a, b) => a.aprovado - b.aprovado);
@@ -821,7 +821,7 @@ function painel() {
     const up = () => $('#waG').href = 'https://wa.me/?text=' + encodeURIComponent($('#txtG').value); $('#txtG').oninput = up; up();
   }
   B.onclick = async e => {
-    const m = e.target.closest('[data-mod]'); if (m) { const [t, a, id] = m.dataset.mod.split(':'); m.disabled = true; await api('moderar', { senha, tipo: t === 'foto' ? 'foto' : 'msg', acao: a, id }); return recarregar(); }
+    const m = e.target.closest('[data-mod]'); if (m) { const [t, a, id] = m.dataset.mod.split(':'); m.disabled = true; await api('moderar', { senha, tipo: t === 'foto' ? 'foto' : t === 'pres' ? 'presente' : 'msg', acao: a, id }); return recarregar(); }
     const c = e.target.closest('[data-cp]'); if (c) return copiar(linkConvite(c.dataset.cp), c);
     const ed = e.target.closest('[data-ed]'); if (ed) return editar(P.convidados.find(g => g.codigo === ed.dataset.ed));
     const d = e.target.closest('[data-del]'); if (d) { if (d.dataset.ok) { d.disabled = true; await api('excluirConvidado', { senha, codigo: d.dataset.del }); return recarregar(); }

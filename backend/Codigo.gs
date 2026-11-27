@@ -33,6 +33,7 @@ const ABAS = {
 /* ---------- instalação ---------- */
 function configurar() {
   const ss = planilha();
+  ss.setSpreadsheetTimeZone('America/Sao_Paulo');
   Object.keys(ABAS).forEach(nome => {
     let sh = ss.getSheetByName(nome);
     if (!sh) sh = ss.insertSheet(nome);
@@ -266,10 +267,10 @@ const ACOES = {
 
   moderar(req) {
     exigeAdmin(req);
-    const nome = req.tipo === 'foto' ? 'Fotos' : 'Mensagens';
+    const nome = req.tipo === 'foto' ? 'Fotos' : req.tipo === 'presente' ? 'Presentes' : 'Mensagens';
     const item = linhas(nome).find(x => x.ID === req.id);
     if (!item) throw new Error('Item não encontrado.');
-    if (req.acao === 'aprovar') setCampo(nome, item._linha, 'Aprovado', 'SIM');
+    if (req.acao === 'aprovar' && nome !== 'Presentes') setCampo(nome, item._linha, 'Aprovado', 'SIM');
     else if (req.acao === 'excluir') {
       if (nome === 'Fotos') { try { DriveApp.getFileById(item.ArquivoID).setTrashed(true); } catch (e) {} }
       aba(nome).deleteRow(item._linha);
