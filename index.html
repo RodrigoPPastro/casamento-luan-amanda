@@ -104,13 +104,18 @@ label{font-size:14px;color:var(--soft);display:block;margin:0 0 6px}
 .story{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);grid-template-areas:'sh ph' 'st ph';column-gap:clamp(28px,5vw,64px);row-gap:24px;align-items:center}.story .sh{grid-area:sh;align-self:end}.story .st{grid-area:st;align-self:start}.story .ph{grid-area:ph}.quote{margin-bottom:0}
 .polaroid{background:#fff;padding:14px 14px 54px;box-shadow:var(--shadow);transform:rotate(2.5deg);max-width:420px;margin:0 auto;position:relative}
 .polaroid img{aspect-ratio:1;object-fit:cover;width:100%}
+.polaroid.vid{width:100%;max-width:300px;transform:rotate(2deg)}
+.vbox{position:relative;aspect-ratio:9/16;background:#1c3a68;overflow:hidden}
+.vbox video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.vplay{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:72px;height:72px;border-radius:50%;border:0;background:rgba(255,255,255,.92);color:var(--navy);display:grid;place-items:center;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.25);transition:transform .2s}
+.vplay:hover{transform:translate(-50%,-50%) scale(1.07)}.vplay svg{margin-left:4px}
 .polaroid figcaption{position:absolute;bottom:12px;left:0;right:0;text-align:center;font:32px "Great Vibes",cursive;color:var(--navy)}
 .tl{list-style:none;margin:26px 0 0;padding:0;border-left:1.5px solid var(--ser);}
 .tl li{position:relative;padding:0 0 22px 26px}
 .tl li::before{content:"";position:absolute;left:-7px;top:6px;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--navy)}
 .tl b{font:600 16.5px Lora,serif;color:var(--navy2);display:block}
 .quote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:21px;color:var(--navy2);border-top:1px solid var(--line);padding-top:18px;margin-top:4px}
-@media(max-width:820px){.story{grid-template-columns:1fr;grid-template-areas:'sh' 'ph' 'st';row-gap:28px}.story h2,.story .orn{text-align:center!important;margin-left:auto!important}.polaroid{max-width:300px}}
+@media(max-width:820px){.story{grid-template-columns:1fr;grid-template-areas:'sh' 'ph' 'st';row-gap:28px}.story h2,.story .orn{text-align:center!important;margin-left:auto!important}.polaroid{max-width:300px}.polaroid.vid{max-width:260px}}
 
 /* eventos */
 .ev{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
@@ -328,7 +333,8 @@ td.num{text-align:right;white-space:nowrap}
       </ul>
       <p class="quote">Nossa história é marcada por cada pessoa convidada para o nosso grande dia. Cada um de vocês fez parte de um momento muito especial para nós, e ficamos muito felizes e honrados em ter vocês em mais uma memória conosco.</p>
     </div>
-    <figure class="polaroid ph" style="margin:0 auto"><img src="img/historia.jpg" alt="Luan e Amanda sorrindo um para o outro"><figcaption>Luan &amp; Amanda</figcaption></figure>
+    <figure class="polaroid ph vid" style="margin:0 auto"><div class="vbox"><video id="stdVideo" src="video/save-the-date.mp4" poster="video/save-the-date.jpg" playsinline preload="none"></video>
+      <button type="button" class="vplay" id="stdPlay" aria-label="Assistir ao Save the Date"><svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button></div><figcaption>Save the Date</figcaption></figure>
   </div>
 </section>
 
@@ -505,7 +511,7 @@ const brl = v => Number(v || 0).toLocaleString('pt-BR', { style: 'currency', cur
 const dt = s => { try { return new Date(s).toLocaleDateString('pt-BR'); } catch { return ''; } };
 const ico = n => `<svg class="ico"><use href="#i-${n}"/></svg>`;
 const DEMO = !CONFIG.API_URL;
-{ const im = $('.hero .photo img'); im.src = CONFIG.CAPA; im.style.setProperty('--foco', CONFIG.CAPA_FOCO_COMPUTADOR); im.style.setProperty('--foco-cel', CONFIG.CAPA_FOCO_CELULAR); $('.polaroid img').src = CONFIG.FOTO_HISTORIA; }
+{ const im = $('.hero .photo img'); im.src = CONFIG.CAPA; im.style.setProperty('--foco', CONFIG.CAPA_FOCO_COMPUTADOR); im.style.setProperty('--foco-cel', CONFIG.CAPA_FOCO_CELULAR); const pi = $('.polaroid img'); if (pi) pi.src = CONFIG.FOTO_HISTORIA; }
 const store = { get(k, d) { try { const v = localStorage.getItem('la_' + k); return v ? JSON.parse(v) : d; } catch { return d; } }, set(k, v) { try { localStorage.setItem('la_' + k, JSON.stringify(v)); } catch {} } };
 
 /* ---------- flores (hortênsias desenhadas) ---------- */
@@ -533,6 +539,11 @@ function buque(seed) {
   return `<svg viewBox="0 0 220 220" aria-hidden="true">${out}</svg>`;
 }
 $$('.fl').forEach(el => el.innerHTML = buque(+el.dataset.seed));
+
+/* ---------- vídeo Save the Date ---------- */
+{ const v = $('#stdVideo'), b = $('#stdPlay');
+  if (v && b) { b.onclick = () => { v.controls = true; b.classList.add('hide'); v.play().catch(() => {}); };
+    v.addEventListener('ended', () => { v.controls = false; v.load(); b.classList.remove('hide'); }); } }
 
 /* ---------- menu ---------- */
 $('#menuBtn').onclick = () => { const o = $('#links').classList.toggle('open'); $('#menuBtn').setAttribute('aria-expanded', o); };
