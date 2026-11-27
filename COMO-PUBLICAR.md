@@ -34,6 +34,8 @@ Endereço do site + `#painel` (ou o link "Painel" no menu), com a senha do passo
 - os presentes informados e o total
 - a aprovação de recados e de fotos dos convidados (qualquer pessoa pode enviar pelo site, informando o nome, mas só aparece depois da aprovação)
 - o envio de fotos de vocês direto para a galeria (aba Fotos → Escolher fotos)
+- **Lista de presentes:** na primeira vez, clique em "Começar a editar a lista". Depois dá para trocar nome, descrição, valor e foto de cada presente, além de acrescentar ou excluir presentes
+- **Gravata do noivo:** ligar ou desligar no site, valor de cada pedaço, quantidade de pedaços e se o nome de quem cortou aparece. Cada Pix informado fica "aguardando" até vocês clicarem em **Confirmar Pix**, e só então o pedaço sai da gravata
 - o QR Code do site
 
 ## 5. Trocar a foto da capa (ou da história)
