@@ -965,7 +965,7 @@ function painel() {
     B.innerHTML = `<div class="ev"><div class="card"><h3>QR Code do site</h3><p class="muted small">Para imprimir no convite, na mesa ou no telão.</p><div class="qr">${qrSvg(siteUrl())}</div><div class="copy"><input readonly value="${esc(siteUrl())}"><button class="btn sm" id="cpS">Copiar</button></div></div>
       <div class="card"><h3>Convite digital pelo WhatsApp</h3><p class="muted small">Na aba Convidados, cada pessoa tem o botão "Convite", que abre o WhatsApp com a mensagem e o link individual. Para compartilhar o site em grupos:</p>
       <textarea rows="5" id="txtG">Com muita alegria convidamos você para o casamento de Luan & Amanda, dia 09/01/2027! Todas as informações estão no site: ${siteUrl()}</textarea>
-      <div class="acts" style="margin-top:12px"><button class="btn" type="button" id="cpG">Copiar mensagem</button><button class="btn out" type="button" id="cpL">Copiar só o link</button><a class="btn out" target="_blank" rel="noopener" id="waG" href="#">${ico('wa')} Abrir no WhatsApp</a></div>
+      <div class="acts" style="margin-top:12px"><button class="btn" type="button" id="cpG">Copiar mensagem</button><a class="btn out" target="_blank" rel="noopener" id="waG" href="#">${ico('wa')} Abrir no WhatsApp</a></div>
       <p class="muted small" style="margin:10px 0 0">Copie e cole onde quiser: WhatsApp no celular ou no computador, grupos, Instagram, e-mail. O WhatsApp mostra o cartão com a foto de vocês: espere ele aparecer antes de enviar.</p></div>
       <div class="card"><h3>Convite em imagem</h3><p class="muted small">Para mandar como foto no WhatsApp ou postar no status e no Instagram. O QR Code leva direto ao site.</p>
       <img src="${esc(CONFIG.CONVITE_IMAGEM)}" alt="Convite de Luan e Amanda" style="width:100%;max-width:300px;border-radius:12px;border:1px solid var(--line);margin:8px auto;display:block">
@@ -973,7 +973,6 @@ function painel() {
     $('#cpS').onclick = e => copiar(siteUrl(), e.currentTarget);
     const up = () => $('#waG').href = 'https://wa.me/?text=' + encodeURIComponent($('#txtG').value); $('#txtG').oninput = up; up();
     $('#cpG').onclick = e => copiarBtn($('#txtG').value, e.currentTarget, 'Copiar mensagem');
-    $('#cpL').onclick = e => copiarBtn(siteUrl(), e.currentTarget, 'Copiar só o link');
   }
   B.onclick = async e => {
     const m = e.target.closest('[data-mod]'); if (m) { const [t, a, id] = m.dataset.mod.split(':'); m.disabled = true; await api('moderar', { senha, tipo: { foto: 'foto', pres: 'presente', grav: 'gravata' }[t] || 'msg', acao: a, id }); await recarregar(); atualizarSite(); return; }
