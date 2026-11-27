@@ -28,6 +28,9 @@ const ABAS = {
   Mensagens:  ['ID', 'Data', 'Codigo', 'Nome', 'Texto', 'Aprovado'],
   Fotos:      ['ID', 'Data', 'Codigo', 'Nome', 'ArquivoID', 'Legenda', 'Aprovado'],
   Presentes:  ['ID', 'Data', 'Codigo', 'Nome', 'Presente', 'Valor', 'Mensagem'],
+  Lista:      ['ID', 'Nome', 'Descricao', 'Valor', 'FotoID', 'Icone'],
+  Gravata:    ['ID', 'Data', 'Codigo', 'Nome', 'Valor', 'Mensagem', 'Confirmado'],
+  Config:     ['Chave', 'Valor'],
 };
 
 /* ---------- instalação ---------- */
@@ -176,6 +179,62 @@ function salvarFoto(imagem, codigo, nome, legenda, aprovado) {
   aba('Fotos').appendRow([novoId(), new Date(), codigo, nome, arq.getId(), String(legenda || '').slice(0, 140), aprovado]);
 }
 
+function salvarImagem(dataUrl, nomeArq, pasta) {
+  const m = String(dataUrl || '').match(/^data:(image\/(jpeg|png|webp));base64,(.+)$/);
+  if (!m) throw new Error('Arquivo de imagem inválido.');
+  const bytes = Utilities.base64Decode(m[3]);
+  if (bytes.length > 8 * 1024 * 1024) throw new Error('Foto muito grande.');
+  const arq = pasta.createFile(Utilities.newBlob(bytes, m[1], nomeArq + '.' + m[2]));
+  arq.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  return arq.getId();
+}
+
+function pastaLista() {
+  const props = PropertiesService.getScriptProperties();
+  const id = props.getProperty('PASTA_LISTA');
+  if (id) { try { return DriveApp.getFolderById(id); } catch (e) {} }
+  const nome = 'Fotos da lista de presentes';
+  const pasta = PASTA_ID ? DriveApp.getFolderById(PASTA_ID).createFolder(nome) : DriveApp.createFolder(nome);
+  props.setProperty('PASTA_LISTA', pasta.getId());
+  return pasta;
+}
+
+function lerConfig() {
+  const o = {};
+  linhas('Config').forEach(r => o[r.Chave] = r.Valor);
+  return o;
+}
+
+function gravarConfig(chave, valor) {
+  const l = linhas('Config').find(r => r.Chave === chave);
+  if (l) setCampo('Config', l._linha, 'Valor', valor);
+  else aba('Config').appendRow([chave, valor]);
+}
+
+function configGravata() {
+  const c = lerConfig();
+  return {
+    ativa: String(c.gravataAtiva) === 'true',
+    nomes: String(c.gravataNomes) === 'true',
+    valor: Number(c.gravataValor) || 20,
+    pedacos: Number(c.gravataPedacos) || 30,
+  };
+}
+
+function statusGravata() {
+  const g = configGravata();
+  const conf = linhas('Gravata').filter(r => r.Confirmado === 'SIM' || r.Confirmado === true);
+  const total = conf.reduce((a, r) => a + (Number(r.Valor) || 0), 0);
+  const out = { ativa: g.ativa, valor: g.valor, pedacos: g.pedacos, total: total,
+    cortados: Math.min(g.pedacos, Math.floor(total / g.valor + 1e-9)), mostrarNomes: g.nomes };
+  if (g.nomes) out.nomes = conf.map(r => String(r.Nome || '').trim()).filter(Boolean).reverse().slice(0, 80);
+  return out;
+}
+
+function listaPresentes() {
+  return linhas('Lista').map(r => ({ id: r.ID, nome: r.Nome, desc: r.Descricao, valor: Number(r.Valor) || 0, foto: r.FotoID || '', ico: r.Icone || 'gift' }));
+}
+
 /* ---------- ações públicas ---------- */
 const ACOES = {
   buscarConvidado(req) {
@@ -245,6 +304,18 @@ const ACOES = {
     return { ok: true };
   },
 
+  dadosPublicos() {
+    return { presentes: listaPresentes(), gravata: statusGravata() };
+  },
+
+  registrarGravata(req) {
+    const valor = Number(req.valor) || 0;
+    if (valor <= 0) throw new Error('Informe o valor.');
+    aba('Gravata').appendRow([novoId(), new Date(), String(req.codigo || ''), String(req.nome || '').trim().slice(0, 60),
+      valor, String(req.mensagem || '').slice(0, 300), '']);
+    return { ok: true };
+  },
+
   registrarPresente(req) {
     const valor = Number(req.valor) || 0;
     aba('Presentes').appendRow([novoId(), new Date(), String(req.codigo || ''), String(req.nome || '').slice(0, 120),
@@ -262,15 +333,19 @@ const ACOES = {
       mensagens: linhas('Mensagens').map(m => ({ id: m.ID, data: m.Data, nome: m.Nome, texto: m.Texto, aprovado: m.Aprovado === true || m.Aprovado === 'SIM' })),
       fotos: linhas('Fotos').map(f => ({ id: f.ID, arquivo: f.ArquivoID, data: f.Data, nome: f.Nome, legenda: f.Legenda, aprovado: f.Aprovado === true || f.Aprovado === 'SIM' })),
       presentes: linhas('Presentes').map(p => ({ id: p.ID, data: p.Data, nome: p.Nome, presente: p.Presente, valor: p.Valor, mensagem: p.Mensagem })),
+      lista: listaPresentes(),
+      gravata: linhas('Gravata').map(r => ({ id: r.ID, data: r.Data, nome: r.Nome, valor: Number(r.Valor) || 0, mensagem: r.Mensagem, confirmado: r.Confirmado === 'SIM' || r.Confirmado === true })),
+      gravataConfig: configGravata(),
     };
   },
 
   moderar(req) {
     exigeAdmin(req);
-    const nome = req.tipo === 'foto' ? 'Fotos' : req.tipo === 'presente' ? 'Presentes' : 'Mensagens';
+    const nome = { foto: 'Fotos', presente: 'Presentes', gravata: 'Gravata' }[req.tipo] || 'Mensagens';
     const item = linhas(nome).find(x => x.ID === req.id);
     if (!item) throw new Error('Item não encontrado.');
-    if (req.acao === 'aprovar' && nome !== 'Presentes') setCampo(nome, item._linha, 'Aprovado', 'SIM');
+    if (req.acao === 'aprovar' && nome === 'Gravata') setCampo(nome, item._linha, 'Confirmado', 'SIM');
+    else if (req.acao === 'aprovar' && nome !== 'Presentes') setCampo(nome, item._linha, 'Aprovado', 'SIM');
     else if (req.acao === 'excluir') {
       if (nome === 'Fotos') { try { DriveApp.getFileById(item.ArquivoID).setTrashed(true); } catch (e) {} }
       aba(nome).deleteRow(item._linha);
@@ -312,6 +387,50 @@ const ACOES = {
       setCampo('Convidados', L, 'RespondidoEm', req.status === 'Pendente' ? '' : new Date());
     }
     return { ok: true };
+  },
+
+  salvarPresente(req) {
+    exigeAdmin(req);
+    const it = req.item || {};
+    const nome = String(it.nome || '').trim().slice(0, 80);
+    if (!nome) throw new Error('Informe o nome do presente.');
+    const todos = linhas('Lista');
+    const atual = it.id ? todos.find(x => x.ID === it.id) : null;
+    let foto = atual ? atual.FotoID : '';
+    if (it.removerFoto) foto = '';
+    if (it.imagem) foto = salvarImagem(it.imagem, 'Presente ' + nome + ' ' + Date.now(), pastaLista());
+    const valores = [nome, String(it.desc || '').slice(0, 200), Number(it.valor) || 0, foto, String(it.ico || 'gift')];
+    if (atual) {
+      aba('Lista').getRange(atual._linha, 2, 1, 5).setValues([valores]);
+      return { id: atual.ID, foto: foto };
+    }
+    const id = novoId();
+    aba('Lista').appendRow([id].concat(valores));
+    return { id: id, foto: foto };
+  },
+
+  excluirItemLista(req) {
+    exigeAdmin(req);
+    const item = linhas('Lista').find(x => x.ID === req.id);
+    if (item) aba('Lista').deleteRow(item._linha);
+    return { ok: true };
+  },
+
+  importarPresentes(req) {
+    exigeAdmin(req);
+    if (linhas('Lista').length) throw new Error('A lista já foi criada.');
+    (req.itens || []).slice(0, 60).forEach(it => aba('Lista').appendRow([novoId(), String(it.nome || '').slice(0, 80),
+      String(it.desc || '').slice(0, 200), Number(it.valor) || 0, '', String(it.ico || 'gift')]));
+    return { ok: true };
+  },
+
+  salvarGravata(req) {
+    exigeAdmin(req);
+    gravarConfig('gravataAtiva', req.ativa ? 'true' : 'false');
+    gravarConfig('gravataNomes', req.nomes ? 'true' : 'false');
+    gravarConfig('gravataValor', Math.max(1, Number(req.valor) || 20));
+    gravarConfig('gravataPedacos', Math.min(100, Math.max(5, Number(req.pedacos) || 30)));
+    return configGravata();
   },
 
   excluirConvidado(req) {

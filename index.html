@@ -146,6 +146,22 @@ label{font-size:14px;color:var(--soft);display:block;margin:0 0 6px}
 .gift .val{font:600 24px "Cormorant Garamond",serif;color:var(--navy);white-space:nowrap}
 .gift .btn{align-self:flex-start}
 
+/* foto do presente */
+.gift .gimg{margin:-20px -20px 4px;aspect-ratio:4/3;overflow:hidden;border-radius:18px 18px 0 0;background:var(--ser2)}
+.gift .gimg img{width:100%;height:100%;object-fit:cover}
+/* gravata */
+.tie{display:grid;grid-template-columns:minmax(0,180px) minmax(0,1fr);gap:clamp(20px,4vw,48px);align-items:center;margin-top:36px}
+.tie .fig2{position:relative;max-width:180px;width:100%;margin:0 auto}
+.tie svg{width:100%;height:auto;display:block}
+.tie .cnt{font:600 40px/1 Lora,serif;color:var(--navy)}
+.tie .bar{margin:12px 0 6px}
+.tie .nomes{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+@media(max-width:640px){.tie{grid-template-columns:1fr}.tie .fig2{max-width:120px}}
+.ledit{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.ledit .card{padding:14px;display:flex;flex-direction:column;gap:8px}
+.ledit .ph{aspect-ratio:4/3;border-radius:10px;background:var(--ser3);overflow:hidden;display:grid;place-items:center;color:var(--ser)}
+.ledit .ph img{width:100%;height:100%;object-fit:cover}
+.sw{display:flex;align-items:center;gap:10px;font-size:15px;color:var(--ink);margin:6px 0;cursor:pointer}.sw input{width:22px;height:22px;flex:none}
 /* galeria */
 .gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
 .gal button{padding:0;border:0;background:var(--ser2);border-radius:12px;overflow:hidden;cursor:zoom-in;aspect-ratio:1}
@@ -208,7 +224,7 @@ footer .soc a{display:inline-flex;align-items:center;gap:8px;border:1px solid rg
 .stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
 .stat b{display:block;font:600 36px/1 "Cormorant Garamond",serif;color:var(--navy)}
 .stat span{font-size:14px;color:var(--soft)}
-.bar{height:12px;border-radius:999px;background:var(--line);overflow:hidden;display:flex;margin:6px 0 20px}
+.bar{height:12px;border-radius:999px;background:var(--line);overflow:hidden;display:flex;margin:6px 0 20px}.tie-bar{margin:12px 0 6px}
 .bar i{display:block;height:100%}
 table{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden;font-size:14.5px}
 th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
@@ -258,6 +274,7 @@ td.num{text-align:right;white-space:nowrap}
       <a href="#cerimonia">Cerimônia</a>
       <a href="#confirmar">Confirmação</a>
       <a href="#presentes">Presentes</a>
+      <a href="#gravata" id="navGravata" class="hide">Gravata</a>
       <a href="#galeria">Galeria</a>
       <a href="#mural">Mensagens</a>
       <a href="#local">Localização</a>
@@ -360,6 +377,7 @@ td.num{text-align:right;white-space:nowrap}
     <p class="lead">Sua presença já é o nosso maior presente! Mas, se quiser nos mimar, escolha uma das opções abaixo e envie o valor por Pix.</p>
     <div class="orn"><svg class="ico"><use href="#i-gift"/></svg></div>
     <div class="gifts" id="gifts"></div>
+    <div id="gravata" class="card tie hide" aria-live="polite"></div>
   </div>
 </section>
 
@@ -541,7 +559,7 @@ async function api(action, payload = {}) {
   return j.data;
 }
 function db() {
-  return store.get('db2', {
+  return store.get('db3', {
     convidados: [
       { codigo: 'DEMO01', nome: 'Maria Silva', tipo: 'Adulto', responsavel: '', telefone: '21999990001', status: 'Pendente', obs: '' },
       { codigo: 'DEMO02', nome: 'Pedro Silva', tipo: 'Criança', responsavel: 'DEMO01', telefone: '', status: 'Pendente', obs: '' },
@@ -552,13 +570,15 @@ function db() {
       { codigo: 'DEMO04', nome: 'Carla Mendes', tipo: 'Adulto', responsavel: '', telefone: '21999990003', status: 'Não vai', respondidoEm: new Date().toISOString(), obs: 'Estarei viajando, mas torcendo muito!' },
     ],
     mensagens: [{ id: 'm1', data: new Date().toISOString(), nome: 'João Souza', texto: 'Que Deus abençoe essa união! Felicidades ao casal.', aprovado: true }],
-    fotos: [], presentes: [],
+    fotos: [], presentes: [], lista: [],
+    config: { gravataAtiva: true, gravataNomes: true, gravataValor: 20, gravataPedacos: 30 },
+    gravata: [{ id: 'g1', data: new Date().toISOString(), nome: 'João Souza', valor: 60, mensagem: '', confirmado: true }, { id: 'g2', data: new Date().toISOString(), nome: 'Carla Mendes', valor: 20, mensagem: 'Corta curtinho!', confirmado: true }, { id: 'g3', data: new Date().toISOString(), nome: 'Maria Silva', valor: 40, mensagem: '', confirmado: false }],
   });
 }
 const N = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
 async function demo(a, p) {
   await new Promise(r => setTimeout(r, 250));
-  const d = db(), save = () => store.set('db2', d), pub = g => ({ codigo: g.codigo, nome: g.nome, tipo: g.tipo, status: g.status });
+  const d = db(), save = () => store.set('db3', d), pub = g => ({ codigo: g.codigo, nome: g.nome, tipo: g.tipo, status: g.status });
   const find = q => d.convidados.find(g => (q.codigo && g.codigo === String(q.codigo).toUpperCase().trim()) || (q.nome && N(g.nome) === N(q.nome)));
   const filho = (x, g) => x.responsavel && (x.responsavel === g.codigo || N(x.responsavel) === N(g.nome));
   const adm = () => { if (p.senha !== 'demo') throw new Error('Senha incorreta'); };
@@ -574,10 +594,20 @@ async function demo(a, p) {
     case 'listarFotos': return d.fotos.filter(f => f.aprovado).map(f => ({ src: f.src, nome: f.nome, legenda: f.legenda })).reverse();
     case 'enviarFoto': case 'adminEnviarFoto': { const g = p.codigo && find(p), adm2 = a === 'adminEnviarFoto'; if (adm2) adm(); const nome = adm2 ? 'Luan & Amanda' : g ? g.nome : String(p.nome || '').trim(); if (!nome) throw new Error('Escreva seu nome.'); d.fotos.push({ id: 'f' + Date.now() + Math.random().toString(36).slice(2, 6), data: new Date().toISOString(), nome, src: p.imagem, legenda: p.legenda || '', aprovado: adm2 });
       try { save(); } catch { throw new Error('Sem espaço no modo demonstração.'); } return { ok: true }; }
+    case 'dadosPublicos': { const c = d.config, conf = d.gravata.filter(x => x.confirmado), total = conf.reduce((a, x) => a + x.valor, 0);
+      return { presentes: d.lista, gravata: { ativa: c.gravataAtiva, valor: c.gravataValor, pedacos: c.gravataPedacos, total, cortados: Math.min(c.gravataPedacos, Math.floor(total / c.gravataValor + 1e-9)), mostrarNomes: c.gravataNomes, nomes: c.gravataNomes ? conf.map(x => x.nome).filter(Boolean).reverse() : undefined } }; }
+    case 'registrarGravata': d.gravata.push({ id: 'g' + Date.now(), data: new Date().toISOString(), nome: p.nome, valor: Number(p.valor) || 0, mensagem: p.mensagem, confirmado: false }); save(); return { ok: true };
+    case 'salvarGravata': adm(); Object.assign(d.config, { gravataAtiva: !!p.ativa, gravataNomes: !!p.nomes, gravataValor: Math.max(1, Number(p.valor) || 20), gravataPedacos: Math.min(100, Math.max(5, Number(p.pedacos) || 30)) }); save(); return d.config;
+    case 'salvarPresente': { adm(); const it = p.item; if (!String(it.nome || '').trim()) throw new Error('Informe o nome do presente.'); let x = d.lista.find(y => y.id === it.id);
+      if (!x) { x = { id: 'l' + Date.now(), ico: 'gift', foto: '' }; d.lista.push(x); }
+      Object.assign(x, { nome: it.nome.trim(), desc: it.desc || '', valor: Number(it.valor) || 0, ico: it.ico || x.ico }); if (it.removerFoto) x.foto = ''; if (it.imagem) x.foto = it.imagem;
+      try { save(); } catch { throw new Error('Sem espaço no modo demonstração.'); } return { id: x.id, foto: x.foto }; }
+    case 'excluirItemLista': adm(); d.lista = d.lista.filter(x => x.id !== p.id); save(); return { ok: true };
+    case 'importarPresentes': adm(); if (d.lista.length) throw new Error('A lista já foi criada.'); d.lista = p.itens.map((x, i) => ({ id: 'l' + i + Date.now(), nome: x.nome, desc: x.desc, valor: x.valor, ico: x.ico || 'gift', foto: '' })); save(); return { ok: true };
     case 'registrarPresente': d.presentes.push({ id: 'p' + Date.now(), data: new Date().toISOString(), nome: p.nome, presente: p.presente, valor: p.valor, mensagem: p.mensagem }); save(); return { ok: true };
-    case 'painel': adm(); return { convidados: d.convidados, mensagens: d.mensagens, fotos: d.fotos.map(f => ({ ...f, arquivo: '' })), presentes: d.presentes };
-    case 'moderar': { adm(); const k = p.tipo === 'foto' ? 'fotos' : p.tipo === 'presente' ? 'presentes' : 'mensagens'; const i = d[k].findIndex(x => x.id === p.id);
-      if (i >= 0) { if (p.acao === 'aprovar') d[k][i].aprovado = true; else d[k].splice(i, 1); } save(); return { ok: true }; }
+    case 'painel': adm(); return { convidados: d.convidados, mensagens: d.mensagens, fotos: d.fotos.map(f => ({ ...f, arquivo: '' })), presentes: d.presentes, lista: d.lista, gravata: d.gravata, gravataConfig: { ativa: d.config.gravataAtiva, nomes: d.config.gravataNomes, valor: d.config.gravataValor, pedacos: d.config.gravataPedacos } };
+    case 'moderar': { adm(); const k = { foto: 'fotos', presente: 'presentes', gravata: 'gravata' }[p.tipo] || 'mensagens'; const i = d[k].findIndex(x => x.id === p.id);
+      if (i >= 0) { if (p.acao === 'aprovar') { d[k][i].aprovado = true; d[k][i].confirmado = true; } else d[k].splice(i, 1); } save(); return { ok: true }; }
     case 'adicionarConvidado': { adm(); const L = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let c; do { c = Array.from({ length: 6 }, () => L[Math.floor(Math.random() * L.length)]).join(''); } while (d.convidados.some(x => x.codigo === c));
       d.convidados.push({ codigo: c, nome: p.nome, tipo: p.tipo, responsavel: p.responsavel || '', telefone: p.telefone || '', status: 'Pendente', obs: '' }); save(); return { codigo: c }; }
     case 'excluirConvidado': { adm(); const g = d.convidados.find(x => x.codigo === p.codigo); if (g) d.convidados.forEach(x => { if (filho(x, g)) x.responsavel = ''; }); d.convidados = d.convidados.filter(x => x.codigo !== p.codigo); save(); return { ok: true }; }
@@ -660,27 +690,77 @@ function fechar() { $('#modal').classList.add('hide'); }
 $('#modal').addEventListener('click', e => { if (e.target.id === 'modal' || e.target.closest('[data-close]')) fechar(); });
 async function copiar(txt, btn) { try { await navigator.clipboard.writeText(txt); btn.textContent = 'Copiado!'; } catch { btn.previousElementSibling?.select?.(); btn.textContent = 'Selecione e copie'; } setTimeout(() => btn.textContent = 'Copiar', 2200); }
 
-$('#gifts').innerHTML = CONFIG.PRESENTES.map((p, i) => `<article class="gift">${ico(p.ico || 'gift')}<h3>${esc(p.nome)}</h3><p>${esc(p.desc)}</p>
+const imgUrl = f => !f ? '' : String(f).startsWith('data:') ? f : 'https://lh3.googleusercontent.com/d/' + encodeURIComponent(f) + '=w800';
+let LISTA = CONFIG.PRESENTES, GRAV = null;
+function renderGifts() {
+  $('#gifts').innerHTML = LISTA.map((p, i) => `<article class="gift">${p.foto ? `<div class="gimg"><img loading="lazy" src="${esc(imgUrl(p.foto))}" alt="${esc(p.nome)}"></div>` : ico(p.ico || 'gift')}<h3>${esc(p.nome)}</h3><p>${esc(p.desc)}</p>
   <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><span class="val">${p.valor ? brl(p.valor) : 'Você escolhe'}</span><button class="btn sm" data-g="${i}">Presentear</button></div></article>`).join('');
-$('#gifts').addEventListener('click', e => { const b = e.target.closest('[data-g]'); if (b) presente(CONFIG.PRESENTES[+b.dataset.g]); });
-function presente(p) {
-  abrir(`<h3 style="font-size:28px">${esc(p.nome)}</h3><p class="muted" style="margin:0">${esc(p.desc)}</p>
-    ${p.valor ? '' : `<label for="pv" style="margin-top:16px">Valor do presente (R$)</label><input id="pv" type="number" min="1" step="1" inputmode="decimal" placeholder="Ex.: 100">`}
+}
+renderGifts();
+$('#gifts').addEventListener('click', e => { const b = e.target.closest('[data-g]'); if (b) presente(LISTA[+b.dataset.g]); });
+
+/* Pix genérico: presentes e gravata */
+function pixModal({ titulo, desc, valor, sugerido, nota, registrar, obrigado }) {
+  abrir(`<h3 style="font-size:28px">${esc(titulo)}</h3><p class="muted" style="margin:0">${esc(desc)}</p>
+    ${valor ? '' : `<label for="pv" style="margin-top:16px">Valor (R$)</label><input id="pv" type="number" min="1" step="1" inputmode="decimal" value="${sugerido || ''}" placeholder="Ex.: 100">${nota ? `<p class="muted small" style="margin:6px 0 0">${nota}</p>` : ''}`}
     <div id="pixArea"></div>
-    <label for="pn" style="margin-top:12px">Seu nome (opcional, só os noivos veem)</label><input id="pn" value="${esc(eu?.convidado.nome || '')}">
-    <label for="pm" style="margin-top:12px">Recado para os noivos (opcional)</label><textarea id="pm" rows="2" maxlength="600"></textarea>
+    <label for="pn" style="margin-top:12px">Seu nome (opcional)</label><input id="pn" value="${esc(eu?.convidado.nome || '')}">
+    <label for="pm" style="margin-top:12px">Recado para os noivos (opcional)</label><textarea id="pm" rows="2" maxlength="300"></textarea>
     <button class="btn" id="pixFeito" style="width:100%;margin-top:16px">${ico('heart')} Já fiz o Pix</button><div id="pixMsg"></div>`);
-  const render = () => { const v = p.valor || Number($('#pv').value) || 0; const code = pixPayload(v);
-    $('#pixArea').innerHTML = `<div class="qr">${qrSvg(code)}</div><div style="text-align:center;font:600 26px 'Cormorant Garamond',serif;color:var(--navy)">${v ? brl(v) : 'Digite o valor'}</div>
+  const val = () => valor || Number($('#pv')?.value) || 0;
+  const render = () => { const v = val(), code = pixPayload(v);
+    $('#pixArea').innerHTML = `<div class="qr">${qrSvg(code)}</div><div style="text-align:center;font:600 24px Lora,serif;color:var(--navy)">${v ? brl(v) : 'Digite o valor'}</div>
       <label style="margin-top:10px">Pix copia e cola</label><div class="copy"><input readonly value="${esc(code)}" onclick="this.select()"><button class="btn sm" type="button" id="cpy">Copiar</button></div>
       <p class="muted small" style="margin:8px 0 0">Ou use a chave (e-mail): <b>${esc(CONFIG.PIX.chave)}</b> · ${esc(CONFIG.PIX.nome)} · ${esc(CONFIG.PIX.banco)}</p>`;
     $('#cpy').onclick = e => copiar(code, e.currentTarget); };
-  render(); if (!p.valor) $('#pv').oninput = render;
-  $('#pixFeito').onclick = async e => { const v = p.valor || Number($('#pv')?.value) || 0; e.currentTarget.disabled = true;
-    try { await api('registrarPresente', { codigo: eu?.convidado.codigo || '', nome: $('#pn').value, presente: p.nome, valor: v, mensagem: $('#pm').value });
-      $('#pixMsg').innerHTML = '<div class="msg ok">Muito obrigado pelo carinho! Os noivos foram avisados.</div>'; }
+  render(); if (!valor) $('#pv').oninput = render;
+  $('#pixFeito').onclick = async e => { const v = val(); if (!v) { $('#pixMsg').innerHTML = '<div class="msg err">Digite o valor.</div>'; return; } e.currentTarget.disabled = true;
+    try { await registrar({ codigo: eu?.convidado.codigo || '', nome: $('#pn').value.trim(), valor: v, mensagem: $('#pm').value });
+      $('#pixMsg').innerHTML = `<div class="msg ok">${obrigado}</div>`; }
     catch (err) { e.currentTarget.disabled = false; $('#pixMsg').innerHTML = `<div class="msg err">${esc(err.message)}</div>`; } };
 }
+function presente(p) {
+  pixModal({ titulo: p.nome, desc: p.desc, valor: p.valor, registrar: d => api('registrarPresente', { ...d, presente: p.nome }),
+    obrigado: 'Muito obrigado pelo carinho! Os noivos foram avisados.' });
+}
+
+/* ---------- gravata do noivo ---------- */
+function tieSvg(n, cortados, id = 't') {
+  n = Math.max(1, n); cortados = Math.min(n, Math.max(0, cortados));
+  const top = 92, bot = 520, h = (bot - top) / n, cutY = bot - cortados * h;
+  const blade = 'M84 92 L116 92 L152 430 L100 520 L48 430 Z';
+  let lines = '';
+  for (let i = 1; i < n; i++) { const y = top + i * h; if (y < cutY - 1) lines += `<line x1="30" x2="170" y1="${y.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,.28)" stroke-width="1"/>`; }
+  return `<svg viewBox="0 0 200 540" role="img" aria-label="Gravata com ${n - cortados} de ${n} pedaços">
+    <defs><pattern id="${id}s" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><rect width="16" height="16" fill="#264b82"/><rect width="4" height="16" fill="#92a8d1"/></pattern>
+    <clipPath id="${id}c"><path d="${blade}"/></clipPath><clipPath id="${id}k"><rect x="0" y="0" width="200" height="${cutY.toFixed(1)}"/></clipPath></defs>
+    <path d="${blade}" fill="none" stroke="#92a8d1" stroke-width="2" stroke-dasharray="5 6" opacity=".7"/>
+    <g clip-path="url(#${id}k)"><path d="${blade}" fill="url(#${id}s)"/><g clip-path="url(#${id}c)">${lines}</g></g>
+    <path d="M68 12 L132 12 L120 86 L80 86 Z" fill="url(#${id}s)"/><path d="M68 12 L132 12 L120 86 L80 86 Z" fill="none" stroke="#1c3a68" stroke-width="2"/>
+    ${cortados && cortados < n ? `<g transform="translate(160 ${cutY.toFixed(1)})"><line x1="-128" x2="-4" stroke="#a2483f" stroke-width="2" stroke-dasharray="6 5"/><text x="2" y="6" font-size="18" fill="#a2483f">✂</text></g>` : ''}
+  </svg>`;
+}
+function renderGravata() {
+  const el = $('#gravata'), g = GRAV;
+  const on = !!(g && g.ativa); el.classList.toggle('hide', !on); $('#navGravata').classList.toggle('hide', !on);
+  if (!on) return;
+  const faltam = g.pedacos - g.cortados;
+  el.innerHTML = `<div class="fig2">${tieSvg(g.pedacos, g.cortados)}</div><div>
+    <h3 style="font-size:clamp(30px,4vw,40px);font-family:'Great Vibes',cursive;font-weight:400;color:var(--navy)">A gravata do noivo</h3>
+    <p style="margin:6px 0 14px">A tradição chegou ao site: cada <b>${brl(g.valor)}</b> corta um pedaço da gravata do Luan. Quer cortar mais de um? É só enviar mais. O pedaço sai da gravata assim que os noivos confirmam o Pix.</p>
+    ${faltam > 0 ? `<div class="cnt">${faltam} <span style="font:500 18px Lora;color:var(--soft)">de ${g.pedacos} pedaços ainda inteiros</span></div>` : `<div class="cnt" style="font-size:30px">A gravata acabou! Obrigado a todos 💙</div>`}
+    <div class="bar tie-bar" role="img" aria-label="${g.cortados} pedaços cortados"><i style="width:${(g.cortados / g.pedacos * 100).toFixed(1)}%;background:var(--navy)"></i></div>
+    <p class="muted small" style="margin:0 0 16px">${g.cortados} pedaço${g.cortados === 1 ? '' : 's'} cortado${g.cortados === 1 ? '' : 's'}</p>
+    ${faltam > 0 ? `<button class="btn" id="cortar">✂ Cortar um pedaço</button>` : ''}
+    ${g.mostrarNomes && g.nomes?.length ? `<div class="nomes">${g.nomes.map(n => `<span class="tag">✂ ${esc(n)}</span>`).join('')}</div>` : ''}</div>`;
+  const b = $('#cortar'); if (b) b.onclick = () => pixModal({ titulo: 'Cortar a gravata', desc: `Cada ${brl(g.valor)} corta um pedaço.`, sugerido: g.valor,
+    nota: `Ex.: ${brl(g.valor * 3)} cortam 3 pedaços.`, registrar: d => api('registrarGravata', d),
+    obrigado: 'Obrigado! Seu pedaço será cortado assim que os noivos confirmarem o Pix. ✂' });
+}
+async function carregarPublico() {
+  try { const d = await api('dadosPublicos'); if (d.presentes?.length) { LISTA = d.presentes; renderGifts(); } GRAV = d.gravata; renderGravata(); } catch {}
+}
+carregarPublico();
 
 /* ---------- galeria + lightbox ---------- */
 let fotos = [], idx = 0;
@@ -696,7 +776,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') { fechar(); 
   if (!$('#lb').classList.contains('hide')) { if (e.key === 'ArrowRight') lb(idx + 1); if (e.key === 'ArrowLeft') lb(idx - 1); } });
 galeria();
 
-function reduzir(file) { return new Promise((ok, no) => { const img = new Image(); img.onload = () => { const m = 1600, s = Math.min(1, m / Math.max(img.width, img.height)); const c = document.createElement('canvas'); c.width = Math.round(img.width * s); c.height = Math.round(img.height * s); c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(img.src); ok(c.toDataURL('image/jpeg', DEMO ? .6 : .82)); }; img.onerror = () => no(new Error('Não consegui abrir essa imagem.')); img.src = URL.createObjectURL(file); }); }
+function reduzir(file, max) { return new Promise((ok, no) => { const img = new Image(); img.onload = () => { const m = max || 1600, s = Math.min(1, m / Math.max(img.width, img.height)); const c = document.createElement('canvas'); c.width = Math.round(img.width * s); c.height = Math.round(img.height * s); c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(img.src); ok(c.toDataURL('image/jpeg', DEMO ? .6 : .82)); }; img.onerror = () => no(new Error('Não consegui abrir essa imagem.')); img.src = URL.createObjectURL(file); }); }
 $('#fotoBtn').onclick = () => { if (!eu && $('#fotoNome').value.trim().length < 2) { $('#fotoMsg').innerHTML = '<div class="msg">Escreva seu nome antes de escolher as fotos.</div>'; $('#fotoNome').focus(); return; } $('#fotoMsg').innerHTML = ''; $('#fotoIn').click(); };
 $('#fotoIn').onchange = async e => { const fs = [...e.target.files].slice(0, 10); if (!fs.length) return; let n = 0;
   $('#fotoMsg').innerHTML = '<div class="msg">Enviando fotos...</div>';
@@ -747,9 +827,9 @@ const familia = g => { const ms = P ? membros(g).map(m => m.nome.split(' ')[0]) 
 const txtConvite = g => `Olá, ${g.nome.split(' ')[0]}! Com muita alegria convidamos ${familia(g)} para o nosso casamento, dia 09/01/2027 às 14h. Todas as informações e a confirmação de presença estão no seu convite: ${linkConvite(g.codigo)}\nCom carinho, Luan & Amanda`;
 const txtLembrete = g => `Oi, ${g.nome.split(' ')[0]}! Passando para lembrar de confirmar a presença ${familia(g) === 'você' ? 'sua' : 'de ' + familia(g)} no casamento de Luan & Amanda até 20/12. É rapidinho pelo link: ${linkConvite(g.codigo)}`;
 function painel() {
-  const tabs = [['resumo', 'Resumo'], ['conv', 'Convidados'], ['pres', 'Presentes'], ['msg', 'Recados'], ['fotos', 'Fotos'], ['div', 'Convite e QR Code']];
-  const pend = P.mensagens.filter(m => !m.aprovado).length + P.fotos.filter(f => !f.aprovado).length;
-  $('#adm').innerHTML = topo(tabs.map(([k, l]) => `<button class="${aba === k ? 'on' : ''}" data-tab="${k}">${l}${(k === 'msg' || k === 'fotos') && pend ? ' •' : ''}</button>`).join('')) + `<div class="body" id="admB"></div>`;
+  const tabs = [['resumo', 'Resumo'], ['conv', 'Convidados'], ['pres', 'Presentes recebidos'], ['lista', 'Lista de presentes'], ['grav', 'Gravata'], ['msg', 'Recados'], ['fotos', 'Fotos'], ['div', 'Convite e QR Code']];
+  const pendG = (P.gravata || []).filter(g => !g.confirmado).length; const pend = P.mensagens.filter(m => !m.aprovado).length + P.fotos.filter(f => !f.aprovado).length;
+  $('#adm').innerHTML = topo(tabs.map(([k, l]) => `<button class="${aba === k ? 'on' : ''}" data-tab="${k}">${l}${((k === 'msg' || k === 'fotos') && pend) || (k === 'grav' && pendG) ? ' •' : ''}</button>`).join('')) + `<div class="body" id="admB"></div>`;
   $$('[data-tab]').forEach(b => b.onclick = () => { aba = b.dataset.tab; painel(); });
   const B = $('#admB'), C = P.convidados;
   const n = s => C.filter(g => g.status === s).length, conf = C.filter(g => g.status === 'Confirmado');
@@ -759,7 +839,7 @@ function painel() {
     B.innerHTML = `<h3 style="font-size:30px">Resumo</h3>
       <div class="stats"><div class="stat"><b>${C.length}</b><span>Convidados na lista</span></div><div class="stat"><b style="color:var(--ok)">${n('Confirmado')}</b><span>Confirmados (${conf.filter(g => g.tipo === 'Adulto').length} adultos · ${conf.filter(g => g.tipo === "Criança").length} criança(s))</span></div>
       <div class="stat"><b style="color:var(--no)">${n('Não vai')}</b><span>Não vão</span></div><div class="stat"><b>${n('Pendente')}</b><span>Pendentes</span></div>
-      <div class="stat"><b>${brl(soma)}</b><span>Presentes informados (${P.presentes.length})</span></div><div class="stat"><b>${pend}</b><span>Recados/fotos aguardando aprovação</span></div></div>
+      <div class="stat"><b>${brl(soma)}</b><span>Presentes informados (${P.presentes.length})</span></div><div class="stat"><b>${pend}</b><span>Recados/fotos aguardando aprovação</span></div>${P.gravataConfig?.ativa ? `<div class="stat"><b>${brl((P.gravata || []).filter(g => g.confirmado).reduce((a, g) => a + g.valor, 0))}</b><span>Gravata (${pendG} Pix a confirmar)</span></div>` : ''}</div>
       <div class="bar" role="img" aria-label="Proporção de respostas"><i style="width:${pc('Confirmado')};background:var(--ok)"></i><i style="width:${pc('Não vai')};background:#d39a92"></i><i style="width:${pc('Pendente')};background:var(--silver)"></i></div>
       <p class="muted small">Prazo de confirmação: 20/12/2026. ${DEMO ? '' : 'A lista completa fica na sua Planilha Google, que pode ser baixada em Excel (Arquivo → Fazer download → .xlsx).'}</p>
       <h3 style="margin-top:20px">Respostas recentes</h3>${tabela(C.filter(g => g.respondidoEm).sort((a, b) => String(b.respondidoEm).localeCompare(String(a.respondidoEm))).slice(0, 8), false)}`;
@@ -793,6 +873,56 @@ function painel() {
     B.innerHTML = `<h3 style="font-size:30px">Presentes informados · ${brl(soma)}</h3><p class="muted small">Registrados quando o convidado clica em "Já fiz o Pix". Confira no extrato do banco: o Pix direto não é confirmado automaticamente.</p>
       ${P.presentes.length ? `<table class="stack"><thead><tr><th>Data</th><th>Quem</th><th>Presente</th><th>Valor</th><th>Recado</th><th></th></tr></thead><tbody>${P.presentes.slice().reverse().map(p => `<tr><td>${dt(p.data)}</td><td>${esc(p.nome || '(anônimo)')}</td><td>${esc(p.presente)}</td><td class="num">${brl(p.valor)}</td><td>${esc(p.mensagem)}</td><td><button class="btn sm out" data-mod="pres:excluir:${esc(p.id)}">Excluir</button></td></tr>`).join('')}</tbody></table>` : '<div class="empty">Nenhum presente informado ainda.</div>'}`;
   }
+  if (aba === 'lista') {
+    const L = P.lista || [];
+    if (!L.length) {
+      B.innerHTML = `<div class="card" style="max-width:640px"><h3>Editar a lista de presentes</h3><p class="muted">Hoje o site mostra a lista padrão (${CONFIG.PRESENTES.length} presentes). Para trocar nomes, valores e fotos, primeiro copie essa lista para a planilha de vocês.</p>
+        <button class="btn" id="imp">Começar a editar a lista</button><div id="impMsg"></div></div>`;
+      $('#imp').onclick = async e => { e.currentTarget.disabled = true; try { await api('importarPresentes', { senha, itens: CONFIG.PRESENTES }); await recarregar(); carregarPublico(); } catch (x) { $('#impMsg').innerHTML = `<div class="msg err">${esc(x.message)}</div>`; } };
+    } else {
+      B.innerHTML = `<div class="tools"><h3 style="font-size:30px;margin:0;flex:1">Lista de presentes</h3><button class="btn" id="novoP">+ Adicionar presente</button></div>
+        <p class="muted small" style="margin:0 0 14px">Valor 0 = o convidado escolhe quanto quer dar. As mudanças aparecem no site ao salvar.</p><div class="ledit" id="led"></div>`;
+      const card = (it, i) => `<form class="card" data-li="${i}"><div class="ph">${it.foto ? `<img src="${esc(imgUrl(it.foto))}" alt="">` : `<svg class="ico" style="width:40px;height:40px"><use href="#i-${esc(it.ico || 'gift')}"/></svg>`}</div>
+        <div class="acts"><input type="file" accept="image/*" class="hide" data-f><button type="button" class="btn sm out" data-foto>${it.foto ? 'Trocar foto' : 'Colocar foto'}</button>${it.foto ? '<button type="button" class="btn sm out" data-semfoto>Tirar foto</button>' : ''}</div>
+        <label>Nome</label><input name="nome" value="${esc(it.nome)}" required><label>Descrição</label><textarea name="desc" rows="2">${esc(it.desc || '')}</textarea>
+        <label>Valor (R$)</label><input name="valor" type="number" min="0" step="1" value="${Number(it.valor) || 0}">
+        <div class="acts" style="margin-top:4px"><button class="btn sm">Salvar</button>${it.id ? `<button type="button" class="btn sm out" data-delp>Excluir</button>` : ''}</div><div data-m></div></form>`;
+      const itens = L.map(x => ({ ...x }));
+      const draw = () => { $('#led').innerHTML = itens.map(card).join(''); };
+      draw();
+      $('#novoP').onclick = () => { itens.unshift({ id: '', nome: '', desc: '', valor: 0, ico: 'gift', foto: '' }); draw(); $('#led input[name=nome]').focus(); };
+      $('#led').onclick = async e => { const f = e.target.closest('form'); if (!f) return; const it = itens[+f.dataset.li];
+        if (e.target.closest('[data-foto]')) return f.querySelector('[data-f]').click();
+        if (e.target.closest('[data-semfoto]')) { it.removerFoto = true; it.foto = ''; it.imagem = ''; return draw(); }
+        const d = e.target.closest('[data-delp]'); if (d) { if (!d.dataset.ok) { d.dataset.ok = 1; d.textContent = 'Confirmar exclusão'; return; } await api('excluirItemLista', { senha, id: it.id }); await recarregar(); carregarPublico(); } };
+      $('#led').onchange = async e => { if (!e.target.matches('[data-f]')) return; const f = e.target.closest('form'), it = itens[+f.dataset.li], fl = e.target.files[0]; if (!fl) return;
+        it.nome = f.nome.value; it.desc = f.desc.value; it.valor = f.valor.value; it.imagem = await reduzir(fl, 1000); it.foto = it.imagem; it.removerFoto = false; draw();
+        $(`#led form[data-li="${f.dataset.li}"] [data-m]`).innerHTML = '<div class="msg">Foto escolhida. Clique em Salvar.</div>'; };
+      $('#led').onsubmit = async e => { e.preventDefault(); const f = e.target, it = itens[+f.dataset.li], m = f.querySelector('[data-m]'), b = f.querySelector('button:not([type])'); b.disabled = true; m.innerHTML = '<div class="msg">Salvando...</div>';
+        try { const r = await api('salvarPresente', { senha, item: { id: it.id, nome: f.nome.value, desc: f.desc.value, valor: f.valor.value, ico: it.ico, imagem: it.imagem || '', removerFoto: !!it.removerFoto } });
+          it.id = r.id; it.foto = r.foto; it.imagem = ''; it.removerFoto = false; P.lista = null; await recarregar(); carregarPublico(); }
+        catch (x) { b.disabled = false; m.innerHTML = `<div class="msg err">${esc(x.message)}</div>`; } };
+    }
+  }
+  if (aba === 'grav') {
+    const c = P.gravataConfig || { ativa: false, nomes: false, valor: 20, pedacos: 30 }, G = P.gravata || [];
+    const total = G.filter(g => g.confirmado).reduce((a, g) => a + g.valor, 0), cort = Math.min(c.pedacos, Math.floor(total / c.valor + 1e-9));
+    B.innerHTML = `<div class="ev" style="align-items:start"><form class="card" id="gvF"><h3>Gravata do noivo</h3>
+        <label class="sw"><input type="checkbox" id="gA" ${c.ativa ? 'checked' : ''}> Mostrar a gravata no site</label>
+        <label class="sw"><input type="checkbox" id="gN" ${c.nomes ? 'checked' : ''}> Mostrar o nome de quem cortou</label>
+        <div class="row" style="margin-top:8px"><div><label for="gV">Valor de cada pedaço (R$)</label><input id="gV" type="number" min="1" step="1" value="${c.valor}"></div>
+        <div><label for="gP">Pedaços na gravata</label><input id="gP" type="number" min="5" max="100" value="${c.pedacos}"></div></div>
+        <button class="btn" style="margin-top:14px">Salvar</button><div id="gvMsg"></div></form>
+      <div class="card tie" style="margin:0;display:grid;grid-template-columns:90px minmax(0,1fr)"><div class="fig2">${tieSvg(c.pedacos, cort, 'adm')}</div><div>
+        <div class="cnt">${brl(total)}</div><p class="muted" style="margin:4px 0 0">confirmados · ${cort} de ${c.pedacos} pedaços cortados</p>
+        <p class="muted small">${G.filter(g => !g.confirmado).length} Pix aguardando confirmação</p></div></div></div>
+      <h3 style="font-size:30px;margin-top:24px">Contribuições</h3><p class="muted small" style="margin:0 0 12px">Confira no extrato do banco e clique em <b>Confirmar Pix</b>: só então o pedaço sai da gravata.</p>
+      ${G.length ? `<table class="stack"><thead><tr><th>Data</th><th>Quem</th><th>Valor</th><th>Recado</th><th>Status</th><th></th></tr></thead><tbody>${G.slice().sort((a, b) => a.confirmado - b.confirmado).map(g => `<tr><td>${dt(g.data)}</td><td>${esc(g.nome || '(anônimo)')}</td><td class="num">${brl(g.valor)}</td><td>${esc(g.mensagem || '')}</td>
+        <td>${g.confirmado ? '<span class="tag c">confirmado</span>' : '<span class="tag">aguardando</span>'}</td><td><div class="acts">${g.confirmado ? '' : `<button class="btn sm" data-mod="grav:aprovar:${esc(g.id)}">Confirmar Pix</button>`}<button class="btn sm out" data-mod="grav:excluir:${esc(g.id)}">Excluir</button></div></td></tr>`).join('')}</tbody></table>` : '<div class="empty">Nenhuma contribuição ainda.</div>'}`;
+    $('#gvF').onsubmit = async e => { e.preventDefault(); e.target.querySelector('button').disabled = true;
+      try { await api('salvarGravata', { senha, ativa: $('#gA').checked, nomes: $('#gN').checked, valor: $('#gV').value, pedacos: $('#gP').value }); await recarregar(); carregarPublico(); }
+      catch (x) { $('#gvMsg').innerHTML = `<div class="msg err">${esc(x.message)}</div>`; } };
+  }
   if (aba === 'msg') {
     const ms = P.mensagens.slice().sort((a, b) => a.aprovado - b.aprovado);
     B.innerHTML = `<h3 style="font-size:30px">Recados do mural</h3>${ms.length ? `<div class="mod">${ms.map(m => `<div class="card"><p style="margin:0 0 8px">${esc(m.texto)}</p><small class="muted">${esc(m.nome)} · ${dt(m.data)}</small><div class="acts" style="margin-top:10px">${m.aprovado ? '<span class="tag c">publicado</span>' : `<button class="btn sm" data-mod="msg:aprovar:${esc(m.id)}">Aprovar</button>`}<button class="btn sm out" data-mod="msg:excluir:${esc(m.id)}">Excluir</button></div></div>`).join('')}</div>` : '<div class="empty">Nenhum recado ainda.</div>'}`;
@@ -821,7 +951,7 @@ function painel() {
     const up = () => $('#waG').href = 'https://wa.me/?text=' + encodeURIComponent($('#txtG').value); $('#txtG').oninput = up; up();
   }
   B.onclick = async e => {
-    const m = e.target.closest('[data-mod]'); if (m) { const [t, a, id] = m.dataset.mod.split(':'); m.disabled = true; await api('moderar', { senha, tipo: t === 'foto' ? 'foto' : t === 'pres' ? 'presente' : 'msg', acao: a, id }); return recarregar(); }
+    const m = e.target.closest('[data-mod]'); if (m) { const [t, a, id] = m.dataset.mod.split(':'); m.disabled = true; await api('moderar', { senha, tipo: { foto: 'foto', pres: 'presente', grav: 'gravata' }[t] || 'msg', acao: a, id }); await recarregar(); if (t === 'grav') carregarPublico(); return; }
     const c = e.target.closest('[data-cp]'); if (c) return copiar(linkConvite(c.dataset.cp), c);
     const ed = e.target.closest('[data-ed]'); if (ed) return editar(P.convidados.find(g => g.codigo === ed.dataset.ed));
     const d = e.target.closest('[data-del]'); if (d) { if (d.dataset.ok) { d.disabled = true; await api('excluirConvidado', { senha, codigo: d.dataset.del }); return recarregar(); }
