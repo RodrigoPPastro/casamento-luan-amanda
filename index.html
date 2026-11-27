@@ -204,6 +204,9 @@ footer .script{color:#fff;font-size:clamp(32px,5vw,46px)}
 footer .tags{margin:12px 0 18px;opacity:.85}
 footer a{color:#fff}
 footer .soc{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+footer .dev{margin-top:30px;padding-top:16px;border-top:1px solid rgba(255,255,255,.15);font-size:13px;opacity:.75}
+footer .dev a{color:#fff;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.4)}
+footer .dev a:hover{opacity:1;border-color:#fff}
 footer .soc a{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:8px 16px;text-decoration:none;font-size:14px}
 
 /* modal + lightbox + painel */
@@ -443,6 +446,7 @@ td.num{text-align:right;white-space:nowrap}
     <a href="https://wa.me/5521985741380" target="_blank" rel="noopener"><svg class="ico" style="width:18px;height:18px"><use href="#i-wa"/></svg> Amanda · (21) 98574-1380</a>
     <a href="https://wa.me/5521996446673" target="_blank" rel="noopener"><svg class="ico" style="width:18px;height:18px"><use href="#i-wa"/></svg> Luan · (21) 99644-6673</a>
   </div>
+  <div class="dev">Site feito com 💙 pela <a id="devLink" href="https://wa.me/5521979864852" target="_blank" rel="noopener">ConectaTech</a></div>
 </footer>
 
 <div id="modal" class="ov hide" role="dialog" aria-modal="true"><div class="box"><button class="x" data-close aria-label="Fechar">×</button><div id="modalBody"></div></div></div>
@@ -544,6 +548,9 @@ $$('.fl').forEach(el => el.innerHTML = buque(+el.dataset.seed));
 { const v = $('#stdVideo'), b = $('#stdPlay');
   if (v && b) { b.onclick = () => { v.controls = true; b.classList.add('hide'); v.play().catch(() => {}); };
     v.addEventListener('ended', () => { v.controls = false; v.load(); b.classList.remove('hide'); }); } }
+
+/* ---------- rodapé ConectaTech ---------- */
+$('#devLink').href = 'https://wa.me/5521979864852?text=' + encodeURIComponent('Olá! Vi o site do casamento de Luan & Amanda e quero um site para a minha festa.');
 
 /* ---------- menu ---------- */
 $('#menuBtn').onclick = () => { const o = $('#links').classList.toggle('open'); $('#menuBtn').setAttribute('aria-expanded', o); };
