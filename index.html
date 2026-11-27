@@ -762,6 +762,8 @@ async function carregarPublico() {
   try { const d = await api('dadosPublicos'); if (d.presentes?.length) { LISTA = d.presentes; renderGifts(); } GRAV = d.gravata; renderGravata(); } catch {}
 }
 carregarPublico();
+{ let ultima = Date.now();
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && Date.now() - ultima > 60000 && $('#adm').classList.contains('hide')) { ultima = Date.now(); mural(); galeria(); carregarPublico(); } }); }
 
 /* ---------- galeria + lightbox ---------- */
 let fotos = [], idx = 0;
@@ -811,7 +813,8 @@ $('#faqList').innerHTML = CONFIG.FAQ.map(([q, a]) => `<details><summary>${esc(q)
 
 /* =================== PAINEL DO CASAL =================== */
 let senha = '', P = null, aba = 'resumo';
-function rota() { if (location.hash === '#painel') { $('#adm').classList.remove('hide'); document.body.style.overflow = 'hidden'; P ? painel() : login(); } else { $('#adm').classList.add('hide'); document.body.style.overflow = ''; } }
+function atualizarSite() { mural(); galeria(); carregarPublico(); }
+function rota() { if (location.hash === '#painel') { $('#adm').classList.remove('hide'); document.body.style.overflow = 'hidden'; P ? painel() : login(); } else { const estava = !$('#adm').classList.contains('hide'); $('#adm').classList.add('hide'); document.body.style.overflow = ''; if (estava) atualizarSite(); } }
 window.addEventListener('hashchange', rota); rota();
 function topo(tabs = '') { return `<div class="top"><span class="mono">L &amp; A</span><div class="tabs">${tabs}</div><a class="btn out sm" style="color:#fff;border-color:rgba(255,255,255,.5)" href="#inicio">Voltar ao site</a></div>`; }
 function login(err = '') {
@@ -932,7 +935,7 @@ function painel() {
     const fs = P.fotos.slice().sort((a, b) => a.aprovado - b.aprovado);
     B.innerHTML = `<div class="card" style="margin-bottom:20px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap"><div><h3>Adicionar fotos à galeria</h3><span class="muted small">As fotos que vocês enviarem por aqui entram direto na galeria do site.</span></div>
       <div><input type="file" id="admFotoIn" accept="image/*" multiple class="hide"><button class="btn" id="admFotoBtn">${ico('cam')} Escolher fotos</button></div><div id="admFotoMsg" style="flex-basis:100%"></div></div>
-      <h3 style="font-size:30px">Fotos da galeria</h3><p class="muted small" style="margin:0 0 12px">As enviadas pelos convidados ficam aguardando até vocês aprovarem.</p>${fs.length ? `<div class="mod">${fs.map(f => `<div class="card"><img src="${esc(fotoUrl(f))}" alt="Foto de ${esc(f.nome)}"><small class="muted">${esc(f.nome)} · ${dt(f.data)}</small><div class="acts" style="margin-top:10px">${f.aprovado ? '<span class="tag c">publicada</span>' : `<button class="btn sm" data-mod="foto:aprovar:${esc(f.id)}">Aprovar</button>`}<button class="btn sm out" data-mod="foto:excluir:${esc(f.id)}">Excluir</button></div></div>`).join('')}</div>` : '<div class="empty">Nenhuma foto enviada ainda.</div>'}`;
+      <h3 style="font-size:30px">Fotos da galeria</h3><p class="muted small" style="margin:0 0 12px">As enviadas pelos convidados ficam aguardando até vocês aprovarem.</p>${fs.length ? `<div class="mod">${fs.map(f => `<div class="card"><img loading="lazy" src="${esc(f.src || fotoUrl({ arquivo: f.arquivo }, 500))}" alt="Foto de ${esc(f.nome)}"><small class="muted">${esc(f.nome)} · ${dt(f.data)}</small><div class="acts" style="margin-top:10px">${f.aprovado ? '<span class="tag c">publicada</span>' : `<button class="btn sm" data-mod="foto:aprovar:${esc(f.id)}">Aprovar</button>`}<button class="btn sm out" data-mod="foto:excluir:${esc(f.id)}">Excluir</button></div></div>`).join('')}</div>` : '<div class="empty">Nenhuma foto enviada ainda.</div>'}`;
     $('#admFotoBtn').onclick = () => $('#admFotoIn').click();
     $('#admFotoIn').onchange = async e => { const fs2 = [...e.target.files].slice(0, 20); let n = 0;
       for (const f of fs2) { $('#admFotoMsg').innerHTML = `<div class="msg">Enviando ${n + 1} de ${fs2.length}...</div>`;
@@ -952,7 +955,7 @@ function painel() {
     const up = () => $('#waG').href = 'https://wa.me/?text=' + encodeURIComponent($('#txtG').value); $('#txtG').oninput = up; up();
   }
   B.onclick = async e => {
-    const m = e.target.closest('[data-mod]'); if (m) { const [t, a, id] = m.dataset.mod.split(':'); m.disabled = true; await api('moderar', { senha, tipo: { foto: 'foto', pres: 'presente', grav: 'gravata' }[t] || 'msg', acao: a, id }); await recarregar(); if (t === 'grav') carregarPublico(); return; }
+    const m = e.target.closest('[data-mod]'); if (m) { const [t, a, id] = m.dataset.mod.split(':'); m.disabled = true; await api('moderar', { senha, tipo: { foto: 'foto', pres: 'presente', grav: 'gravata' }[t] || 'msg', acao: a, id }); await recarregar(); atualizarSite(); return; }
     const c = e.target.closest('[data-cp]'); if (c) return copiar(linkConvite(c.dataset.cp), c);
     const ed = e.target.closest('[data-ed]'); if (ed) return editar(P.convidados.find(g => g.codigo === ed.dataset.ed));
     const d = e.target.closest('[data-del]'); if (d) { if (d.dataset.ok) { d.disabled = true; await api('excluirConvidado', { senha, codigo: d.dataset.del }); return recarregar(); }
