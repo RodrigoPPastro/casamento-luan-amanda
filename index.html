@@ -464,7 +464,6 @@ const CONFIG = {
   },
   FOTOS_CASAL: [
     { src: 'img/capa.jpg', legenda: 'Luan & Amanda' },
-    { src: 'img/historia.jpg', legenda: 'Nós dois' },
   ],
   // Lista de presentes: edite nomes, descrições e valores à vontade. valor: 0 = o convidado escolhe o valor.
   PRESENTES: [
@@ -616,7 +615,7 @@ async function demo(a, p) {
   }
   throw new Error('Ação inválida');
 }
-const fotoUrl = f => f.src || ('https://lh3.googleusercontent.com/d/' + encodeURIComponent(f.id || f.arquivo) + '=w1400');
+const fotoUrl = (f, w = 1400) => f.src || ('https://lh3.googleusercontent.com/d/' + encodeURIComponent(f.id || f.arquivo) + '=w' + w);
 const siteUrl = () => CONFIG.SITE_URL || (location.origin + location.pathname);
 const linkConvite = c => siteUrl() + '?c=' + encodeURIComponent(c);
 
@@ -766,8 +765,8 @@ carregarPublico();
 let fotos = [], idx = 0;
 async function galeria() {
   let conv = []; try { conv = await api('listarFotos'); } catch {}
-  fotos = [...CONFIG.FOTOS_CASAL.map(f => ({ src: f.src, legenda: f.legenda })), ...conv.map(f => ({ src: fotoUrl(f), legenda: [f.legenda, f.nome && f.nome !== 'Luan & Amanda' ? 'por ' + f.nome : ''].filter(Boolean).join(' · ') }))];
-  $('#gal').innerHTML = fotos.map((f, i) => `<button data-i="${i}" aria-label="Ampliar foto"><img loading="lazy" src="${esc(f.src)}" alt="${esc(f.legenda || 'Foto de Luan e Amanda')}"></button>`).join('');
+  fotos = [...CONFIG.FOTOS_CASAL.map(f => ({ src: f.src, mini: f.src, legenda: f.legenda })), ...conv.map(f => ({ src: fotoUrl(f, 1600), mini: fotoUrl(f, 500), legenda: [f.legenda, f.nome && f.nome !== 'Luan & Amanda' ? 'por ' + f.nome : ''].filter(Boolean).join(' · ') }))];
+  $('#gal').innerHTML = fotos.map((f, i) => `<button data-i="${i}" aria-label="Ampliar foto"><img loading="lazy" src="${esc(f.mini || f.src)}" alt="${esc(f.legenda || 'Foto de Luan e Amanda')}"></button>`).join('');
 }
 $('#gal').addEventListener('click', e => { const b = e.target.closest('[data-i]'); if (b) lb(+b.dataset.i); });
 function lb(i) { idx = (i + fotos.length) % fotos.length; $('#lbImg').src = fotos[idx].src; $('#lbCap').textContent = fotos[idx].legenda || ''; $('#lb').classList.remove('hide'); }

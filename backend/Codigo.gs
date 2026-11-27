@@ -459,3 +459,33 @@ function gerarCodigosFaltantes() {
     }
   }
 }
+
+
+/** Copia as fotos de uma pasta do Drive para a galeria do site (já publicadas como fotos dos noivos).
+ *  Ignora vídeos, arquivos repetidos e fotos já importadas. Rode pelo editor: importarFotosDaPasta */
+const PASTA_FOTOS_CASAL = '1GId49c1v9kZQ7n-jOoeijOqCC7g3hv37';
+const IGNORAR_FOTOS = ['637D724B'];   // a foto da capa, que já está no site
+
+function importarFotosDaPasta() {
+  const origem = DriveApp.getFolderById(PASTA_FOTOS_CASAL);
+  const destino = pastaFotos();
+  const ja = new Set(linhas('Fotos').map(f => String(f.Codigo)));
+  const vistos = new Set();
+  const arquivos = [];
+  const it = origem.getFiles();
+  while (it.hasNext()) arquivos.push(it.next());
+  arquivos.sort((a, b) => a.getDateCreated() - b.getDateCreated());
+  let n = 0;
+  arquivos.forEach(f => {
+    const nome = f.getName();
+    if (!/^image\//.test(f.getMimeType())) return;
+    if (vistos.has(nome) || ja.has('drive:' + nome) || IGNORAR_FOTOS.some(x => nome.indexOf(x) === 0)) return;
+    vistos.add(nome);
+    const copia = f.makeCopy(nome, destino);
+    copia.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+    aba('Fotos').appendRow([novoId(), new Date(), 'drive:' + nome, 'Luan & Amanda', copia.getId(), '', 'SIM']);
+    n++;
+  });
+  Logger.log(n + ' fotos importadas');
+  return n;
+}
