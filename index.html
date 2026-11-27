@@ -587,7 +587,7 @@ async function demo(a, p) {
     case 'buscarConvidado': { const g = find(p); if (!g) throw new Error('Não encontramos esse nome na lista. Digite o nome completo como está no convite, ou use o link que você recebeu.');
       if (g.tipo === 'Criança') throw new Error(`A presença de ${g.nome} é confirmada pelo responsável.`);
       return { convidado: pub(g), criancas: d.convidados.filter(x => filho(x, g)).map(pub), obs: g.obs, prazo: CONFIG.PRAZO_RSVP }; }
-    case 'confirmar': { const g = find(p); const ok = new Set([g.codigo, ...d.convidados.filter(x => filho(x, g)).map(x => x.codigo)]);
+    case 'confirmar': { const g = find(p); if (!g) throw new Error('Convite não encontrado.'); const ok = new Set([g.codigo, ...d.convidados.filter(x => filho(x, g)).map(x => x.codigo)]);
       p.respostas.forEach(r => { const x = d.convidados.find(c => c.codigo === r.codigo); if (x && ok.has(x.codigo)) { x.status = r.status; x.respondidoEm = new Date().toISOString(); } });
       g.obs = p.obs || ''; save(); return { ok: true }; }
     case 'listarMensagens': return d.mensagens.filter(m => m.aprovado).map(m => ({ nome: m.nome, texto: m.texto, data: m.data })).reverse();
